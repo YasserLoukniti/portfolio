@@ -4,9 +4,9 @@
     "firstName": "Yasser",
     "lastName": "Loukniti",
     "fullName": "Yasser Loukniti",
-    "title": "Développeur Full Stack Senior",
+    "title": "Développeur Full Stack",
     "headline": "Expert TypeScript | React | NestJS | AWS",
-    "email": "contact@yasserloukniti.com",
+    "email": "yass_official@outlook.fr",
     "phone": "+33 7 49 55 33 92",
     "location": {
       "city": "Paris",
@@ -14,7 +14,7 @@
       "country": "France",
       "countryCode": "FR"
     },
-    "profileImage": "https://media.licdn.com/dms/image/v2/C4E03AQH5ow8IpPXT5A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1644834682919?e=1760572800&v=beta&t=I1HOX2554NW_UzLRJ2rsfaZMVN0pKJyieQUfvPKesCA",
+    "profileImage": "/profile.jpg",
     "coverImage": "",
     "about": {
       "short": "Software Engineer passionné par le développement d'applications modernes et scalables. Expert en architectures microservices, avec une solide expérience en React, Next.js, NestJS et AWS.",
@@ -35,8 +35,8 @@
       "stackoverflow": ""
     },
     "resume": {
-      "url": "/cv-yasser-loukniti.pdf",
-      "lastUpdated": "2024-01-15"
+      "url": "/yasserLoukniti.pdf",
+      "lastUpdated": "2025-09-14"
     }
   },
   "statistics": {
@@ -466,31 +466,31 @@
       {
         "category": "Frontend",
         "items": [
-          { "name": "React.js", "level": 95, "yearsOfExperience": 6 },
-          { "name": "Next.js", "level": 90, "yearsOfExperience": 4 },
-          { "name": "TypeScript", "level": 95, "yearsOfExperience": 5 },
-          { "name": "JavaScript", "level": 95, "yearsOfExperience": 8 },
-          { "name": "HTML5", "level": 100, "yearsOfExperience": 10 },
-          { "name": "CSS3", "level": 95, "yearsOfExperience": 10 },
-          { "name": "SASS/SCSS", "level": 90, "yearsOfExperience": 6 },
-          { "name": "Styled Components", "level": 85, "yearsOfExperience": 4 },
-          { "name": "Material UI", "level": 85, "yearsOfExperience": 4 },
-          { "name": "Bootstrap", "level": 90, "yearsOfExperience": 7 },
-          { "name": "jQuery", "level": 80, "yearsOfExperience": 6 }
+          { "name": "React.js", "level": 95, "yearsOfExperience": 6, "icon": "react" },
+          { "name": "Next.js", "level": 90, "yearsOfExperience": 4, "icon": "nextdotjs" },
+          { "name": "TypeScript", "level": 95, "yearsOfExperience": 5, "icon": "typescript" },
+          { "name": "JavaScript", "level": 95, "yearsOfExperience": 8, "icon": "javascript" },
+          { "name": "HTML5", "level": 100, "yearsOfExperience": 10, "icon": "html5" },
+          { "name": "CSS3", "level": 95, "yearsOfExperience": 10, "icon": "css3" },
+          { "name": "SASS/SCSS", "level": 90, "yearsOfExperience": 6, "icon": "sass" },
+          { "name": "Styled Components", "level": 85, "yearsOfExperience": 4, "icon": "styledcomponents" },
+          { "name": "Material UI", "level": 85, "yearsOfExperience": 4, "icon": "mui" },
+          { "name": "Bootstrap", "level": 90, "yearsOfExperience": 7, "icon": "bootstrap" },
+          { "name": "jQuery", "level": 80, "yearsOfExperience": 6, "icon": "jquery" }
         ]
       },
       {
         "category": "Backend",
         "items": [
-          { "name": "Node.js", "level": 95, "yearsOfExperience": 6 },
-          { "name": "NestJS", "level": 90, "yearsOfExperience": 3 },
-          { "name": "Express.js", "level": 85, "yearsOfExperience": 5 },
-          { "name": "PHP", "level": 75, "yearsOfExperience": 4 },
-          { "name": "Symfony", "level": 70, "yearsOfExperience": 2 },
-          { "name": "Django", "level": 65, "yearsOfExperience": 2 },
-          { "name": "Python", "level": 70, "yearsOfExperience": 3 },
-          { "name": "API REST", "level": 95, "yearsOfExperience": 6 },
-          { "name": "GraphQL", "level": 75, "yearsOfExperience": 2 }
+          { "name": "Node.js", "level": 95, "yearsOfExperience": 6, "icon": "nodedotjs" },
+          { "name": "NestJS", "level": 90, "yearsOfExperience": 3, "icon": "nestjs" },
+          { "name": "Express.js", "level": 85, "yearsOfExperience": 5, "icon": "express" },
+          { "name": "PHP", "level": 75, "yearsOfExperience": 4, "icon": "php" },
+          { "name": "Symfony", "level": 70, "yearsOfExperience": 2, "icon": "symfony" },
+          { "name": "Django", "level": 65, "yearsOfExperience": 2, "icon": "django" },
+          { "name": "Python", "level": 70, "yearsOfExperience": 3, "icon": "python" },
+          { "name": "API REST", "level": 95, "yearsOfExperience": 6, "icon": "fastapi" },
+          { "name": "GraphQL", "level": 75, "yearsOfExperience": 2, "icon": "graphql" }
         ]
       },
       {

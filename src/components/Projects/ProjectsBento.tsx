@@ -38,30 +38,98 @@ const SectionSubtitle = styled(motion.p)`
 
 const BentoGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-auto-rows: minmax(280px, auto);
-  gap: ${({ theme }) => theme.spacing.xl};
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: ${({ theme }) => theme.spacing.lg};
 
-  /* Créer un layout Bento avec différentes tailles */
-  & > *:nth-child(1),
+  /* Layout Bento structuré */
+  /* Premier projet - Grande carte */
+  & > *:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Deuxième et troisième projets - Cartes moyennes */
+  & > *:nth-child(2) {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  & > *:nth-child(3) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  /* Quatrième projet - Carte horizontale */
+  & > *:nth-child(4) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  /* Cinquième projet - Grande carte */
   & > *:nth-child(5) {
     grid-column: span 2;
     grid-row: span 2;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Sixième projet - Carte moyenne */
+  & > *:nth-child(6) {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
 
-    & > *:nth-child(1),
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    grid-template-columns: repeat(3, 1fr);
+
+    & > *:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    & > *:nth-child(2) {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    & > *:nth-child(3),
+    & > *:nth-child(4) {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
     & > *:nth-child(5) {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    & > *:nth-child(6) {
       grid-column: span 1;
       grid-row: span 1;
     }
   }
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    grid-template-columns: repeat(2, 1fr);
+
+    & > * {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+
+    & > *:nth-child(1),
+    & > *:nth-child(4) {
+      grid-column: span 2 !important;
+    }
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-    grid-auto-rows: 320px;
+    grid-auto-rows: 280px;
+
+    & > * {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
   }
 `;
 
@@ -79,14 +147,31 @@ const getProjectGradient = (index: number) => {
   return gradients[index % gradients.length];
 };
 
-const getProjectImage = (category: string, index: number, featured?: boolean) => {
-  // Utiliser Picsum pour des images aléatoires de haute qualité
-  const width = featured ? 800 : 400;
-  const height = featured ? 600 : 300;
+const getProjectImage = (category: string, index: number) => {
+  // Déterminer la taille selon l'index (layout Bento)
+  let width = 400;
+  let height = 400;
+
+  // Grandes cartes (index 0, 4)
+  if (index === 0 || index === 4) {
+    width = 800;
+    height = 600;
+  }
+  // Cartes moyennes verticales (index 1)
+  else if (index === 1) {
+    width = 400;
+    height = 600;
+  }
+  // Carte horizontale (index 5)
+  else if (index === 5) {
+    width = 800;
+    height = 300;
+  }
+
   const seed = category.toLowerCase().replace(/\s+/g, '') + index;
 
-  // Images avec blur intégré pour un effet moderne
-  return `https://picsum.photos/seed/${seed}/${width}/${height}?blur=2`;
+  // Images avec blur léger pour un effet moderne
+  return `https://picsum.photos/seed/${seed}/${width}/${height}?blur=1`;
 
   // Alternative: Utiliser des catégories spécifiques
   // const categories: { [key: string]: string } = {
@@ -103,7 +188,6 @@ const getProjectImage = (category: string, index: number, featured?: boolean) =>
 };
 
 const ProjectCard = styled(motion.div)<{
-  $featured?: boolean;
   $gradient?: string;
   $bgImage?: string;
 }>`
@@ -121,17 +205,6 @@ const ProjectCard = styled(motion.div)<{
   cursor: pointer;
   border: 1px solid ${({ theme }) => theme.colors.border};
 
-  grid-column: ${({ $featured }) => $featured ? 'span 2' : 'span 1'};
-  grid-row: ${({ $featured }) => $featured ? 'span 2' : 'span 1'};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    grid-column: ${({ $featured }) => $featured ? 'span 2' : 'span 1'};
-    grid-row: span 1;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    grid-column: span 1;
-  }
 
   display: flex;
   flex-direction: column;
@@ -476,9 +549,8 @@ export const ProjectsBento: React.FC = () => {
             {displayProjects.map((project, index) => (
               <ProjectCard
                 key={project.id}
-                $featured={project.featured}
                 $gradient={getProjectGradient(index)}
-                $bgImage={getProjectImage(project.category, index, project.featured)}
+                $bgImage={getProjectImage(project.category, index)}
                 variants={itemVariants}
                 onClick={() => setSelectedProject(project)}
                 whileHover={{ scale: 1.02 }}

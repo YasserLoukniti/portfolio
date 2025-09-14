@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Favicon</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Create gradient
+        const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+        gradient.addColorStop(0, '#667eea');
+        gradient.addColorStop(1, '#764ba2');
+
+        // Draw rounded rectangle background
+        const radius = 80;
+        ctx.beginPath();
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(512 - radius, 0);
+        ctx.quadraticCurveTo(512, 0, 512, radius);
+        ctx.lineTo(512, 512 - radius);
+        ctx.quadraticCurveTo(512, 512, 512 - radius, 512);
+        ctx.lineTo(radius, 512);
+        ctx.quadraticCurveTo(0, 512, 0, 512 - radius);
+        ctx.lineTo(0, radius);
+        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.closePath();
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Draw text
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 240px system-ui, -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('YL', 256, 270);
+
+        // Convert to PNG and download
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'logo512.png';
+            a.click();
+
+            // Generate 192px version
+            const canvas192 = document.createElement('canvas');
+            canvas192.width = 192;
+            canvas192.height = 192;
+            const ctx192 = canvas192.getContext('2d');
+            ctx192.drawImage(canvas, 0, 0, 192, 192);
+
+            canvas192.toBlob(function(blob192) {
+                const url192 = URL.createObjectURL(blob192);
+                const a192 = document.createElement('a');
+                a192.href = url192;
+                a192.download = 'logo192.png';
+                a192.click();
+            });
+        });
+    </script>
+    <p>Open this file in a browser to generate the favicon files</p>
+</body>
+</html>
