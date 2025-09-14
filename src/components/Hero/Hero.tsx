@@ -323,7 +323,7 @@ export const Hero: React.FC = () => {
                   <Mail size={20} />
                   Me contacter
                 </PrimaryButton>
-                <SecondaryButton href="/cv.pdf" download>
+                <SecondaryButton href={portfolioData.resumeUrl} download>
                   <Download size={20} />
                   Télécharger CV
                 </SecondaryButton>
@@ -339,7 +339,7 @@ export const Hero: React.FC = () => {
                   <Linkedin size={24} />
                 </SocialLink>
                 <SocialLink
-                  href="https://github.com"
+                  href={portfolioData.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -347,7 +347,7 @@ export const Hero: React.FC = () => {
                   <Github size={24} />
                 </SocialLink>
                 <SocialLink
-                  href="mailto:contact@example.com"
+                  href={`mailto:${portfolioData.email}`}
                   aria-label="Email"
                 >
                   <Mail size={24} />

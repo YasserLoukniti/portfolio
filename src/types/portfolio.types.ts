@@ -46,6 +46,9 @@ export interface PortfolioData {
   location: string;
   profileImageUrl: string;
   linkedinUrl: string;
+  githubUrl: string;
+  email: string;
+  resumeUrl: string;
   experiences: Experience[];
   educations: Education[];
   certifications: Certification[];

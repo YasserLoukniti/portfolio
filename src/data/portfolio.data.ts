@@ -11,6 +11,9 @@ export const portfolioData: PortfolioData = {
   location: `${databaseJson.profile.location.city}, ${databaseJson.profile.location.region}, ${databaseJson.profile.location.country}`,
   profileImageUrl: databaseJson.profile.profileImage,
   linkedinUrl: databaseJson.profile.socialLinks.linkedin,
+  githubUrl: databaseJson.profile.socialLinks.github,
+  email: databaseJson.profile.email,
+  resumeUrl: databaseJson.profile.resume.url,
 
   experiences: databaseJson.experiences.map(exp => {
     // Fonction pour formater les dates au format "MMM YYYY"
