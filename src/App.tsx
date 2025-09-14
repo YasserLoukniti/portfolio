@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { theme } from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { Header } from './components/Header/Header';
@@ -29,6 +30,7 @@ function App() {
       </main>
       <Footer />
       <Analytics />
+      <SpeedInsights />
     </ThemeProvider>
   );
 }
