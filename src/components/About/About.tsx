@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Code2, Server, Cloud, Palette, Download, Award, Briefcase, Calendar } from 'lucide-react';
+import { profile, statistics } from '../../data/portfolio.data';
 
 const AboutSection = styled.section`
   padding: ${({ theme }) => theme.spacing['5xl']} 0;
@@ -265,10 +266,10 @@ export const About: React.FC = () => {
   ];
 
   const stats = [
-    { number: '10+', label: 'Années d\'expérience' },
-    { number: '50+', label: 'Projets réalisés' },
-    { number: '20+', label: 'Technologies maîtrisées' },
-    { number: '100%', label: 'Satisfaction client' },
+    { number: `${statistics.yearsOfExperience}+`, label: 'Années d\'expérience' },
+    { number: `${statistics.projectsCompleted}+`, label: 'Projets réalisés' },
+    { number: `${statistics.technologiesMastered}+`, label: 'Technologies maîtrisées' },
+    { number: `${statistics.clientSatisfaction}%`, label: 'Satisfaction client' },
   ];
 
   const containerVariants = {
@@ -311,8 +312,8 @@ export const About: React.FC = () => {
           >
             <ProfileImage>
               <img
-                src="https://media.licdn.com/dms/image/v2/C4E03AQH5ow8IpPXT5A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1644834682919?e=1760572800&v=beta&t=I1HOX2554NW_UzLRJ2rsfaZMVN0pKJyieQUfvPKesCA"
-                alt="Yasser Loukniti"
+                src={profile.profileImage}
+                alt={profile.fullName}
               />
             </ProfileImage>
           </motion.div>
@@ -323,12 +324,10 @@ export const About: React.FC = () => {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <ProfileName>Yasser Loukniti</ProfileName>
-              <ProfileTitle>Développeur Full Stack Senior | Expert TypeScript</ProfileTitle>
+              <ProfileName>{profile.fullName}</ProfileName>
+              <ProfileTitle>{profile.title} | {profile.headline}</ProfileTitle>
               <ProfileBio>
-                Passionné par l'innovation technologique, je suis un développeur Full Stack avec plus de 10 ans d'expérience
-                dans la création de solutions web performantes et évolutives. Expert en TypeScript, React, NestJS et AWS,
-                j'ai contribué au succès de nombreux projets d'envergure, de la conception à la mise en production.
+                {profile.about.long}
               </ProfileBio>
 
               <QuickStats>

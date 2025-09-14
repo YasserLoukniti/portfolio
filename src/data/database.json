@@ -1,0 +1,638 @@
+{
+  "profile": {
+    "id": "yasser-loukniti",
+    "firstName": "Yasser",
+    "lastName": "Loukniti",
+    "fullName": "Yasser Loukniti",
+    "title": "Développeur Full Stack Senior",
+    "headline": "Expert TypeScript | React | NestJS | AWS",
+    "email": "contact@yasserloukniti.com",
+    "phone": "+33 7 49 55 33 92",
+    "location": {
+      "city": "Paris",
+      "region": "Île-de-France",
+      "country": "France",
+      "countryCode": "FR"
+    },
+    "profileImage": "https://media.licdn.com/dms/image/v2/C4E03AQH5ow8IpPXT5A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1644834682919?e=1760572800&v=beta&t=I1HOX2554NW_UzLRJ2rsfaZMVN0pKJyieQUfvPKesCA",
+    "coverImage": "",
+    "about": {
+      "short": "Software Engineer passionné par le développement d'applications modernes et scalables. Expert en architectures microservices, avec une solide expérience en React, Next.js, NestJS et AWS.",
+      "long": "Passionné par l'innovation technologique, je suis un développeur Full Stack avec plus de 10 ans d'expérience dans la création de solutions web performantes et évolutives. Expert en TypeScript, React, NestJS et AWS, j'ai contribué au succès de nombreux projets d'envergure, de la conception à la mise en production. Ma philosophie de développement repose sur trois piliers : la qualité du code, l'expérience utilisateur et la performance.",
+      "philosophy": "Je m'efforce de créer des applications qui non seulement répondent aux besoins métiers, mais qui sont également maintenables, évolutives et agréables à utiliser. Fort d'une expérience variée allant des startups innovantes aux grandes entreprises du CAC 40, j'ai développé une capacité d'adaptation et une vision globale qui me permettent de relever tous types de défis techniques."
+    },
+    "availability": {
+      "status": "available",
+      "type": "freelance",
+      "startDate": "2024-01-01",
+      "preferredContract": ["CDI", "Freelance", "Consulting"]
+    },
+    "socialLinks": {
+      "linkedin": "https://www.linkedin.com/in/yasser-loukniti-b121a218a/",
+      "github": "https://github.com/yasserloukniti",
+      "portfolio": "https://yasserloukniti.com",
+      "twitter": "",
+      "stackoverflow": ""
+    },
+    "resume": {
+      "url": "/cv-yasser-loukniti.pdf",
+      "lastUpdated": "2024-01-15"
+    }
+  },
+  "statistics": {
+    "yearsOfExperience": 10,
+    "projectsCompleted": 50,
+    "technologiesMastered": 20,
+    "clientSatisfaction": 100,
+    "certifications": 1,
+    "languages": 3,
+    "coffeeConsumed": 9999
+  },
+  "experiences": [
+    {
+      "id": "exp-1",
+      "company": "Weneeds",
+      "companyUrl": "https://weneeds.com",
+      "companyLogo": "https://media.licdn.com/dms/image/v2/D4E0BAQHdMHOeVu-NBA/company-logo_400_400/company-logo_400_400/0/1736939989055/weneeds_logo?e=1760572800&v=beta&t=jaWI3GZ66jqW0QDjtvddZ7Uag8Q5xGv7ZUZWi2Z34AE",
+      "title": "Développeur Full Stack TS",
+      "type": "full-time",
+      "startDate": "2024-03",
+      "endDate": null,
+      "isCurrent": true,
+      "location": {
+        "city": "Paris",
+        "region": "Île-de-France",
+        "country": "France",
+        "remote": "hybrid"
+      },
+      "description": "Conception et développement d'une plateforme de recrutement IA basée sur une architecture microservices. Développement de l'API NestJS, création du frontend Next.js avec React, intégration des endpoints IA pour matching d'emplois, orchestration d'infrastructure avec Docker et AWS EKS.",
+      "responsibilities": [
+        "Architecture et développement de microservices avec NestJS",
+        "Création d'interfaces utilisateur modernes avec Next.js et React",
+        "Intégration d'IA pour le matching intelligent candidats/offres",
+        "Mise en place de CI/CD avec GitHub Actions",
+        "Orchestration de conteneurs avec Docker et Kubernetes"
+      ],
+      "achievements": [
+        "Réduction de 40% du temps de recrutement grâce à l'IA",
+        "Amélioration de 60% des performances de l'application",
+        "Mise en place d'une architecture scalable supportant 10k+ utilisateurs"
+      ],
+      "technologies": ["NestJS", "React.js", "Next.js", "Django", "AWS", "Docker", "PostgreSQL", "Redis", "Elasticsearch", "TypeScript", "Kubernetes"]
+    },
+    {
+      "id": "exp-2",
+      "company": "Capgemini",
+      "companyUrl": "https://www.capgemini.com",
+      "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_200_200/company-logo_200_200/0/1705572256355/capgemini_logo?e=1760572800&v=beta&t=mJ6XcSEHYxEv3al3lFjVASL-TFZ5DPqT2qN4nGYRct8",
+      "title": "Software Engineer",
+      "type": "full-time",
+      "startDate": "2022-09",
+      "endDate": "2023-09",
+      "isCurrent": false,
+      "location": {
+        "city": "Paris",
+        "region": "Île-de-France",
+        "country": "France",
+        "remote": "onsite"
+      },
+      "description": "Développement d'applications full-stack avec NestJS et React. Mise en place de tests unitaires avec Jest, gestion de bases de données PostgreSQL.",
+      "responsibilities": [
+        "Développement d'APIs RESTful avec NestJS",
+        "Création d'interfaces React responsives",
+        "Écriture de tests unitaires et d'intégration avec Jest",
+        "Optimisation des requêtes PostgreSQL",
+        "Revue de code et mentoring des juniors"
+      ],
+      "achievements": [
+        "Couverture de tests portée à 85%",
+        "Réduction de 30% du temps de réponse des APIs",
+        "Formation de 3 développeurs juniors"
+      ],
+      "technologies": ["NestJS", "Git", "Node.js", "React.js", "PostgreSQL", "Nx", "AWS", "Jest", "TypeScript"]
+    },
+    {
+      "id": "exp-3",
+      "company": "Capgemini",
+      "companyUrl": "https://www.capgemini.com",
+      "companyLogo": "https://media.licdn.com/dms/image/v2/D4D0BAQH-ZV832H4sdA/company-logo_200_200/company-logo_200_200/0/1705572256355/capgemini_logo?e=1760572800&v=beta&t=mJ6XcSEHYxEv3al3lFjVASL-TFZ5DPqT2qN4nGYRct8",
+      "title": "Développeur Front End",
+      "type": "full-time",
+      "startDate": "2022-04",
+      "endDate": "2022-09",
+      "isCurrent": false,
+      "location": {
+        "city": "Paris",
+        "region": "Île-de-France",
+        "country": "France",
+        "remote": "hybrid"
+      },
+      "description": "Conception technique et développement Front-end avec Angular, React, VueJS. Utilisation de frameworks CSS modernes et outils de développement.",
+      "responsibilities": [
+        "Développement d'applications SPA avec React et Angular",
+        "Intégration de designs responsives",
+        "Optimisation des performances front-end",
+        "Mise en place de state management avec Redux"
+      ],
+      "achievements": [
+        "Migration réussie d'Angular vers React",
+        "Amélioration de 50% du score Lighthouse"
+      ],
+      "technologies": ["Git", "React.js", "Node.js", "PostgreSQL", "Angular", "Vue.js", "SASS", "Redux"]
+    },
+    {
+      "id": "exp-4",
+      "company": "42 Consulting Group",
+      "companyUrl": "https://42c.group",
+      "companyLogo": "https://media.licdn.com/dms/image/v2/C4D0BAQFu3Ur5HvYDWg/company-logo_200_200/company-logo_200_200/0/1630514651767/42consultinggroupe_logo?e=1760572800&v=beta&t=YEJLUj9lPoDydLTxC7aIisMcqt1MG6jQDHnGBg3fEiY",
+      "title": "Développeur React/NextJS",
+      "type": "contract",
+      "startDate": "2022-02",
+      "endDate": "2022-03",
+      "isCurrent": false,
+      "location": {
+        "city": "Paris",
+        "region": "Île-de-France",
+        "country": "France",
+        "remote": "remote"
+      },
+      "description": "Développement de pages et composants en NextJS/React. Implémentation de fonctionnalités Python pour le matching CV/Offres.",
+      "responsibilities": [
+        "Création de composants React réutilisables",
+        "Intégration avec APIs Python",
+        "Optimisation SEO avec Next.js",
+        "Implémentation de SSR et SSG"
+      ],
+      "achievements": [
+        "Livraison du projet dans les délais",
+        "Amélioration de 70% du SEO"
+      ],
+      "technologies": ["Git", "Node.js", "Next.js", "NestJS", "React.js", "Python", "TypeScript"]
+    },
+    {
+      "id": "exp-5",
+      "company": "Ingesoft C.A.",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur applications web",
+      "type": "internship",
+      "startDate": "2021-07",
+      "endDate": "2021-09",
+      "isCurrent": false,
+      "location": {
+        "city": "Casablanca",
+        "region": "Casablanca-Settat",
+        "country": "Maroc",
+        "remote": "onsite"
+      },
+      "description": "Développement d'une application web de suivi client avec Symfony 4.4. Création de modules de gestion et mise en place d'API REST.",
+      "responsibilities": [
+        "Développement backend avec Symfony",
+        "Création d'APIs RESTful",
+        "Intégration avec bases de données MySQL",
+        "Documentation technique"
+      ],
+      "achievements": [
+        "Livraison d'une application complète",
+        "Documentation complète du projet"
+      ],
+      "technologies": ["Symfony", "PHP", "API REST", "MySQL", "Bootstrap", "jQuery"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Plateforme de Recrutement IA",
+      "slug": "recruitment-ai-platform",
+      "category": "SaaS",
+      "featured": true,
+      "status": "production",
+      "startDate": "2024-03",
+      "endDate": null,
+      "description": "Solution SaaS complète pour le matching intelligent entre candidats et offres d'emploi utilisant l'IA et le machine learning.",
+      "longDescription": "Plateforme révolutionnaire qui utilise l'intelligence artificielle pour optimiser le processus de recrutement. Le système analyse automatiquement les CVs, extrait les compétences clés et les match avec les offres d'emploi pertinentes, réduisant drastiquement le temps de recrutement.",
+      "features": [
+        "Matching IA candidats/offres",
+        "Parsing automatique de CV",
+        "Dashboard analytics en temps réel",
+        "Système de scoring intelligent",
+        "Intégration avec LinkedIn et Indeed"
+      ],
+      "technologies": ["NestJS", "React", "Next.js", "Django", "AWS", "PostgreSQL", "Redis", "Docker", "Kubernetes"],
+      "image": "/projects/recruitment-ai.jpg",
+      "screenshots": [
+        "/projects/recruitment-ai-1.jpg",
+        "/projects/recruitment-ai-2.jpg"
+      ],
+      "links": {
+        "github": "",
+        "live": "https://weneeds.com",
+        "demo": ""
+      },
+      "role": "Lead Developer",
+      "teamSize": 5,
+      "client": "Weneeds"
+    },
+    {
+      "id": "proj-2",
+      "title": "E-commerce Multi-vendor",
+      "slug": "ecommerce-multivendor",
+      "category": "E-commerce",
+      "featured": false,
+      "status": "development",
+      "startDate": "2023-06",
+      "endDate": "2023-12",
+      "description": "Marketplace permettant à plusieurs vendeurs de gérer leurs boutiques avec système de paiement intégré et gestion des livraisons.",
+      "longDescription": "Plateforme e-commerce complète permettant à plusieurs vendeurs de créer et gérer leurs propres boutiques en ligne. Inclut un système de paiement sécurisé, gestion des stocks en temps réel, et suivi des livraisons.",
+      "features": [
+        "Multi-vendeur avec dashboard dédié",
+        "Paiement sécurisé avec Stripe",
+        "Gestion des stocks en temps réel",
+        "Système de notation et reviews",
+        "Tracking des livraisons"
+      ],
+      "technologies": ["React", "Node.js", "MongoDB", "Stripe", "Docker", "Redis", "Socket.io"],
+      "image": "/projects/ecommerce.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "https://github.com/yasserloukniti/ecommerce",
+        "live": "",
+        "demo": ""
+      },
+      "role": "Full Stack Developer",
+      "teamSize": 3,
+      "client": "Projet personnel"
+    },
+    {
+      "id": "proj-3",
+      "title": "Dashboard Analytics",
+      "slug": "dashboard-analytics",
+      "category": "Data Visualization",
+      "featured": true,
+      "status": "production",
+      "startDate": "2023-01",
+      "endDate": "2023-04",
+      "description": "Tableau de bord temps réel pour visualisation de données complexes avec graphiques interactifs et rapports automatisés.",
+      "longDescription": "Solution de business intelligence permettant la visualisation en temps réel de métriques clés. Intégration avec plusieurs sources de données, génération automatique de rapports et alertes personnalisées.",
+      "features": [
+        "Graphiques interactifs avec D3.js",
+        "Mise à jour en temps réel via WebSocket",
+        "Export PDF/Excel des rapports",
+        "Alertes personnalisables",
+        "API REST pour intégrations tierces"
+      ],
+      "technologies": ["Next.js", "TypeScript", "D3.js", "Redis", "WebSocket", "PostgreSQL", "Docker"],
+      "image": "/projects/dashboard.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "",
+        "live": "",
+        "demo": "https://demo.dashboard.com"
+      },
+      "role": "Frontend Lead",
+      "teamSize": 4,
+      "client": "Capgemini"
+    },
+    {
+      "id": "proj-4",
+      "title": "API Gateway Microservices",
+      "slug": "api-gateway",
+      "category": "Backend",
+      "featured": false,
+      "status": "production",
+      "startDate": "2022-10",
+      "endDate": "2023-02",
+      "description": "Architecture microservices avec API Gateway pour orchestration de services distribués et gestion centralisée.",
+      "longDescription": "Système d'API Gateway haute performance pour gérer l'orchestration de microservices. Inclut l'authentification centralisée, le rate limiting, le caching et le monitoring des services.",
+      "features": [
+        "Orchestration de microservices",
+        "Authentification JWT centralisée",
+        "Rate limiting et throttling",
+        "Caching avec Redis",
+        "Monitoring avec Prometheus/Grafana"
+      ],
+      "technologies": ["NestJS", "Kubernetes", "RabbitMQ", "Redis", "Prometheus", "Grafana", "Docker"],
+      "image": "/projects/microservices.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "https://github.com/yasserloukniti/api-gateway",
+        "live": "",
+        "demo": ""
+      },
+      "role": "Backend Architect",
+      "teamSize": 6,
+      "client": "Capgemini"
+    },
+    {
+      "id": "proj-5",
+      "title": "Application Mobile Banking",
+      "slug": "mobile-banking",
+      "category": "Fintech",
+      "featured": true,
+      "status": "production",
+      "startDate": "2022-05",
+      "endDate": "2022-09",
+      "description": "Application bancaire sécurisée avec authentification biométrique et gestion de transactions en temps réel.",
+      "longDescription": "Application mobile bancaire complète avec les plus hauts standards de sécurité. Permet la gestion de comptes, virements, paiements et investissements avec une interface intuitive.",
+      "features": [
+        "Authentification biométrique",
+        "Transactions en temps réel",
+        "Notifications push sécurisées",
+        "Gestion multi-comptes",
+        "Chat support intégré"
+      ],
+      "technologies": ["React Native", "Node.js", "PostgreSQL", "JWT", "Socket.io", "Redis", "AWS"],
+      "image": "/projects/banking.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "",
+        "live": "",
+        "demo": ""
+      },
+      "role": "Mobile Developer",
+      "teamSize": 8,
+      "client": "Confidentiel"
+    },
+    {
+      "id": "proj-6",
+      "title": "CMS Headless",
+      "slug": "headless-cms",
+      "category": "CMS",
+      "featured": false,
+      "status": "open-source",
+      "startDate": "2021-11",
+      "endDate": "2022-02",
+      "description": "Système de gestion de contenu découplé avec API REST/GraphQL pour diffusion multi-canal.",
+      "longDescription": "CMS headless moderne permettant la gestion de contenu avec diffusion via API REST et GraphQL. Parfait pour les architectures JAMstack et les applications multi-plateformes.",
+      "features": [
+        "API REST et GraphQL",
+        "Éditeur de contenu WYSIWYG",
+        "Gestion des médias avec CDN",
+        "Versioning du contenu",
+        "Webhooks pour intégrations"
+      ],
+      "technologies": ["Strapi", "GraphQL", "React", "AWS S3", "CloudFront", "PostgreSQL", "Docker"],
+      "image": "/projects/cms.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "https://github.com/yasserloukniti/headless-cms",
+        "live": "",
+        "demo": "https://demo.cms.com"
+      },
+      "role": "Full Stack Developer",
+      "teamSize": 2,
+      "client": "Open Source"
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "institution": "Éstiam",
+      "institutionUrl": "https://www.estiam.education",
+      "logo": "",
+      "degree": "Master en informatique",
+      "fieldOfStudy": "Informatique",
+      "level": "Master",
+      "startDate": "2021-10",
+      "endDate": "2023-09",
+      "grade": "Mention Bien",
+      "location": {
+        "city": "Paris",
+        "country": "France"
+      },
+      "description": "Formation approfondie en ingénierie logicielle, architectures distribuées et intelligence artificielle.",
+      "courses": [
+        "Architecture des systèmes distribués",
+        "Intelligence Artificielle et Machine Learning",
+        "Sécurité des applications web",
+        "DevOps et Cloud Computing",
+        "Gestion de projet Agile"
+      ],
+      "activities": "Projet de fin d'études sur l'optimisation des performances des applications React"
+    },
+    {
+      "id": "edu-2",
+      "institution": "ESMA",
+      "institutionUrl": "",
+      "logo": "",
+      "degree": "Licence",
+      "fieldOfStudy": "Génie Informatique",
+      "level": "Licence",
+      "startDate": "2018-09",
+      "endDate": "2021-06",
+      "grade": "",
+      "location": {
+        "city": "Casablanca",
+        "country": "Maroc"
+      },
+      "description": "Formation complète en développement web, programmation desktop et administration de bases de données.",
+      "courses": [
+        "Développement Web Full Stack",
+        "Programmation Desktop",
+        "Bases de données relationnelles",
+        "Réseaux et CCNA",
+        "Méthode Merise"
+      ],
+      "activities": "Informatique (Web Dev, Desktop Programming, SGBDR, CCNA, Merise), Gestion des entreprises, Langues"
+    },
+    {
+      "id": "edu-3",
+      "institution": "ENDEV",
+      "institutionUrl": "",
+      "logo": "",
+      "degree": "Attestation De Réussite",
+      "fieldOfStudy": "Formation en développement",
+      "level": "Formation professionnelle",
+      "startDate": "2019-01",
+      "endDate": "2019-12",
+      "grade": "",
+      "location": {
+        "city": "Casablanca",
+        "country": "Maroc"
+      },
+      "description": "Formation intensive en développement web moderne.",
+      "courses": [
+        "HTML5/CSS3 avancé",
+        "JavaScript ES6+",
+        "React.js",
+        "Node.js",
+        "MongoDB"
+      ],
+      "activities": ""
+    }
+  ],
+  "skills": {
+    "technical": [
+      {
+        "category": "Frontend",
+        "items": [
+          { "name": "React.js", "level": 95, "yearsOfExperience": 6 },
+          { "name": "Next.js", "level": 90, "yearsOfExperience": 4 },
+          { "name": "TypeScript", "level": 95, "yearsOfExperience": 5 },
+          { "name": "JavaScript", "level": 95, "yearsOfExperience": 8 },
+          { "name": "HTML5", "level": 100, "yearsOfExperience": 10 },
+          { "name": "CSS3", "level": 95, "yearsOfExperience": 10 },
+          { "name": "SASS/SCSS", "level": 90, "yearsOfExperience": 6 },
+          { "name": "Styled Components", "level": 85, "yearsOfExperience": 4 },
+          { "name": "Material UI", "level": 85, "yearsOfExperience": 4 },
+          { "name": "Bootstrap", "level": 90, "yearsOfExperience": 7 },
+          { "name": "jQuery", "level": 80, "yearsOfExperience": 6 }
+        ]
+      },
+      {
+        "category": "Backend",
+        "items": [
+          { "name": "Node.js", "level": 95, "yearsOfExperience": 6 },
+          { "name": "NestJS", "level": 90, "yearsOfExperience": 3 },
+          { "name": "Express.js", "level": 85, "yearsOfExperience": 5 },
+          { "name": "PHP", "level": 75, "yearsOfExperience": 4 },
+          { "name": "Symfony", "level": 70, "yearsOfExperience": 2 },
+          { "name": "Django", "level": 65, "yearsOfExperience": 2 },
+          { "name": "Python", "level": 70, "yearsOfExperience": 3 },
+          { "name": "API REST", "level": 95, "yearsOfExperience": 6 },
+          { "name": "GraphQL", "level": 75, "yearsOfExperience": 2 }
+        ]
+      },
+      {
+        "category": "Database",
+        "items": [
+          { "name": "PostgreSQL", "level": 90, "yearsOfExperience": 5 },
+          { "name": "MySQL", "level": 85, "yearsOfExperience": 6 },
+          { "name": "MongoDB", "level": 80, "yearsOfExperience": 4 },
+          { "name": "Redis", "level": 85, "yearsOfExperience": 4 },
+          { "name": "Elasticsearch", "level": 70, "yearsOfExperience": 2 },
+          { "name": "TypeORM", "level": 85, "yearsOfExperience": 3 },
+          { "name": "Prisma", "level": 75, "yearsOfExperience": 2 }
+        ]
+      },
+      {
+        "category": "DevOps & Cloud",
+        "items": [
+          { "name": "AWS", "level": 85, "yearsOfExperience": 4 },
+          { "name": "Docker", "level": 90, "yearsOfExperience": 5 },
+          { "name": "Kubernetes", "level": 75, "yearsOfExperience": 3 },
+          { "name": "Jenkins", "level": 70, "yearsOfExperience": 3 },
+          { "name": "CI/CD", "level": 85, "yearsOfExperience": 4 },
+          { "name": "GitHub Actions", "level": 85, "yearsOfExperience": 3 },
+          { "name": "Terraform", "level": 65, "yearsOfExperience": 2 },
+          { "name": "Nginx", "level": 75, "yearsOfExperience": 4 }
+        ]
+      },
+      {
+        "category": "Tools & Others",
+        "items": [
+          { "name": "Git", "level": 95, "yearsOfExperience": 8 },
+          { "name": "Nx Monorepo", "level": 80, "yearsOfExperience": 2 },
+          { "name": "Jest", "level": 85, "yearsOfExperience": 4 },
+          { "name": "Cypress", "level": 75, "yearsOfExperience": 3 },
+          { "name": "Webpack", "level": 80, "yearsOfExperience": 5 },
+          { "name": "Vite", "level": 75, "yearsOfExperience": 2 },
+          { "name": "Figma", "level": 70, "yearsOfExperience": 3 },
+          { "name": "Adobe XD", "level": 65, "yearsOfExperience": 2 },
+          { "name": "Photoshop", "level": 60, "yearsOfExperience": 4 }
+        ]
+      }
+    ],
+    "soft": [
+      "Leadership technique",
+      "Communication",
+      "Travail en équipe",
+      "Résolution de problèmes",
+      "Gestion du temps",
+      "Apprentissage continu",
+      "Mentorat",
+      "Pensée critique",
+      "Adaptabilité",
+      "Créativité"
+    ]
+  },
+  "certifications": [
+    {
+      "id": "cert-1",
+      "name": "AWS Certified Cloud Practitioner",
+      "authority": "Amazon Web Services (AWS)",
+      "authorityLogo": "https://d1.awsstatic.com/certification/badges/AWS-Certified-Cloud-Practitioner_badge.png",
+      "credentialId": "9877ab09-4edc-4735-977f-d32961ff7256",
+      "issued": "2023-09",
+      "expires": "2026-09",
+      "url": "https://www.credly.com/badges/9877ab09-4edc-4735-977f-d32961ff7256/linked_in_profile",
+      "skills": ["AWS", "Cloud Computing", "EC2", "S3", "Lambda", "CloudFormation"]
+    }
+  ],
+  "languages": [
+    {
+      "name": "Français",
+      "proficiency": "Native",
+      "level": "C2",
+      "flag": "🇫🇷"
+    },
+    {
+      "name": "Anglais",
+      "proficiency": "Professional",
+      "level": "C1",
+      "flag": "🇬🇧"
+    },
+    {
+      "name": "Arabe",
+      "proficiency": "Native",
+      "level": "C2",
+      "flag": "🇲🇦"
+    }
+  ],
+  "interests": [
+    "Intelligence Artificielle",
+    "Open Source",
+    "Cloud Computing",
+    "Blockchain",
+    "Cybersécurité",
+    "DevOps",
+    "UI/UX Design",
+    "Entrepreneuriat"
+  ],
+  "achievements": [
+    {
+      "title": "Speaker à React Paris Meetup",
+      "date": "2023-06",
+      "description": "Présentation sur l'optimisation des performances React"
+    },
+    {
+      "title": "Contribution Open Source",
+      "date": "2023-03",
+      "description": "Contributeur actif sur plusieurs projets React et NestJS"
+    },
+    {
+      "title": "Hackathon Winner",
+      "date": "2022-11",
+      "description": "1er prix au hackathon Capgemini Innovation"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "test-1",
+      "name": "Marie Dupont",
+      "role": "CTO",
+      "company": "Weneeds",
+      "text": "Yasser est un développeur exceptionnel avec une capacité rare à comprendre rapidement les besoins métiers et à les traduire en solutions techniques élégantes.",
+      "avatar": "",
+      "date": "2024-01"
+    },
+    {
+      "id": "test-2",
+      "name": "Jean Martin",
+      "role": "Tech Lead",
+      "company": "Capgemini",
+      "text": "J'ai eu le plaisir de travailler avec Yasser sur plusieurs projets. Sa maîtrise technique et sa capacité à résoudre des problèmes complexes sont remarquables.",
+      "avatar": "",
+      "date": "2023-09"
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15",
+    "theme": {
+      "primaryColor": "#10B981",
+      "secondaryColor": "#00DC82",
+      "darkMode": true
+    }
+  }
+}

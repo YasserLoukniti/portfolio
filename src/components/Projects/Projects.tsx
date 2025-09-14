@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink, Folder, Star } from 'lucide-react';
+import { projects } from '../../data/portfolio.data';
 
 const ProjectsSection = styled.section`
   padding: ${({ theme }) => theme.spacing['5xl']} 0;
@@ -219,74 +220,15 @@ export const Projects: React.FC = () => {
     threshold: 0.1,
   });
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Plateforme de Recrutement IA',
-      description: 'Solution SaaS complète pour le matching intelligent entre candidats et offres d\'emploi utilisant l\'IA et le machine learning.',
-      image: '/projects/recruitment-ai.jpg',
-      technologies: ['NestJS', 'React', 'Next.js', 'Django', 'AWS', 'PostgreSQL'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: true,
-      status: 'En production',
-    },
-    {
-      id: 2,
-      title: 'E-commerce Multi-vendor',
-      description: 'Marketplace permettant à plusieurs vendeurs de gérer leurs boutiques avec système de paiement intégré et gestion des livraisons.',
-      image: '/projects/ecommerce.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Docker'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: false,
-      status: 'En développement',
-    },
-    {
-      id: 3,
-      title: 'Dashboard Analytics',
-      description: 'Tableau de bord temps réel pour visualisation de données complexes avec graphiques interactifs et rapports automatisés.',
-      image: '/projects/dashboard.jpg',
-      technologies: ['Next.js', 'TypeScript', 'D3.js', 'Redis', 'WebSocket'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: true,
-      status: 'En production',
-    },
-    {
-      id: 4,
-      title: 'API Gateway Microservices',
-      description: 'Architecture microservices avec API Gateway pour orchestration de services distribués et gestion centralisée.',
-      image: '/projects/microservices.jpg',
-      technologies: ['NestJS', 'Kubernetes', 'RabbitMQ', 'Redis', 'Prometheus'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: false,
-      status: 'En production',
-    },
-    {
-      id: 5,
-      title: 'Application Mobile Banking',
-      description: 'Application bancaire sécurisée avec authentification biométrique et gestion de transactions en temps réel.',
-      image: '/projects/banking.jpg',
-      technologies: ['React Native', 'Node.js', 'PostgreSQL', 'JWT', 'Socket.io'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: true,
-      status: 'En production',
-    },
-    {
-      id: 6,
-      title: 'CMS Headless',
-      description: 'Système de gestion de contenu découplé avec API REST/GraphQL pour diffusion multi-canal.',
-      image: '/projects/cms.jpg',
-      technologies: ['Strapi', 'GraphQL', 'React', 'AWS S3', 'CDN'],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: false,
-      status: 'Open Source',
-    },
-  ];
+  // Utiliser les données depuis la base de données JSON
+  const projectsData = projects.map(project => ({
+    ...project,
+    githubUrl: project.links.github || '#',
+    liveUrl: project.links.live || project.links.demo || '#',
+    statusLabel: project.status === 'production' ? 'En production' :
+                 project.status === 'development' ? 'En développement' :
+                 project.status === 'open-source' ? 'Open Source' : 'En cours'
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -325,7 +267,7 @@ export const Projects: React.FC = () => {
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
-          {projects.map((project) => (
+          {projectsData.map((project) => (
             <ProjectCard
               key={project.id}
               variants={itemVariants}
@@ -342,7 +284,23 @@ export const Projects: React.FC = () => {
                   alt={project.title}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://via.placeholder.com/400x250/111111/10B981?text=${project.title.replace(/\s+/g, '+')}`;
+                    // Utiliser une image statique par défaut au lieu de placeholder.com
+                    target.style.display = 'none';
+                    target.parentElement!.style.background = 'linear-gradient(135deg, #111111 0%, #1A1A1A 100%)';
+                    target.parentElement!.innerHTML = `
+                      <div style="
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #10B981;
+                        font-size: 20px;
+                        font-weight: bold;
+                      ">
+                        ${project.title}
+                      </div>
+                    `;
                   }}
                 />
                 <ProjectImageOverlay>
@@ -388,7 +346,7 @@ export const Projects: React.FC = () => {
                 <ProjectFooter>
                   <ProjectStatus>
                     <span>•</span>
-                    {project.status}
+                    {project.statusLabel}
                   </ProjectStatus>
                   <ProjectLinks>
                     {project.githubUrl && (

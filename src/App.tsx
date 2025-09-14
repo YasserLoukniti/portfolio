@@ -4,9 +4,9 @@ import { theme } from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { Header } from './components/Header/Header';
 import { Hero } from './components/Hero/Hero';
-import { About } from './components/About/About';
-import { Experience } from './components/Experience/Experience';
-import { Projects } from './components/Projects/Projects';
+import { AboutCompact } from './components/About/AboutCompact';
+import { ExperienceWithModal } from './components/Experience/ExperienceWithModal';
+import { ProjectsBento } from './components/Projects/ProjectsBento';
 import { Skills } from './components/Skills/Skills';
 import { Education } from './components/Education/Education';
 import { Certifications } from './components/Certifications/Certifications';
@@ -19,9 +19,9 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <About />
-        <Experience />
-        <Projects />
+        <AboutCompact />
+        <ExperienceWithModal />
+        <ProjectsBento />
         <Skills />
         <Education />
         <Certifications />
