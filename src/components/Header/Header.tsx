@@ -130,8 +130,9 @@ export const Header: React.FC = () => {
   const navItems = [
     { href: '#about', label: 'À propos' },
     { href: '#experience', label: 'Expérience' },
-    { href: '#education', label: 'Formation' },
+    { href: '#projects', label: 'Projets' },
     { href: '#skills', label: 'Compétences' },
+    { href: '#education', label: 'Formation' },
     { href: '#certifications', label: 'Certifications' },
   ];
 

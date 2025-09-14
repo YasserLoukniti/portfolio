@@ -7,6 +7,11 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
   html {
     scroll-behavior: smooth;
     font-size: 16px;
@@ -24,6 +29,21 @@ export const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, ${({ theme }) => theme.colors.primary}08 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, ${({ theme }) => theme.colors.secondary}08 0%, transparent 50%),
+                  radial-gradient(circle at 40% 20%, ${({ theme }) => theme.colors.primary}05 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
   }
 
   ::selection {
@@ -174,6 +194,33 @@ export const GlobalStyles = createGlobalStyle`
     }
     50% {
       transform: translateY(-10px);
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.8), 0 0 60px rgba(16, 185, 129, 0.4);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 `;

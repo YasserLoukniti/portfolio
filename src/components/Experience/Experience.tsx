@@ -1,13 +1,36 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Calendar, MapPin, Briefcase } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, ChevronRight, Award } from 'lucide-react';
 import { portfolioData } from '../../data/portfolio.data';
+
+const pulse = keyframes`
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+`;
 
 const ExperienceSection = styled.section`
   padding: ${({ theme }) => theme.spacing['5xl']} 0;
   background: ${({ theme }) => theme.colors.backgroundLight};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: ${({ theme }) => theme.colors.gradient};
+  }
 `;
 
 const SectionTitle = styled(motion.h2)`
@@ -56,30 +79,30 @@ const TimelineDot = styled.div<{ isCurrent: boolean }>`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  background: ${({ isCurrent, theme }) => 
-    isCurrent ? theme.colors.primary : theme.colors.surface};
+  width: 24px;
+  height: 24px;
+  background: ${({ isCurrent, theme }) =>
+    isCurrent ? theme.colors.gradient : theme.colors.surface};
   border: 3px solid ${({ theme }) => theme.colors.primary};
   border-radius: 50%;
   z-index: 1;
-  
+  box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.backgroundLight};
+
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     left: 30px;
   }
-  
-  ${({ isCurrent }) => isCurrent && `
+
+  ${({ isCurrent, theme }) => isCurrent && css`
     &::after {
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
       width: 30px;
       height: 30px;
-      border: 2px solid rgba(0, 102, 255, 0.3);
+      border: 2px solid ${theme.colors.primary};
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: ${pulse} 2s infinite;
     }
   `}
 `;
@@ -94,33 +117,50 @@ const TimelineContent = styled.div`
 
 const ExperienceCard = styled.div`
   background: ${({ theme }) => theme.colors.surface};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing['2xl']};
   border: 1px solid ${({ theme }) => theme.colors.border};
   transition: ${({ theme }) => theme.transitions.normal};
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 3px;
-    background: ${({ theme }) => theme.colors.gradientPrimary};
+    height: 4px;
+    background: ${({ theme }) => theme.colors.gradient};
     transform: scaleX(0);
     transform-origin: left;
     transition: ${({ theme }) => theme.transitions.normal};
   }
-  
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, ${({ theme }) => theme.colors.primary}15 0%, transparent 70%);
+    opacity: 0;
+    transition: ${({ theme }) => theme.transitions.slow};
+  }
+
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: ${({ theme }) => theme.shadows.lg};
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
     border-color: ${({ theme }) => theme.colors.primary};
-    
+    background: ${({ theme }) => theme.colors.surfaceLight};
+
     &::before {
       transform: scaleX(1);
+    }
+
+    &::after {
+      opacity: 1;
     }
   }
 `;
@@ -144,10 +184,19 @@ const CompanyInfo = styled.div`
 `;
 
 const CompanyLogo = styled.img`
-  width: 48px;
-  height: 48px;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  object-fit: cover;
+  width: 56px;
+  height: 56px;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  object-fit: contain;
+  background: white;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  transition: ${({ theme }) => theme.transitions.normal};
+
+  ${ExperienceCard}:hover & {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
 `;
 
 const CompanyDetails = styled.div``;
@@ -167,12 +216,15 @@ const Company = styled.div`
 `;
 
 const CurrentBadge = styled.span`
-  background: ${({ theme }) => theme.colors.gradientPrimary};
+  background: ${({ theme }) => theme.colors.gradient};
   color: ${({ theme }) => theme.colors.text};
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const MetaInfo = styled.div`
@@ -207,13 +259,16 @@ const SkillTag = styled.span`
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.primary}20;
   transition: ${({ theme }) => theme.transitions.fast};
-  
+  cursor: pointer;
+
   &:hover {
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.gradient};
     color: ${({ theme }) => theme.colors.text};
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+    border-color: transparent;
   }
 `;
 
@@ -278,7 +333,12 @@ export const Experience: React.FC = () => {
                             <Company>
                               <Briefcase size={16} />
                               {exp.company}
-                              {exp.isCurrent && <CurrentBadge>Actuel</CurrentBadge>}
+                              {exp.isCurrent && (
+                                <CurrentBadge>
+                                  <Award size={12} />
+                                  Actuel
+                                </CurrentBadge>
+                              )}
                             </Company>
                           </CompanyDetails>
                         </CompanyInfo>

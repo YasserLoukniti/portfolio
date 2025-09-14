@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Code2, Server, Cloud, Palette } from 'lucide-react';
+import { Code2, Server, Cloud, Palette, Download, Award, Briefcase, Calendar } from 'lucide-react';
 
 const AboutSection = styled.section`
   padding: ${({ theme }) => theme.spacing['5xl']} 0;
@@ -139,6 +139,102 @@ const StatLabel = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.md};
 `;
 
+const ProfileSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing['2xl']};
+  margin-bottom: ${({ theme }) => theme.spacing['3xl']};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    flex-direction: column;
+    text-align: center;
+  }
+`;
+
+const ProfileImage = styled.div`
+  width: 200px;
+  height: 200px;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  background: ${({ theme }) => theme.colors.gradient};
+  padding: 4px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    object-fit: cover;
+    border: 4px solid ${({ theme }) => theme.colors.background};
+  }
+`;
+
+const ProfileInfo = styled.div`
+  flex: 1;
+`;
+
+const ProfileName = styled.h3`
+  font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const ProfileTitle = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+const ProfileBio = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  line-height: 1.8;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+`;
+
+const CVButton = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  background: ${({ theme }) => theme.colors.gradient};
+  color: ${({ theme }) => theme.colors.text};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  text-decoration: none;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  transition: ${({ theme }) => theme.transitions.normal};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadows.glow};
+  }
+`;
+
+const QuickStats = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing['2xl']};
+  margin-top: ${({ theme }) => theme.spacing['2xl']};
+  flex-wrap: wrap;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    justify-content: center;
+  }
+`;
+
+const QuickStat = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+
+  svg {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+
+  span {
+    color: ${({ theme }) => theme.colors.textSecondary};
+    font-size: ${({ theme }) => theme.fontSizes.md};
+  }
+`;
+
 export const About: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -171,8 +267,8 @@ export const About: React.FC = () => {
   const stats = [
     { number: '10+', label: 'Années d\'expérience' },
     { number: '50+', label: 'Projets réalisés' },
-    { number: '15+', label: 'Technologies maîtrisées' },
-    { number: '1', label: 'Certification AWS' },
+    { number: '20+', label: 'Technologies maîtrisées' },
+    { number: '100%', label: 'Satisfaction client' },
   ];
 
   const containerVariants = {
@@ -207,6 +303,69 @@ export const About: React.FC = () => {
           À Propos
         </SectionTitle>
         
+        <ProfileSection>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            <ProfileImage>
+              <img
+                src="https://media.licdn.com/dms/image/v2/C4E03AQH5ow8IpPXT5A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1644834682919?e=1760572800&v=beta&t=I1HOX2554NW_UzLRJ2rsfaZMVN0pKJyieQUfvPKesCA"
+                alt="Yasser Loukniti"
+              />
+            </ProfileImage>
+          </motion.div>
+
+          <ProfileInfo>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <ProfileName>Yasser Loukniti</ProfileName>
+              <ProfileTitle>Développeur Full Stack Senior | Expert TypeScript</ProfileTitle>
+              <ProfileBio>
+                Passionné par l'innovation technologique, je suis un développeur Full Stack avec plus de 10 ans d'expérience
+                dans la création de solutions web performantes et évolutives. Expert en TypeScript, React, NestJS et AWS,
+                j'ai contribué au succès de nombreux projets d'envergure, de la conception à la mise en production.
+              </ProfileBio>
+
+              <QuickStats>
+                <QuickStat>
+                  <Briefcase size={20} />
+                  <span>Actuellement chez Weneeds</span>
+                </QuickStat>
+                <QuickStat>
+                  <Award size={20} />
+                  <span>Certifié AWS Cloud Practitioner</span>
+                </QuickStat>
+                <QuickStat>
+                  <Calendar size={20} />
+                  <span>Disponible pour missions freelance</span>
+                </QuickStat>
+              </QuickStats>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                style={{ marginTop: '2rem' }}
+              >
+                <CVButton
+                  href="/cv-yasser-loukniti.pdf"
+                  download
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Download size={20} />
+                  Télécharger mon CV
+                </CVButton>
+              </motion.div>
+            </motion.div>
+          </ProfileInfo>
+        </ProfileSection>
+
         <Content>
           <TextContent
             variants={containerVariants}
@@ -215,15 +374,17 @@ export const About: React.FC = () => {
           >
             <motion.div variants={itemVariants}>
               <AboutText>
-                Software Engineer passionné avec plus d'une décennie d'expérience dans le
-                développement d'applications web modernes et scalables. Spécialisé dans les
-                architectures microservices et les technologies cloud.
+                Ma philosophie de développement repose sur trois piliers : <strong>la qualité du code</strong>,
+                <strong> l'expérience utilisateur</strong> et <strong>la performance</strong>. Je m'efforce de créer
+                des applications qui non seulement répondent aux besoins métiers, mais qui sont également maintenables,
+                évolutives et agréables à utiliser.
               </AboutText>
-              
+
               <AboutText>
-                Mon expertise s'étend du développement frontend avec React et Next.js au
-                backend avec NestJS et Node.js, en passant par le déploiement et la gestion
-                d'infrastructures cloud sur AWS.
+                Fort d'une expérience variée allant des startups innovantes aux grandes entreprises du CAC 40,
+                j'ai développé une capacité d'adaptation et une vision globale qui me permettent de relever
+                tous types de défis techniques. Mon expertise AWS et ma maîtrise des pratiques DevOps garantissent
+                des déploiements fluides et une infrastructure robuste.
               </AboutText>
             </motion.div>
             
