@@ -13,10 +13,15 @@ export interface Experience {
 export interface Education {
   id: string;
   school: string;
+  institutionFullName?: string;
   degree: string;
   fieldOfStudy: string;
   dateRange: string;
   activities?: string;
+  logo?: string;
+  color?: string;
+  url?: string;
+  description?: string;
 }
 
 export interface Certification {

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:www.42c.fr)"
     ],
     "deny": [],
     "ask": []

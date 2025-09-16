@@ -29,7 +29,7 @@ const EducationGrid = styled(motion.div)`
   }
 `;
 
-const EducationCard = styled(motion.div)`
+const EducationCard = styled(motion.div)<{ $accentColor?: string }>`
   background: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
@@ -37,7 +37,7 @@ const EducationCard = styled(motion.div)`
   position: relative;
   overflow: hidden;
   transition: ${({ theme }) => theme.transitions.normal};
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -45,39 +45,72 @@ const EducationCard = styled(motion.div)`
     left: 0;
     width: 4px;
     height: 100%;
-    background: ${({ theme }) => theme.colors.gradientPrimary};
+    background: ${({ $accentColor }) => {
+      if (!$accentColor) return 'linear-gradient(180deg, #10B981 0%, #00DC82 100%)';
+      if ($accentColor.includes('gradient')) return $accentColor;
+      return $accentColor;
+    }};
     transform: scaleY(0);
     transform-origin: top;
     transition: ${({ theme }) => theme.transitions.normal};
   }
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: ${({ theme }) => theme.shadows.lg};
-    border-color: ${({ theme }) => theme.colors.primary};
-    
+    border-color: ${({ $accentColor, theme }) => $accentColor || theme.colors.primary};
+
     &::before {
       transform: scaleY(1);
     }
   }
 `;
 
-const CardIcon = styled.div`
-  width: 48px;
-  height: 48px;
+const CardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+const SchoolLogo = styled.img`
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: white;
+  padding: 8px;
+`;
+
+const CardIcon = styled.div<{ $color?: string }>`
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ $color }) => {
+    if (!$color) return 'linear-gradient(135deg, #10B981 0%, #00DC82 100%)';
+    if ($color.includes('gradient')) return $color;
+    return $color;
+  }};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  color: ${({ theme }) => theme.colors.text};
+  color: white;
+`;
+
+const SchoolInfo = styled.div`
+  flex: 1;
 `;
 
 const School = styled.h3`
   font-size: ${({ theme }) => theme.fontSizes.xl};
   color: ${({ theme }) => theme.colors.text};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
+const Institution = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-style: italic;
 `;
 
 const Degree = styled.h4`
@@ -153,17 +186,38 @@ export const Education: React.FC = () => {
           animate={inView ? 'visible' : 'hidden'}
         >
           {portfolioData.educations.map((education) => (
-            <EducationCard key={education.id} variants={itemVariants}>
-              <CardIcon>
-                <GraduationCap size={24} />
-              </CardIcon>
-              <School>{education.school}</School>
+            <EducationCard
+              key={education.id}
+              variants={itemVariants}
+              $accentColor={education.color}
+            >
+              <CardHeader>
+                {education.logo ? (
+                  <SchoolLogo src={education.logo} alt={education.school} />
+                ) : (
+                  <CardIcon $color={education.color}>
+                    <GraduationCap size={28} />
+                  </CardIcon>
+                )}
+                <SchoolInfo>
+                  <School>{education.school}</School>
+                  {education.institutionFullName && (
+                    <Institution>{education.institutionFullName}</Institution>
+                  )}
+                </SchoolInfo>
+              </CardHeader>
+
               <Degree>{education.degree}</Degree>
               {education.fieldOfStudy && <Field>{education.fieldOfStudy}</Field>}
               <DateRange>
                 <Calendar size={14} />
                 {education.dateRange}
               </DateRange>
+              {education.description && (
+                <Activities style={{ borderTop: 'none', paddingTop: 0, marginTop: '12px' }}>
+                  {education.description}
+                </Activities>
+              )}
               {education.activities && (
                 <Activities>{education.activities}</Activities>
               )}

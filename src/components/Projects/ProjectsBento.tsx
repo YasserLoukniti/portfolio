@@ -49,9 +49,9 @@ const BentoGrid = styled(motion.div)`
     grid-row: span 2;
   }
 
-  /* Deuxième et troisième projets - Cartes moyennes */
+  /* Deuxième projet - Grande carte pour 42C */
   & > *:nth-child(2) {
-    grid-column: span 1;
+    grid-column: span 2;
     grid-row: span 2;
   }
 
@@ -152,14 +152,9 @@ const getProjectImage = (category: string, index: number) => {
   let width = 400;
   let height = 400;
 
-  // Grandes cartes (index 0, 4)
-  if (index === 0 || index === 4) {
+  // Grandes cartes (index 0, 1, 4)
+  if (index === 0 || index === 1 || index === 4) {
     width = 800;
-    height = 600;
-  }
-  // Cartes moyennes verticales (index 1)
-  else if (index === 1) {
-    width = 400;
     height = 600;
   }
   // Carte horizontale (index 5)
@@ -537,7 +532,7 @@ export const ProjectsBento: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              {projects.length} projets réalisés • {projects.filter(p => p.featured).length} projets phares
+              +{projects.length + 15} projets réalisés • {projects.filter(p => p.featured).length} projets phares
             </SectionSubtitle>
           </SectionHeader>
 
@@ -550,7 +545,7 @@ export const ProjectsBento: React.FC = () => {
               <ProjectCard
                 key={project.id}
                 $gradient={getProjectGradient(index)}
-                $bgImage={getProjectImage(project.category, index)}
+                $bgImage={project.image || getProjectImage(project.category, index)}
                 variants={itemVariants}
                 onClick={() => setSelectedProject(project)}
                 whileHover={{ scale: 1.02 }}
@@ -599,6 +594,55 @@ export const ProjectsBento: React.FC = () => {
                 </ProjectContent>
               </ProjectCard>
             ))}
+
+            {/* Carte +15 autres projets */}
+            <ProjectCard
+              $gradient="linear-gradient(135deg, #667eea 0%, #3B82F6 100%)"
+              $bgImage=""
+              variants={itemVariants}
+              style={{
+                cursor: 'default',
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)',
+                border: '2px dashed rgba(102, 126, 234, 0.3)'
+              }}
+              whileHover={{ scale: 1.02 }}
+            >
+              <ProjectContent style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                textAlign: 'center'
+              }}>
+                <div style={{
+                  fontSize: '3rem',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #667eea 0%, #3B82F6 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  marginBottom: '1rem'
+                }}>
+                  +15
+                </div>
+                <ProjectTitle style={{ fontSize: '1.5rem' }}>Autres Projets</ProjectTitle>
+                <ProjectDescription style={{ marginTop: '1rem' }}>
+                  Applications mobiles, sites e-commerce, dashboards,
+                  systèmes de gestion et solutions personnalisées
+                </ProjectDescription>
+                <div style={{
+                  marginTop: '2rem',
+                  padding: '0.5rem 1.5rem',
+                  background: 'linear-gradient(135deg, #667eea 0%, #3B82F6 100%)',
+                  borderRadius: '9999px',
+                  color: 'white',
+                  fontSize: '0.875rem',
+                  fontWeight: '500'
+                }}>
+                  Disponible sur demande
+                </div>
+              </ProjectContent>
+            </ProjectCard>
           </BentoGrid>
         </Container>
       </ProjectsSection>

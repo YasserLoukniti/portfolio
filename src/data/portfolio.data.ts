@@ -47,10 +47,15 @@ export const portfolioData: PortfolioData = {
   educations: databaseJson.education.map(edu => ({
     id: edu.id,
     school: edu.institution,
+    institutionFullName: (edu as any).institutionFullName || '',
     degree: edu.degree,
     fieldOfStudy: edu.fieldOfStudy,
     dateRange: `${edu.startDate.split('-')[0]} - ${edu.endDate.split('-')[0]}`,
-    activities: edu.activities || ''
+    activities: edu.activities || '',
+    logo: edu.logo || '',
+    color: (edu as any).color || '#10B981',
+    url: edu.institutionUrl || '',
+    description: edu.description || ''
   })),
 
   certifications: databaseJson.certifications.map(cert => ({
