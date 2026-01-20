@@ -5,7 +5,7 @@
     "lastName": "Loukniti",
     "fullName": "Yasser Loukniti",
     "title": "Full Stack Engineer",
-    "headline": "TS",
+    "headline": "AI-Powered Products | TypeScript • NestJS • Next.js | AWS Certified",
     "email": "yass_official@outlook.fr",
     "phone": "+33 7 49 55 33 92",
     "location": {
@@ -17,9 +17,9 @@
     "profileImage": "/profile.jpg",
     "coverImage": "",
     "about": {
-      "short": "Software Engineer passionné par le développement d'applications modernes et scalables. Expert en architectures microservices, avec une solide expérience en React, Next.js, NestJS et AWS.",
-      "long": "Passionné par l'innovation technologique, je suis un développeur Full Stack avec plus de 10 ans d'expérience dans la création de solutions web performantes et évolutives. Expert en TypeScript, React, NestJS et AWS, j'ai contribué au succès de nombreux projets d'envergure, de la conception à la mise en production. Ma philosophie de développement repose sur trois piliers : la qualité du code, l'expérience utilisateur et la performance.",
-      "philosophy": "Je m'efforce de créer des applications qui non seulement répondent aux besoins métiers, mais qui sont également maintenables, évolutives et agréables à utiliser. Fort d'une expérience variée allant des startups innovantes aux grandes entreprises du CAC 40, j'ai développé une capacité d'adaptation et une vision globale qui me permettent de relever tous types de défis techniques."
+      "short": "Full Stack Developer avec un parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds). Spécialisé en TypeScript/Node.js : architectures microservices, communication event-driven (Kafka), gestion multi-databases.",
+      "long": "Full Stack Developer avec un parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds). Spécialisé en TypeScript/Node.js : conception d'architectures microservices, communication event-driven (Kafka), gestion multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch). Développement frontend avec Next.js/React, design system atomique et state management avancé (Redux Toolkit, React Query). Expérience en intégration de services AI (LangChain, matching intelligent, parsing CV) et en bonnes pratiques : TypeScript strict, tests (Jest, Cypress), CI/CD, code reviews, conventional commits. Certifié AWS Cloud Practitioner.",
+      "philosophy": "Stack : TypeScript, NestJS, Next.js, React, PostgreSQL, Redis, Elasticsearch, Kafka, Docker, AWS"
     },
     "availability": {
       "status": "available",
@@ -40,8 +40,8 @@
     }
   },
   "statistics": {
-    "yearsOfExperience": 10,
-    "projectsCompleted": 50,
+    "yearsOfExperience": 5,
+    "projectsCompleted": 15,
     "technologiesMastered": 20,
     "clientSatisfaction": 100,
     "certifications": 1,
@@ -50,11 +50,12 @@
   },
   "experiences": [
     {
-      "id": "exp-1",
+      "id": "weneeds",
       "company": "Weneeds",
       "companyUrl": "https://weneeds.com",
       "companyLogo": "/images/companies/weneeds.jpg",
-      "title": "Développeur Full Stack TS",
+      "coverImage": "/projects/saas/weneeds-ai.jpg",
+      "title": "Full Stack Developer",
       "type": "full-time",
       "startDate": "2024-03",
       "endDate": null,
@@ -63,31 +64,80 @@
         "city": "Paris",
         "region": "Île-de-France",
         "country": "France",
-        "remote": "hybrid"
+        "remote": "onsite"
       },
-      "description": "Conception et développement d'une plateforme de recrutement IA basée sur une architecture microservices. Développement de l'API NestJS, création du frontend Next.js avec React, intégration des endpoints IA pour matching d'emplois, orchestration d'infrastructure avec Docker et AWS EKS.",
+      "description": "Full Stack Developer sur une plateforme de recrutement augmentée par l'IA. Architecture microservices complète avec NestJS (40+ modules), Next.js 14, FastAPI/LangChain pour l'IA, déployée sur AWS EKS via Terraform et ArgoCD. Communication event-driven avec Apache Kafka, multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch, Weaviate).",
       "responsibilities": [
-        "Architecture et développement de microservices avec NestJS",
-        "Création d'interfaces utilisateur modernes avec Next.js et React",
-        "Intégration d'IA pour le matching intelligent candidats/offres",
-        "Mise en place de CI/CD avec GitHub Actions",
-        "Orchestration de conteneurs avec Docker et Kubernetes"
+        "BACKEND: Conception de 40+ modules NestJS avec architecture modulaire multi-database (TypeORM/PostgreSQL master-slave, Mongoose/MongoDB, Redis cache/pub-sub)",
+        "BACKEND: Système d'authentification complet (JWT, OAuth, Guards, RBAC multi-niveau User Roles + Company Roles)",
+        "BACKEND: Event-driven architecture avec Apache Kafka (payment.processed, mail.send, notification.send, video.generate)",
+        "BACKEND: Microservices dédiés : Payment Service (Stripe, budget management), Mail Service (AWS SES, templates), Notification Service (Firebase FCM), FFmpeg Service (transcoding vidéo)",
+        "BACKEND: Payment Audit System avec Write-Ahead Log MongoDB, retry automatique via Cron, circuit breaker pattern",
+        "BACKEND: Strategy Pattern pour intégrations calendrier multi-providers (Google, Microsoft, Calendly) avec refresh automatique OAuth",
+        "BACKEND: WebSocket Gateway production-ready avec Redis adapter pour scaling horizontal, heartbeat tracking",
+        "BACKEND: Optimisation Query TypeORM avec Query Builder avancé, élimination N+1, projection sélective",
+        "FRONTEND: Développement complet web app Next.js 14 et Admin Dashboard React (40+ pages)",
+        "FRONTEND: State management Redux Toolkit + Persist avec SSR-safe storage, middleware custom pour purge logout",
+        "FRONTEND: React Query avec cache optimisé (5min stale, 30min cache), optimistic updates avec rollback",
+        "FRONTEND: Custom hooks avancés : useJobBudget, usePageLoadTime (Performance Monitoring), useVideoUpload (Tus Protocol résumable)",
+        "FRONTEND: Middleware Auth Next.js avec JWT server-side (jose), maintenance mode, session Safari-safe",
+        "FRONTEND: API Layer auto-générée depuis OpenAPI schema backend",
+        "INFRA: AWS EKS Multi-Pod (Kubernetes v1.29) avec Terraform Infrastructure-as-Code, IRSA, Multi-AZ",
+        "INFRA: CI/CD GitHub Actions (~2000 lignes) avec détection changements par service, build conditionnel, OIDC Authentication",
+        "INFRA: GitOps avec ArgoCD (auto-sync, prune, self-heal), ALB Ingress Controller",
+        "AI/ML: Intégration 10+ services FastAPI avec LangChain/LangGraph",
+        "AI/ML: Multi-Agent Orchestration avec LangGraph (Supervisor-Router pattern, 6+ agents spécialisés)",
+        "AI/ML: Vector Search hybride Weaviate (75% sémantique + 25% BM25), scoring multi-dimensionnel (10 dimensions)",
+        "AI/ML: WebSocket streaming real-time pour réponses LLM token par token"
       ],
       "achievements": [
-        "Réduction de 40% du temps de recrutement grâce à l'IA",
-        "Amélioration de 60% des performances de l'application",
-        "Mise en place d'une architecture scalable supportant 10k+ utilisateurs"
+        "Architecture microservices scalable supportant 10k+ utilisateurs avec communication event-driven",
+        "Système de paiement robuste avec audit trail complet et retry automatique",
+        "Dashboard admin complet : Payment Management, Email Templates, Video Moderation AI, Feature Audit (40+ types), Analytics",
+        "Réduction de 80% des requêtes DB via Query Builder optimisé et React Query cache"
       ],
-      "technologies": ["NestJS", "React.js", "Next.js", "Django", "AWS", "Docker", "PostgreSQL", "Redis", "Elasticsearch", "TypeScript", "Kubernetes"]
+      "technologies": ["TypeScript", "NestJS", "Next.js 14", "React", "Redux Toolkit", "React Query", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch", "Weaviate", "Apache Kafka", "Stripe", "Socket.IO", "AWS EKS", "Terraform", "ArgoCD", "Docker", "Kubernetes", "FastAPI", "LangChain", "LangGraph", "OpenAI", "Jest", "Cypress", "GitHub Actions"],
+      "architectureDiagrams": [
+        {
+          "title": "Architecture Globale",
+          "description": "Vue d'ensemble de l'architecture microservices avec communication event-driven",
+          "diagram": "┌─────────────────────────────────────────────────────────────────────────────────┐\n│                              FRONTEND TIER                                       │\n│  ┌─────────────────────────────┐     ┌─────────────────────────────┐            │\n│  │   Web App (Next.js)         │     │   Admin Dashboard (React)   │            │\n│  │   Port: 4200                │     │   Port: 4201                │            │\n│  │   • Redux + Persist         │     │   • 40+ pages admin         │            │\n│  │   • React Query             │     │   • Analytics/Monitoring    │            │\n│  │   • Socket.IO Client        │     │   • Payment Management      │            │\n│  └──────────────┬──────────────┘     └──────────────┬──────────────┘            │\n└─────────────────┼────────────────────────────────────┼──────────────────────────┘\n                  │ HTTP REST (OpenAPI generated)      │\n                  └────────────────┬───────────────────┘\n                                   ▼\n┌─────────────────────────────────────────────────────────────────────────────────┐\n│                         NESTJS API GATEWAY (Port 3011)                          │\n│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │\n│  │ Auth Module │ │ Jobs Module │ │ Admin Module│ │ LLM Service │               │\n│  │ • JWT/OAuth │ │ • Matching  │ │ • RBAC      │ │ • AI Proxy  │──────────┐    │\n│  │ • Guards    │ │ • Search    │ │ • Audit     │ │ • Scoring   │          │    │\n│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘          │    │\n│                                                                            │    │\n│  Kafka Producer ──────────────────────────────────────────┐               │    │\n│  • offer.created • action.performed • mail.send           │               │    │\n│  • notification.send • video.generate                     │               │    │\n└───────────────────────────────────────────────────────────┼───────────────┼────┘\n                                                            │               │\n        ┌───────────────────────────────────────────────────┘               │\n        │ KAFKA EVENT BUS                                                   │\n        ▼                                                                   ▼\n┌───────────────────────────────────────────────────┐   ┌───────────────────────────────┐\n│              MICROSERVICES TIER                    │   │    FASTAPI AI SERVICES        │\n│                                                    │   │    (HTTP Direct from NestJS)  │\n│  ┌─────────────────┐  ┌─────────────────┐        │   │                               │\n│  │ Payment Service │  │ Mail Service    │        │   │  ┌─────────────────────────┐  │\n│  │ Port: 3010      │  │ Port: 3002      │        │   │  │ AI Agent (LangGraph)    │  │\n│  │ • Stripe        │  │ • AWS SES       │        │   │  │ • Multi-agent routing   │  │\n│  │ • Budget Mgmt   │  │ • Templates     │        │   │  │ • 6+ specialized agents │  │\n│  │ • Audit Logs    │  │ • Dual Control  │        │   │  └─────────────────────────┘  │\n│  └─────────────────┘  └─────────────────┘        │   │  ┌─────────────────────────┐  │\n│                                                    │   │  │ Matching Services       │  │\n│  ┌─────────────────┐  ┌─────────────────┐        │   │  │ • Candidates matching   │  │\n│  │ Notification    │  │ FFmpeg Service  │        │   │  │ • Jobs matching         │  │\n│  │ Service         │  │ Port: 3001      │        │   │  │ • Prospects matching    │  │\n│  │ Port: 3000      │  │ • Transcoding   │        │   │  └─────────────────────────┘  │\n│  │ • Firebase FCM  │  │ • S3 Storage    │        │   │  ┌─────────────────────────┐  │\n│  │ • Push Notifs   │  │ • Moderation    │        │   │  │ CV Parsing / Scoring    │  │\n│  └─────────────────┘  └─────────────────┘        │   │  │ Interview Gen/Analysis  │  │\n│                                                    │   │  └─────────────────────────┘  │\n└───────────────────────────────────────────────────┘   └───────────────────────────────┘\n                          │                                           │\n                          ▼                                           ▼\n┌─────────────────────────────────────────────────────────────────────────────────┐\n│                            DATA TIER                                             │\n│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌───────────┐ │\n│  │ PostgreSQL  │ │  MongoDB    │ │   Redis     │ │  Weaviate   │ │Elasticsearch│\n│  │ (TypeORM)   │ │ (Mongoose)  │ │  (Cache)    │ │ (Vectors)   │ │ (Search)  │ │\n│  │ • Users     │ │ • Audit Logs│ │ • Sessions  │ │ • Embeddings│ │ • Jobs    │ │\n│  │ • Jobs      │ │ • Settings  │ │ • Socket.IO │ │ • Hybrid    │ │ • Profiles│ │\n│  │ • Payments  │ │ • Templates │ │ • Bull Queue│ │   Search    │ │           │ │\n│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └───────────┘ │\n└─────────────────────────────────────────────────────────────────────────────────┘"
+        },
+        {
+          "title": "AWS EKS Infrastructure",
+          "description": "Cluster Kubernetes deploye sur AWS EKS avec Terraform",
+          "diagram": "┌─────────────────────────────────────────────────────────────────────┐\n│                    AWS EKS CLUSTER (eu-west-3)                       │\n│                    Kubernetes v1.29                                  │\n├─────────────────────────────────────────────────────────────────────┤\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                   NAMESPACE: weenyd-develop                  │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │    │\n│  │  │   Pod:       │ │   Pod:       │ │   Pod:       │        │    │\n│  │  │   Backend    │ │   Frontend   │ │   Django     │        │    │\n│  │  │   (NestJS)   │ │   (Next.js)  │ │   (FastAPI)  │        │    │\n│  │  │   :3011      │ │   :4200      │ │   :8000      │        │    │\n│  │  └──────────────┘ └──────────────┘ └──────────────┘        │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │    │\n│  │  │   Pod:       │ │   Pod:       │ │   Pod:       │        │    │\n│  │  │   Payment    │ │   Mail       │ │   Notif      │        │    │\n│  │  │   Service    │ │   Service    │ │   Service    │        │    │\n│  │  │   :3010      │ │   :3002      │ │   :3000      │        │    │\n│  │  └──────────────┘ └──────────────┘ └──────────────┘        │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐                          │    │\n│  │  │   Pod:       │ │   Pod:       │   + 10 FastAPI           │    │\n│  │  │   Admin      │ │   FFmpeg     │     AI Services          │    │\n│  │  │   Dashboard  │ │   Service    │                          │    │\n│  │  │   :4201      │ │   :3001      │                          │    │\n│  │  └──────────────┘ └──────────────┘                          │    │\n│  │                                                              │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                    NODE GROUP (Auto-scaling)                 │    │\n│  │    Instance: t3.medium | Min: 2 | Max: 3 | Desired: 3       │    │\n│  │    Multi-AZ: eu-west-3a, eu-west-3b, eu-west-3c             │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                AWS ALB INGRESS CONTROLLER                    │    │\n│  │    • /       → frontend-service:4200                        │    │\n│  │    • /api    → backend-service:3011                         │    │\n│  │    • /admin  → admin-dashboard:4201                         │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n└─────────────────────────────────────────────────────────────────────┘"
+        },
+        {
+          "title": "Communication Inter-Services",
+          "description": "Protocoles de communication entre les differents services",
+          "table": [
+            { "source": "Frontend", "destination": "NestJS API", "protocol": "HTTP REST", "usage": "Toutes les requetes" },
+            { "source": "NestJS", "destination": "FastAPI Services", "protocol": "HTTP Direct", "usage": "Appels AI/ML synchrones" },
+            { "source": "NestJS", "destination": "Payment Service", "protocol": "Kafka", "usage": "Events asynchrones" },
+            { "source": "NestJS", "destination": "Mail Service", "protocol": "Kafka", "usage": "Envoi emails" },
+            { "source": "NestJS", "destination": "Notification Service", "protocol": "Kafka", "usage": "Push notifications" },
+            { "source": "NestJS", "destination": "FFmpeg Service", "protocol": "Kafka", "usage": "Traitement video" }
+          ]
+        }
+      ],
+      "stackDetails": {
+        "Frontend": ["Next.js 14", "React", "Redux Toolkit", "styled-components", "React Query"],
+        "Backend API": ["NestJS", "TypeORM", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
+        "Microservices": ["Payment Service", "Mail Service", "Notification Service", "FFmpeg Service"],
+        "AI/ML": ["FastAPI (10+ services)", "LangChain", "LangGraph", "Weaviate", "OpenAI/Anthropic"],
+        "Infrastructure": ["AWS EKS (Multi-Pod)", "Terraform", "ArgoCD", "GitHub Actions CI/CD"],
+        "Messaging": ["Apache Kafka (event-driven)", "Redis Pub/Sub (real-time)"]
+      }
     },
     {
-      "id": "exp-2",
+      "id": "capgemini",
       "company": "Capgemini",
       "companyUrl": "https://www.capgemini.com",
       "companyLogo": "/images/companies/capgemini.jpg",
-      "title": "Software Engineer",
+      "title": "Full Stack Developer",
       "type": "full-time",
-      "startDate": "2022-09",
+      "startDate": "2022-04",
       "endDate": "2023-09",
       "isCurrent": false,
       "location": {
@@ -96,57 +146,28 @@
         "country": "France",
         "remote": "onsite"
       },
-      "description": "Développement d'applications full-stack avec NestJS et React. Mise en place de tests unitaires avec Jest, gestion de bases de données PostgreSQL.",
+      "description": "Full Stack Developer au sein d'une équipe Agile sur 2 projets clients grands comptes. Conception et développement d'APIs RESTful avec NestJS et Node.js. Modélisation de bases de données PostgreSQL et optimisation des requêtes. Développement d'interfaces utilisateur avec React.js.",
       "responsibilities": [
-        "Développement d'APIs RESTful avec NestJS",
-        "Création d'interfaces React responsives",
-        "Écriture de tests unitaires et d'intégration avec Jest",
-        "Optimisation des requêtes PostgreSQL",
-        "Revue de code et mentoring des juniors"
+        "Conception et développement d'APIs RESTful avec NestJS et Node.js",
+        "Modélisation de bases de données PostgreSQL et optimisation des requêtes",
+        "Tests unitaires et d'intégration avec Jest",
+        "Architecture modulaire avec NX monorepo",
+        "Développement d'interfaces utilisateur avec React.js",
+        "Méthodologie Scrum, sprints de 2 semaines, code reviews systématiques"
       ],
       "achievements": [
-        "Couverture de tests portée à 85%",
-        "Réduction de 30% du temps de réponse des APIs",
-        "Formation de 3 développeurs juniors"
+        "Déploiements sur AWS",
+        "Choix de librairies, définition des normes de code"
       ],
-      "technologies": ["NestJS", "Git", "Node.js", "React.js", "PostgreSQL", "Nx", "AWS", "Jest", "TypeScript"]
+      "technologies": ["TypeScript", "NestJS", "Node.js", "React.js", "PostgreSQL", "Jest", "AWS", "NX", "Git", "SASS", "Material UI"]
     },
     {
-      "id": "exp-3",
-      "company": "Capgemini",
-      "companyUrl": "https://www.capgemini.com",
-      "companyLogo": "/images/companies/capgemini.jpg",
-      "title": "Développeur Front End",
-      "type": "full-time",
-      "startDate": "2022-04",
-      "endDate": "2022-09",
-      "isCurrent": false,
-      "location": {
-        "city": "Paris",
-        "region": "Île-de-France",
-        "country": "France",
-        "remote": "hybrid"
-      },
-      "description": "Conception technique et développement Front-end avec Angular, React, VueJS. Utilisation de frameworks CSS modernes et outils de développement.",
-      "responsibilities": [
-        "Développement d'applications SPA avec React et Angular",
-        "Intégration de designs responsives",
-        "Optimisation des performances front-end",
-        "Mise en place de state management avec Redux"
-      ],
-      "achievements": [
-        "Migration réussie d'Angular vers React",
-        "Amélioration de 50% du score Lighthouse"
-      ],
-      "technologies": ["Git", "React.js", "Node.js", "PostgreSQL", "Angular", "Vue.js", "SASS", "Redux"]
-    },
-    {
-      "id": "exp-4",
-      "company": "42 Consulting Group",
-      "companyUrl": "https://42c.group",
+      "id": "42c",
+      "company": "42c",
+      "companyUrl": "https://42c.fr",
       "companyLogo": "/images/companies/42consulting.jpg",
-      "title": "Développeur React/NextJS",
-      "type": "contract",
+      "title": "Full Stack Developer (Stage)",
+      "type": "internship",
       "startDate": "2022-02",
       "endDate": "2022-03",
       "isCurrent": false,
@@ -154,27 +175,27 @@
         "city": "Paris",
         "region": "Île-de-France",
         "country": "France",
-        "remote": "remote"
+        "remote": "onsite"
       },
-      "description": "Développement de pages et composants en NextJS/React. Implémentation de fonctionnalités Python pour le matching CV/Offres.",
+      "description": "Stage de fin d'études sur une plateforme de recrutement tech. Développement de pages et composants React/Next.js (offres d'emploi, filtres, bannières). Application des bonnes pratiques Next.js (SSR, routing, optimisation SEO). Développement d'une fonctionnalité de matching CV/Offres en Python.",
       "responsibilities": [
-        "Création de composants React réutilisables",
-        "Intégration avec APIs Python",
-        "Optimisation SEO avec Next.js",
-        "Implémentation de SSR et SSG"
+        "Développement de pages et composants React/Next.js",
+        "Application des bonnes pratiques Next.js (SSR, routing, optimisation SEO)",
+        "Développement d'une fonctionnalité de matching CV/Offres en Python",
+        "Déploiement sur AWS avec CI/CD Jenkins"
       ],
       "achievements": [
         "Livraison du projet dans les délais",
-        "Amélioration de 70% du SEO"
+        "Amélioration du SEO"
       ],
-      "technologies": ["Git", "Node.js", "Next.js", "NestJS", "React.js", "Python", "TypeScript"]
+      "technologies": ["Next.js", "React.js", "TypeScript", "Python", "Material UI", "AWS", "Jenkins", "GitLab"]
     },
     {
-      "id": "exp-5",
+      "id": "ingesoft",
       "company": "Ingesoft C.A.",
       "companyUrl": "",
       "companyLogo": "",
-      "title": "Développeur applications web",
+      "title": "Développeur Web (Stage)",
       "type": "internship",
       "startDate": "2021-07",
       "endDate": "2021-09",
@@ -185,18 +206,157 @@
         "country": "Maroc",
         "remote": "onsite"
       },
-      "description": "Développement d'une application web de suivi client avec Symfony 4.4. Création de modules de gestion et mise en place d'API REST.",
+      "description": "Développement d'une application web de suivi client avec Symfony 4.4. Préparation des maquettes avec Adobe XD. Développement des modules : gestion des prospects/clients, dossiers et facturation, ressources et formateurs. Mise en place d'une API REST.",
       "responsibilities": [
-        "Développement backend avec Symfony",
-        "Création d'APIs RESTful",
-        "Intégration avec bases de données MySQL",
-        "Documentation technique"
+        "Préparation des maquettes avec Adobe XD",
+        "Développement des modules de gestion prospects/clients",
+        "Mise en place d'une API REST pour connecter le CRM à la plateforme de cours",
+        "Import/export de données Excel",
+        "Développement d'un système de recherche avancée"
       ],
       "achievements": [
         "Livraison d'une application complète",
         "Documentation complète du projet"
       ],
-      "technologies": ["Symfony", "PHP", "API REST", "MySQL", "Bootstrap", "jQuery"]
+      "technologies": ["PHP", "Symfony 4.4", "MySQL", "REST API", "Adobe XD", "Git"]
+    },
+    {
+      "id": "otis",
+      "company": "Otis",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur Web (Freelance)",
+      "type": "freelance",
+      "startDate": "2021-02",
+      "endDate": "2021-04",
+      "isCurrent": false,
+      "location": {
+        "city": "Casablanca",
+        "region": "Casablanca-Settat",
+        "country": "Maroc",
+        "remote": "onsite"
+      },
+      "description": "Développement d'un site web intranet pour Otis Maroc avec Symfony 4.4. Conversion de maquettes en HTML/CSS/JS/Bootstrap. Développement du système d'authentification et contrôle d'accès. Développement du back-office et front-office.",
+      "responsibilities": [
+        "Conversion de maquettes en HTML/CSS/JS/Bootstrap",
+        "Développement du système d'authentification et contrôle d'accès",
+        "Développement du back-office : gestion des pages, posts, documents, rubriques",
+        "Développement du front-office et intégration"
+      ],
+      "achievements": [
+        "Livraison d'un intranet complet fonctionnel"
+      ],
+      "technologies": ["PHP", "Symfony 4.4", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "Git"]
+    },
+    {
+      "id": "souk-attanmia",
+      "company": "Souk At-Tanmia Maroc",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur Backend (Freelance)",
+      "type": "freelance",
+      "startDate": "2020-03",
+      "endDate": "2020-08",
+      "isCurrent": false,
+      "location": {
+        "city": "Maroc",
+        "region": "",
+        "country": "Maroc",
+        "remote": "remote"
+      },
+      "description": "Développement d'une plateforme de gestion des candidatures pour le financement des PME. Développement du module des candidatures (Test Psychométrique, Round 1, Round 2). Mise en place de l'algorithme de calcul des résultats et détermination d'éligibilité.",
+      "responsibilities": [
+        "Développement du module des candidatures multi-étapes",
+        "Mise en place de l'algorithme de calcul des résultats et éligibilité",
+        "Développement des modules : gestion des pages, menus, utilisateurs",
+        "Système d'authentification et contrôle d'accès",
+        "Intégration d'un éditeur WYSIWYG"
+      ],
+      "achievements": [
+        "Plateforme complète de gestion des candidatures PME"
+      ],
+      "technologies": ["PHP 7", "MySQL", "HTML", "CSS", "JavaScript", "Git"]
+    },
+    {
+      "id": "digital-fes-meknes",
+      "company": "Digital Fes Meknes",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur Web (Freelance)",
+      "type": "freelance",
+      "startDate": "2020-04",
+      "endDate": "2020-06",
+      "isCurrent": false,
+      "location": {
+        "city": "Maroc",
+        "region": "",
+        "country": "Maroc",
+        "remote": "remote"
+      },
+      "description": "Développement du portail électronique de la Région Fès-Meknès. Développement du frontend responsive, du back-office complet et d'un système de tickets pour le support.",
+      "responsibilities": [
+        "Développement du frontend responsive",
+        "Développement du back-office : gestion des pages, posts, événements, sidebar, menus",
+        "Développement d'un système de tickets pour le support"
+      ],
+      "achievements": [
+        "Portail électronique complet pour la région Fès-Meknès"
+      ],
+      "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "id": "youcode",
+      "company": "YouCode Maroc",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur Web (Freelance)",
+      "type": "freelance",
+      "startDate": "2020-04",
+      "endDate": "2020-04",
+      "isCurrent": false,
+      "location": {
+        "city": "Maroc",
+        "region": "",
+        "country": "Maroc",
+        "remote": "remote"
+      },
+      "description": "Développement d'une mini plateforme de passage d'examens (C#, JavaScript, Java). Développement de l'interface utilisateur, algorithme optimisé pour le fonctionnement du QCM, système anti-triche.",
+      "responsibilities": [
+        "Développement de l'interface utilisateur",
+        "Algorithme optimisé pour le fonctionnement du QCM",
+        "Système anti-triche"
+      ],
+      "achievements": [
+        "Plateforme d'examens fonctionnelle avec système anti-triche"
+      ],
+      "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "id": "endev",
+      "company": "Endev Formation Informatique",
+      "companyUrl": "",
+      "companyLogo": "",
+      "title": "Développeur Web (Stage)",
+      "type": "internship",
+      "startDate": "2019-07",
+      "endDate": "2019-08",
+      "isCurrent": false,
+      "location": {
+        "city": "Casablanca",
+        "region": "Casablanca-Settat",
+        "country": "Maroc",
+        "remote": "onsite"
+      },
+      "description": "Création d'une plateforme web de recherche de stages. Développement d'une plateforme permettant aux candidats de chercher des stages et aux entreprises de déposer leurs offres. Filtres par ville et domaine.",
+      "responsibilities": [
+        "Développement d'une plateforme de recherche de stages",
+        "Fonctionnalité pour les entreprises de déposer leurs offres",
+        "Filtres par ville et domaine"
+      ],
+      "achievements": [
+        "Première expérience professionnelle en développement web"
+      ],
+      "technologies": ["WordPress", "PHP", "MySQL"]
     }
   ],
   "projects": [
@@ -271,8 +431,8 @@
       "category": "Freelance",
       "featured": false,
       "status": "production",
-      "startDate": "2023-05",
-      "endDate": "2023-08",
+      "startDate": "2020-03",
+      "endDate": "2020-08",
       "description": "Plateforme de gestion des candidatures pour le financement des PME avec PHP7.",
       "longDescription": "Plateforme complète de gestion des candidatures pour financement PME. Développement du module de candidatures multi-étapes (Test Psychométrique, Round 1, Round 2), algorithme de calcul des résultats et détermination d'éligibilité. Gestion complète des pages, menus, utilisateurs avec authentification et contrôle d'accès. Intégration éditeur WYSIWYG.",
       "features": [
@@ -334,8 +494,8 @@
       "category": "Freelance",
       "featured": false,
       "status": "production",
-      "startDate": "2023-09",
-      "endDate": "2023-12",
+      "startDate": "2020-04",
+      "endDate": "2020-06",
       "description": "Site étatique de la région Fès-Meknès pour la promotion des investissements.",
       "longDescription": "Développement du site institutionnel de la région Fès-Meknès. Création du frontend moderne, développement complet du back-office pour gestion des pages, posts, événements, sidebar et menus. Mise en place d'un système de tickets pour le support. Site maintenant accessible sur fesmeknesinvest.ma.",
       "features": [
@@ -365,8 +525,8 @@
       "category": "Freelance",
       "featured": false,
       "status": "production",
-      "startDate": "2022-06",
-      "endDate": "2022-08",
+      "startDate": "2020-04",
+      "endDate": "2020-04",
       "description": "Mini plateforme de passation d'examens multi-langages (C#, JavaScript, Java) pour YouCode.",
       "longDescription": "Développement d'une plateforme d'examens pour YouCode supportant C#, JavaScript et Java. Conception de l'interface utilisateur, implémentation d'un algorithme optimisé pour le fonctionnement du QCM, mise en place d'un système anti-triche pour garantir l'intégrité des examens.",
       "features": [
@@ -396,8 +556,8 @@
       "category": "Freelance",
       "featured": false,
       "status": "production",
-      "startDate": "2024-01",
-      "endDate": "2024-02",
+      "startDate": "2021-02",
+      "endDate": "2021-04",
       "description": "Site web local (intranet) OTIS Maroc sur les serveurs d'OTIS avec Symfony 4.4.",
       "longDescription": "Développement de l'intranet OTIS Maroc hébergé sur serveurs internes. Conversion de maquettes en HTML/CSS/JS/Bootstrap, authentification et contrôle d'accès sécurisé. Back-office complet pour gestion pages, posts, documents, rubriques et sous-rubriques. Front-office responsive et optimisé.",
       "features": [

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(curl:*)",
-      "WebFetch(domain:www.42c.fr)"
+      "WebFetch(domain:www.42c.fr)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
