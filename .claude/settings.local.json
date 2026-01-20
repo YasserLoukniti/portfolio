@@ -4,7 +4,8 @@
       "Bash(npm run build:*)",
       "Bash(curl:*)",
       "WebFetch(domain:www.42c.fr)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
