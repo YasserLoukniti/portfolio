@@ -377,7 +377,7 @@ export const Header: React.FC = () => {
               ))}
               <NavItem>
                 <ContactButton
-                  href="mailto:yasser.loukniti@gmail.com"
+                  href={`mailto:${portfolioData.email}`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -425,7 +425,7 @@ export const Header: React.FC = () => {
               ))}
               <motion.div variants={itemVariants}>
                 <ContactButton
-                  href="mailto:yasser.loukniti@gmail.com"
+                  href={`mailto:${portfolioData.email}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   style={{ marginTop: '1rem' }}
