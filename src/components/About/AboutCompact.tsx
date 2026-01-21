@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Download, Award, MapPin, Mail, Phone, Linkedin, Github } from 'lucide-react';
-import { profile, statistics } from '../../data/portfolio.data';
+import { profile } from '../../data/portfolio.data';
 
 const AboutSection = styled.section`
   padding: ${({ theme }) => theme.spacing['3xl']} 0;
@@ -14,16 +14,6 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 ${({ theme }) => theme.spacing.xl};
-`;
-
-const SectionTitle = styled(motion.h2)`
-  text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
-  background: ${({ theme }) => theme.colors.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 `;
 
 const ContentGrid = styled.div`

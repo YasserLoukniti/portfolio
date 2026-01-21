@@ -2,19 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Code2, Server, Cloud, Database, Palette, Sparkles, ChevronRight } from 'lucide-react';
-import { portfolioData, database } from '../../data/portfolio.data';
+import { Code2, Server, Cloud, Database, Palette, Sparkles } from 'lucide-react';
+import { database } from '../../data/portfolio.data';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   25% { transform: translateY(-10px) rotate(2deg); }
   50% { transform: translateY(0px) rotate(-1deg); }
   75% { transform: translateY(-5px) rotate(1deg); }
-`;
-
-const glow = keyframes`
-  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.5), 0 0 60px rgba(124, 58, 237, 0.2); }
 `;
 
 const SkillsSection = styled.section`
@@ -334,10 +329,6 @@ export const SkillsModern: React.FC = () => {
 
     setSkills(formattedSkills);
   }, [selectedCategory]);
-
-  const getIconUrl = (iconName: string) => {
-    return `https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/${iconName}.svg`;
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
