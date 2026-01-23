@@ -1,66 +1,36 @@
-# Portfolio - Yasser Loukniti
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Portfolio professionnel moderne développé avec React, TypeScript et Styled Components.
+## Getting Started
 
-## 🚀 Déploiement
-
-### Vercel (Recommandé)
-1. Connectez votre repository GitHub à Vercel
-2. Le déploiement est automatique avec la configuration `vercel.json`
-
-### Netlify
-1. Connectez votre repository GitHub à Netlify
-2. Build command: `npm run build`
-3. Publish directory: `build`
-4. Le fichier `_redirects` gère automatiquement les routes SPA
-
-## 🛠️ Technologies utilisées
-
-- **Frontend**: React 18, TypeScript
-- **Styling**: Styled Components, Framer Motion
-- **Analytics**: Vercel Analytics
-- **Icons**: Simple Icons API
-- **Build**: Create React App
-
-## 📦 Installation locale
+First, run the development server:
 
 ```bash
-# Installer les dépendances
-npm install
-
-# Lancer en développement
-npm start
-
-# Build pour production
-npm run build
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## 🎨 Fonctionnalités
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- ✅ Design responsive et moderne
-- ✅ Animations fluides avec Framer Motion
-- ✅ Mode sombre élégant
-- ✅ SEO optimisé avec meta tags
-- ✅ Progressive Web App (PWA) ready
-- ✅ Performance optimisée
-- ✅ Analytics intégré
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 📝 Configuration
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- **Meta tags SEO**: `public/index.html`
-- **Manifest PWA**: `public/manifest.json`
-- **Données du portfolio**: `src/data/database.json`
-- **Thème et couleurs**: `src/styles/theme.ts`
+## Learn More
 
-## 🔒 Sécurité
+To learn more about Next.js, take a look at the following resources:
 
-- Headers de sécurité configurés dans `vercel.json`
-- Protection contre les crawlers AI dans `robots.txt`
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 📧 Contact
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Yasser Loukniti - yass_official@outlook.fr
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-© 2025 Yasser Loukniti. Tous droits réservés.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
