@@ -5,6 +5,12 @@ import { ProviderName, DEFAULT_FALLBACK_ORDER } from './providers/config';
 export interface IChatSession extends Document {
   ip: string;
   userAgent?: string;
+  country?: string;
+  countryCode?: string;
+  city?: string;
+  region?: string;
+  device?: string;
+  browser?: string;
   lastActivity: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -14,6 +20,12 @@ const ChatSessionSchema = new Schema<IChatSession>(
   {
     ip: { type: String, required: true },
     userAgent: { type: String },
+    country: { type: String },
+    countryCode: { type: String },
+    city: { type: String },
+    region: { type: String },
+    device: { type: String },
+    browser: { type: String },
     lastActivity: { type: Date, default: Date.now },
   },
   { timestamps: true }
@@ -62,6 +74,28 @@ const TokenUsageSchema = new Schema<ITokenUsage>({
 // Compound index for date + provider
 TokenUsageSchema.index({ date: 1, provider: 1 }, { unique: true });
 
+// Provider Error Log
+export interface IProviderError extends Document {
+  provider: string;
+  errorType: 'timeout' | 'quota' | 'rate_limit' | 'other';
+  errorMessage: string;
+  fallbackUsed?: string;
+  createdAt: Date;
+}
+
+const ProviderErrorSchema = new Schema<IProviderError>(
+  {
+    provider: { type: String, required: true },
+    errorType: { type: String, required: true, enum: ['timeout', 'quota', 'rate_limit', 'other'] },
+    errorMessage: { type: String, required: true },
+    fallbackUsed: { type: String },
+  },
+  { timestamps: true }
+);
+
+// Auto-delete errors older than 7 days
+ProviderErrorSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 60 * 60 });
+
 // Settings (singleton for app configuration)
 export interface ISettings extends Document {
   activeProvider: ProviderName;
@@ -102,3 +136,4 @@ export const ChatSession = mongoose.models.ChatSession || mongoose.model<IChatSe
 export const ChatMessage = mongoose.models.ChatMessage || mongoose.model<IChatMessage>('ChatMessage', ChatMessageSchema);
 export const TokenUsage = mongoose.models.TokenUsage || mongoose.model<ITokenUsage>('TokenUsage', TokenUsageSchema);
 export const Settings = mongoose.models.Settings || mongoose.model<ISettings>('Settings', SettingsSchema);
+export const ProviderError = mongoose.models.ProviderError || mongoose.model<IProviderError>('ProviderError', ProviderErrorSchema);

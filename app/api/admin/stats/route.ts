@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import { ChatSession, ChatMessage, TokenUsage } from '@/lib/models';
 import { validateAuth } from '@/lib/protected-route';
 import { handleCors, jsonResponse } from '@/lib/cors';
+import { getTodayParis } from '@/lib/providers/quota';
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -18,8 +19,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = getTodayParis();
 
     const [totalSessions, totalMessages, todayUsageRaw, last7DaysUsage] = await Promise.all([
       ChatSession.countDocuments(),

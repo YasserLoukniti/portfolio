@@ -590,3 +590,275 @@ export const ProviderStatRow = styled.div`
     font-family: monospace;
   }
 `;
+
+// Error Section Styles
+export const ErrorSection = styled.div`
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+`;
+
+export const ErrorSectionTitle = styled.h2`
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fca5a5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &::before {
+    content: '⚠️';
+  }
+`;
+
+export const ErrorStatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+`;
+
+export const ErrorStatCard = styled.div<{ $type: 'timeout' | 'quota' | 'rate_limit' | 'other' }>`
+  background: rgba(15, 23, 42, 0.6);
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid ${({ $type }) => {
+    switch ($type) {
+      case 'timeout': return '#f59e0b';
+      case 'quota': return '#ef4444';
+      case 'rate_limit': return '#8b5cf6';
+      default: return '#6b7280';
+    }
+  }};
+`;
+
+export const ErrorStatValue = styled.div`
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+`;
+
+export const ErrorStatLabel = styled.div`
+  font-size: 12px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+`;
+
+export const ErrorList = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+`;
+
+export const ErrorItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 10px;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const ErrorIcon = styled.div<{ $type: 'timeout' | 'quota' | 'rate_limit' | 'other' }>`
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: ${({ $type }) => {
+    switch ($type) {
+      case 'timeout': return 'linear-gradient(135deg, #f59e0b, #d97706)';
+      case 'quota': return 'linear-gradient(135deg, #ef4444, #dc2626)';
+      case 'rate_limit': return 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+      default: return 'linear-gradient(135deg, #6b7280, #4b5563)';
+    }
+  }};
+  color: white;
+`;
+
+export const ErrorDetails = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+export const ErrorProvider = styled.div`
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const ErrorArrow = styled.span`
+  color: #10b981;
+  font-size: 12px;
+`;
+
+export const ErrorTime = styled.div`
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+`;
+
+export const ErrorTypeBadge = styled.span<{ $type: 'timeout' | 'quota' | 'rate_limit' | 'other' }>`
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: ${({ $type }) => {
+    switch ($type) {
+      case 'timeout': return 'rgba(245, 158, 11, 0.2)';
+      case 'quota': return 'rgba(239, 68, 68, 0.2)';
+      case 'rate_limit': return 'rgba(139, 92, 246, 0.2)';
+      default: return 'rgba(107, 114, 128, 0.2)';
+    }
+  }};
+  color: ${({ $type }) => {
+    switch ($type) {
+      case 'timeout': return '#fbbf24';
+      case 'quota': return '#f87171';
+      case 'rate_limit': return '#a78bfa';
+      default: return '#9ca3af';
+    }
+  }};
+`;
+
+// Visitor/Session Styles
+export const VisitorCard = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(51, 65, 85, 0.5);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const VisitorFlag = styled.div`
+  font-size: 32px;
+  line-height: 1;
+`;
+
+export const VisitorInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+`;
+
+export const VisitorLocation = styled.div`
+  font-weight: 600;
+  color: white;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const VisitorIP = styled.span`
+  font-family: monospace;
+  font-size: 12px;
+  color: #64748b;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+`;
+
+export const VisitorMeta = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #64748b;
+`;
+
+export const VisitorMetaItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+`;
+
+export const VisitorTime = styled.div`
+  text-align: right;
+`;
+
+export const VisitorTimeAgo = styled.div`
+  font-size: 13px;
+  color: #94a3b8;
+`;
+
+export const VisitorDate = styled.div`
+  font-size: 11px;
+  color: #64748b;
+`;
+
+export const DeviceBadge = styled.span`
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+`;
+
+export const BrowserBadge = styled.span`
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+`;
+
+export const VisitorStats = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+`;

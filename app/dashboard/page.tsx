@@ -7,7 +7,14 @@ interface Session {
   _id: string;
   ip: string;
   userAgent?: string;
+  country?: string;
+  countryCode?: string;
+  city?: string;
+  region?: string;
+  device?: string;
+  browser?: string;
   lastActivity: string;
+  createdAt: string;
   messageCount: number;
 }
 
@@ -71,6 +78,21 @@ interface ProviderStats {
   weekTokensOut: number;
 }
 
+interface ProviderErrorLog {
+  _id: string;
+  provider: string;
+  errorType: 'timeout' | 'quota' | 'rate_limit' | 'other';
+  errorMessage: string;
+  fallbackUsed?: string;
+  createdAt: string;
+}
+
+interface ErrorStats {
+  _id: string;
+  errors: { type: string; count: number }[];
+  total: number;
+}
+
 export default function DashboardPage() {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,6 +105,10 @@ export default function DashboardPage() {
   const [providerConfig, setProviderConfig] = useState<ProviderConfig | null>(null);
   const [providerStats, setProviderStats] = useState<ProviderStats[]>([]);
   const [changingProvider, setChangingProvider] = useState(false);
+  const [providerErrors, setProviderErrors] = useState<ProviderErrorLog[]>([]);
+  const [errorStats, setErrorStats] = useState<ErrorStats[]>([]);
+  const [enriching, setEnriching] = useState(false);
+  const [enrichResult, setEnrichResult] = useState<string | null>(null);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('admin_token');
@@ -98,11 +124,13 @@ export default function DashboardPage() {
       loadSessions();
       loadProviderConfig();
       loadProviderStats();
+      loadProviderErrors();
       const interval = setInterval(() => {
         loadStats();
         loadSessions();
         loadProviderConfig();
         loadProviderStats();
+        loadProviderErrors();
       }, 30000);
       return () => clearInterval(interval);
     }
@@ -160,6 +188,16 @@ export default function DashboardPage() {
     }
   };
 
+  const loadProviderErrors = async () => {
+    try {
+      const data = await fetchWithAuth('/api/admin/errors');
+      setProviderErrors(data.errors || []);
+      setErrorStats(data.stats || []);
+    } catch (err) {
+      console.error('Error loading provider errors:', err);
+    }
+  };
+
   const changeProvider = async (providerName: string) => {
     if (changingProvider) return;
     setChangingProvider(true);
@@ -174,6 +212,25 @@ export default function DashboardPage() {
       console.error('Error changing provider:', err);
     } finally {
       setChangingProvider(false);
+    }
+  };
+
+  const enrichSessions = async () => {
+    if (enriching) return;
+    setEnriching(true);
+    setEnrichResult(null);
+    try {
+      const data = await fetchWithAuth('/api/admin/sessions/enrich', {
+        method: 'POST',
+      });
+      setEnrichResult(data.message);
+      // Reload sessions to show updated data
+      await loadSessions();
+    } catch (err) {
+      console.error('Error enriching sessions:', err);
+      setEnrichResult('Erreur lors de l\'enrichissement');
+    } finally {
+      setEnriching(false);
     }
   };
 
@@ -227,6 +284,32 @@ export default function DashboardPage() {
     return num.toString();
   };
 
+  // Convert country code to flag emoji
+  const countryCodeToFlag = (code: string): string => {
+    if (!code || code.length !== 2) return '🌍';
+    const codePoints = code
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  };
+
+  // Get relative time (e.g., "il y a 5 min")
+  const getTimeAgo = (dateStr: string): string => {
+    const now = new Date();
+    const date = new Date(dateStr);
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'A l\'instant';
+    if (diffMins < 60) return `Il y a ${diffMins} min`;
+    if (diffHours < 24) return `Il y a ${diffHours}h`;
+    if (diffDays < 7) return `Il y a ${diffDays}j`;
+    return date.toLocaleDateString('fr-FR');
+  };
+
   if (isLoading) {
     return <S.LoadingContainer>Chargement...</S.LoadingContainer>;
   }
@@ -269,7 +352,7 @@ export default function DashboardPage() {
         <S.Header>
           <S.Title>Portfolio Analytics</S.Title>
           <S.ButtonGroup>
-            <S.Button onClick={() => { loadStats(); loadSessions(); loadProviderConfig(); loadProviderStats(); }}>
+            <S.Button onClick={() => { loadStats(); loadSessions(); loadProviderConfig(); loadProviderStats(); loadProviderErrors(); }}>
               Actualiser
             </S.Button>
             <S.Button $variant="danger" onClick={handleLogout}>
@@ -381,27 +464,98 @@ export default function DashboardPage() {
           </S.ProviderStatsGrid>
         </S.Section>
 
+        {/* Provider Errors Section */}
         <S.Section>
-          <S.SectionTitle>Sessions recentes</S.SectionTitle>
+          <S.SectionTitle>
+            Erreurs Providers (24h)
+            {providerErrors.length === 0 && <span style={{ color: '#10b981', marginLeft: '12px', fontSize: '14px' }}>✓ Aucune erreur</span>}
+            {providerErrors.length > 0 && <span style={{ color: '#ef4444', marginLeft: '12px', fontSize: '14px' }}>{providerErrors.length} erreur(s)</span>}
+          </S.SectionTitle>
+
+          {/* Error Stats Summary */}
+          {errorStats.length > 0 && (
+            <S.ErrorStatsGrid style={{ marginBottom: '16px' }}>
+              {errorStats.map((stat) => (
+                <S.ErrorStatCard key={stat._id} $type={stat.errors[0]?.type as any || 'other'}>
+                  <S.ErrorStatValue>{stat.total}</S.ErrorStatValue>
+                  <S.ErrorStatLabel>{stat._id}</S.ErrorStatLabel>
+                </S.ErrorStatCard>
+              ))}
+            </S.ErrorStatsGrid>
+          )}
+
+            {/* Error List */}
+            <S.ErrorList>
+              {providerErrors.slice(0, 15).map((error) => (
+                <S.ErrorItem key={error._id}>
+                  <S.ErrorIcon $type={error.errorType}>
+                    {error.errorType === 'timeout' ? '⏱' :
+                     error.errorType === 'quota' ? '🚫' :
+                     error.errorType === 'rate_limit' ? '⚡' : '❌'}
+                  </S.ErrorIcon>
+                  <S.ErrorDetails>
+                    <S.ErrorProvider>
+                      {error.provider}
+                      <S.ErrorArrow>→</S.ErrorArrow>
+                      <span style={{ color: '#10b981' }}>{error.fallbackUsed || 'echec'}</span>
+                    </S.ErrorProvider>
+                    <S.ErrorTime>{new Date(error.createdAt).toLocaleString('fr-FR')}</S.ErrorTime>
+                  </S.ErrorDetails>
+                  <S.ErrorTypeBadge $type={error.errorType}>
+                    {error.errorType === 'timeout' ? 'Timeout 15s' :
+                     error.errorType === 'quota' ? 'Quota' :
+                     error.errorType === 'rate_limit' ? 'Rate Limit' : 'Erreur'}
+                  </S.ErrorTypeBadge>
+                </S.ErrorItem>
+              ))}
+              {providerErrors.length === 0 && (
+                <S.EmptyState style={{ padding: '24px' }}>Tous les providers fonctionnent normalement</S.EmptyState>
+              )}
+            </S.ErrorList>
+        </S.Section>
+
+        <S.Section>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <S.SectionTitle style={{ marginBottom: 0 }}>Visiteurs recents ({sessions.length})</S.SectionTitle>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {enrichResult && <span style={{ fontSize: '13px', color: '#10b981' }}>{enrichResult}</span>}
+              {sessions.some(s => !s.country) && (
+                <S.Button onClick={enrichSessions} disabled={enriching} $variant="secondary">
+                  {enriching ? 'Enrichissement...' : 'Enrichir les donnees geo'}
+                </S.Button>
+              )}
+            </div>
+          </div>
           <S.SessionList>
             {sessions.length === 0 ? (
-              <S.EmptyState>Aucune session pour le moment</S.EmptyState>
+              <S.EmptyState>Aucun visiteur pour le moment</S.EmptyState>
             ) : (
               sessions.map((session) => (
-                <S.SessionItem key={session._id} onClick={() => viewMessages(session._id, session.ip)}>
-                  <S.SessionInfo>
-                    <S.SessionAvatar>
-                      {session.ip.split('.').slice(0, 2).join('.')}
-                    </S.SessionAvatar>
-                    <S.SessionDetails>
-                      <S.SessionIP>{session.ip}</S.SessionIP>
-                      <S.SessionDate>{new Date(session.lastActivity).toLocaleString('fr-FR')}</S.SessionDate>
-                    </S.SessionDetails>
-                  </S.SessionInfo>
-                  <S.MessageBadge $active={session.messageCount > 0}>
-                    {session.messageCount} msg
-                  </S.MessageBadge>
-                </S.SessionItem>
+                <S.VisitorCard key={session._id} onClick={() => viewMessages(session._id, session.ip)}>
+                  <S.VisitorFlag>
+                    {session.countryCode ? countryCodeToFlag(session.countryCode) : '🌍'}
+                  </S.VisitorFlag>
+                  <S.VisitorInfo>
+                    <S.VisitorLocation>
+                      {session.city || session.country || 'Inconnu'}
+                      {session.country && session.city && `, ${session.country}`}
+                      <S.VisitorIP>{session.ip}</S.VisitorIP>
+                    </S.VisitorLocation>
+                    <S.VisitorMeta>
+                      {session.device && <S.DeviceBadge>{session.device}</S.DeviceBadge>}
+                      {session.browser && <S.BrowserBadge>{session.browser}</S.BrowserBadge>}
+                    </S.VisitorMeta>
+                  </S.VisitorInfo>
+                  <S.VisitorTime>
+                    <S.VisitorTimeAgo>{getTimeAgo(session.lastActivity)}</S.VisitorTimeAgo>
+                    <S.VisitorDate>{new Date(session.createdAt).toLocaleDateString('fr-FR')}</S.VisitorDate>
+                  </S.VisitorTime>
+                  <S.VisitorStats>
+                    <S.MessageBadge $active={session.messageCount > 0}>
+                      {session.messageCount} msg
+                    </S.MessageBadge>
+                  </S.VisitorStats>
+                </S.VisitorCard>
               ))
             )}
           </S.SessionList>

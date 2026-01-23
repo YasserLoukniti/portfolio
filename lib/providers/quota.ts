@@ -1,6 +1,14 @@
 import { TokenUsage } from '../models';
 import { ProviderName, PROVIDER_CONFIGS } from './config';
 
+// Get today's date at midnight in Paris timezone
+export function getTodayParis(): Date {
+  const now = new Date();
+  // Get Paris date string
+  const parisDate = now.toLocaleDateString('en-CA', { timeZone: 'Europe/Paris' }); // YYYY-MM-DD format
+  return new Date(parisDate + 'T00:00:00.000Z');
+}
+
 interface QuotaStatus {
   available: boolean;
   requestsUsed: number;
@@ -52,8 +60,7 @@ export function checkMinuteLimit(provider: ProviderName): { allowed: boolean; rp
 
 export async function checkDailyQuota(provider: ProviderName): Promise<QuotaStatus> {
   const config = PROVIDER_CONFIGS[provider];
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = getTodayParis();
 
   // Get today's usage for this provider
   const usage = await TokenUsage.findOne({ date: today, provider });

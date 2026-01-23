@@ -1,9 +1,11 @@
 import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
-import { ChatSession, ChatMessage, TokenUsage, getSettings } from '@/lib/models';
+import { ChatSession, ChatMessage, TokenUsage, ProviderError, getSettings } from '@/lib/models';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { generateChatResponse } from '@/lib/chat-service';
 import { handleCors, jsonResponse, errorResponse } from '@/lib/cors';
+import { getTodayParis } from '@/lib/providers/quota';
+import { getGeoFromIP, parseUserAgent } from '@/lib/geo';
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -45,10 +47,24 @@ export async function POST(request: NextRequest) {
       session = await ChatSession.findById(sessionId);
     }
 
+    const userAgent = request.headers.get('user-agent') || undefined;
+
     if (!session) {
+      // Get geo info and parse user agent for new sessions
+      const [geoInfo, uaInfo] = await Promise.all([
+        getGeoFromIP(ip),
+        Promise.resolve(parseUserAgent(userAgent)),
+      ]);
+
       session = await ChatSession.create({
         ip,
-        userAgent: request.headers.get('user-agent') || undefined,
+        userAgent,
+        country: geoInfo?.country,
+        countryCode: geoInfo?.countryCode,
+        city: geoInfo?.city,
+        region: geoInfo?.region,
+        device: uaInfo.device,
+        browser: uaInfo.browser,
       });
     } else {
       session.lastActivity = new Date();
@@ -66,12 +82,26 @@ export async function POST(request: NextRequest) {
     }));
 
     // Generate response with provider and fallback
-    const { response, tokensIn, tokensOut, provider } = await generateChatResponse(
+    const { response, tokensIn, tokensOut, provider, errors } = await generateChatResponse(
       message,
       conversationHistory,
       settings.activeProvider,
       settings.fallbackOrder
     );
+
+    // Log provider errors if any fallback happened
+    if (errors.length > 0) {
+      await Promise.all(
+        errors.map((err) =>
+          ProviderError.create({
+            provider: err.provider,
+            errorType: err.errorType,
+            errorMessage: err.error,
+            fallbackUsed: provider,
+          })
+        )
+      );
+    }
 
     // Save messages
     await ChatMessage.create({
@@ -91,9 +121,8 @@ export async function POST(request: NextRequest) {
       provider,
     });
 
-    // Update token usage for today with provider tracking
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Update token usage for today with provider tracking (Paris timezone)
+    const today = getTodayParis();
 
     await TokenUsage.findOneAndUpdate(
       { date: today, provider },

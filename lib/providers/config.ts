@@ -20,15 +20,15 @@ export const PROVIDER_CONFIGS: Record<ProviderName, ProviderConfig> = {
   'gemini': {
     name: 'gemini',
     displayName: 'Google Gemini',
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.0-flash',
     envKey: 'GOOGLE_API_KEY',
     limits: {
       rpm: 10,
       tpm: 250000,
-      rpd: 250,
-      tpd: 0, // unlimited
+      rpd: 20,  // Free tier limit
+      tpd: 0,
     },
-    description: 'Gemini 2.5 Flash - 250 req/jour',
+    description: 'Gemini 2.0 Flash - 20 req/jour (free tier)',
   },
   'groq-70b': {
     name: 'groq-70b',

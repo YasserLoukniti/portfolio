@@ -4,6 +4,7 @@ import { TokenUsage } from '@/lib/models';
 import { validateAuth } from '@/lib/protected-route';
 import { handleCors, jsonResponse } from '@/lib/cors';
 import { PROVIDER_CONFIGS, ProviderName } from '@/lib/providers';
+import { getTodayParis } from '@/lib/providers/quota';
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -20,8 +21,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = getTodayParis();
 
     // Get today's usage per provider
     const todayUsage = await TokenUsage.find({ date: { $gte: today } });
