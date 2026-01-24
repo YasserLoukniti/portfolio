@@ -86,8 +86,6 @@ export const statistics = databaseJson.statistics;
 // Export des projets
 export const projects = databaseJson.projects;
 
-// Export des témoignages
-export const testimonials = databaseJson.testimonials;
 
 // Export du profil complet
 export const profile = databaseJson.profile;

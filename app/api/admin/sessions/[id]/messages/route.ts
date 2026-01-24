@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
-import { ChatMessage } from '@/lib/models';
+import { ChatMessage, ChatSession } from '@/lib/models';
 import { validateAuth } from '@/lib/protected-route';
 import { handleCors, jsonResponse } from '@/lib/cors';
 
@@ -21,6 +21,9 @@ export async function GET(
   try {
     await connectDB();
     const { id } = await params;
+
+    // Mark session as viewed
+    await ChatSession.findByIdAndUpdate(id, { viewed: true });
 
     const messages = await ChatMessage.find({ sessionId: id })
       .sort({ createdAt: 1 })
