@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Sparkles, MessageCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useChat } from '@/context/ChatContext';
 import * as S from './WelcomeModal.styles';
 
@@ -10,18 +10,38 @@ const STORAGE_KEY = 'portfolio_welcome_modal_seen';
 const DISPLAY_DELAY_MS = 1500;
 const EXPIRE_DURATION_MS = 60 * 60 * 1000; // 1 heure
 
+const TITLE_TEXT = "Pourquoi lire quand vous pouvez me demander ?";
+const DESCRIPTION_TEXT = "Mon clone IA repond instantanement a toutes vos questions. Experiences, projets, stack technique... allez-y.";
+const TYPING_SPEED = 15; // ms par caractère
+
+const suggestions = [
+  "Parle-moi de ton parcours",
+  "Quelle est ta stack technique ?",
+  "Qu'as-tu construit chez Weneeds ?",
+];
+
 export const WelcomeModal: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { openChat } = useChat();
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [descIndex, setDescIndex] = useState(0);
+  const [titleComplete, setTitleComplete] = useState(false);
+  const [descComplete, setDescComplete] = useState(false);
+  const { openChat, openChatWithQuestion } = useChat();
 
   useEffect(() => {
-    const lastSeen = localStorage.getItem(STORAGE_KEY);
-    if (lastSeen) {
-      const elapsed = Date.now() - parseInt(lastSeen, 10);
-      if (elapsed < EXPIRE_DURATION_MS) return;
-    }
+    // TODO: Remettre la vérification après les tests
+    // const lastSeen = localStorage.getItem(STORAGE_KEY);
+    // if (lastSeen) {
+    //   const elapsed = Date.now() - parseInt(lastSeen, 10);
+    //   if (elapsed < EXPIRE_DURATION_MS) return;
+    // }
 
     const timer = setTimeout(() => {
+      // Reset typing animation
+      setTitleIndex(0);
+      setDescIndex(0);
+      setTitleComplete(false);
+      setDescComplete(false);
       setIsVisible(true);
     }, DISPLAY_DELAY_MS);
 
@@ -38,6 +58,11 @@ export const WelcomeModal: React.FC = () => {
     openChat();
   }, [handleClose, openChat]);
 
+  const handleSuggestionClick = useCallback((question: string) => {
+    handleClose();
+    openChatWithQuestion(question);
+  }, [handleClose, openChatWithQuestion]);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleClose();
@@ -51,6 +76,28 @@ export const WelcomeModal: React.FC = () => {
       document.body.style.overflow = 'unset';
     };
   }, [isVisible, handleClose]);
+
+  // Animation typing pour le titre
+  useEffect(() => {
+    if (!isVisible || titleComplete) return;
+    if (titleIndex < TITLE_TEXT.length) {
+      const timer = setTimeout(() => setTitleIndex(titleIndex + 1), TYPING_SPEED);
+      return () => clearTimeout(timer);
+    } else {
+      setTitleComplete(true);
+    }
+  }, [isVisible, titleIndex, titleComplete]);
+
+  // Animation typing pour la description (démarre après le titre)
+  useEffect(() => {
+    if (!titleComplete || descComplete) return;
+    if (descIndex < DESCRIPTION_TEXT.length) {
+      const timer = setTimeout(() => setDescIndex(descIndex + 1), TYPING_SPEED);
+      return () => clearTimeout(timer);
+    } else {
+      setDescComplete(true);
+    }
+  }, [titleComplete, descIndex, descComplete]);
 
   return (
     <AnimatePresence>
@@ -74,37 +121,42 @@ export const WelcomeModal: React.FC = () => {
             </S.CloseButton>
 
             <S.ContentWrapper>
-              <S.IconWrapper>
-                <Sparkles />
-              </S.IconWrapper>
-
               <S.Title>
-                Et si on changeait notre facon d&apos;interagir avec les donnees ?
+                {titleComplete ? (
+                  <S.TypingComplete>{TITLE_TEXT}</S.TypingComplete>
+                ) : (
+                  <S.TypingText>{TITLE_TEXT.slice(0, titleIndex)}</S.TypingText>
+                )}
               </S.Title>
 
               <S.Description>
-                Je suis le clone IA de Yasser. Posez-moi toutes vos questions sur
-                son parcours, ses experiences ou ses competences - je vous reponds
-                directement !
+                {descComplete ? (
+                  <S.TypingComplete>{DESCRIPTION_TEXT}</S.TypingComplete>
+                ) : (
+                  <S.TypingText>{DESCRIPTION_TEXT.slice(0, descIndex)}</S.TypingText>
+                )}
               </S.Description>
 
-              <S.ButtonGroup>
-                <S.PrimaryButton
-                  onClick={handleStartChat}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <MessageCircle size={20} />
-                  Commencer a discuter
-                </S.PrimaryButton>
-                <S.SecondaryButton
-                  onClick={handleClose}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Consulter le site classiquement
-                </S.SecondaryButton>
-              </S.ButtonGroup>
+              <S.SuggestionsGrid>
+                {suggestions.map((suggestion, index) => (
+                  <S.SuggestionButton
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {suggestion}
+                  </S.SuggestionButton>
+                ))}
+              </S.SuggestionsGrid>
+
+              <S.SecondaryButton
+                onClick={handleClose}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Consulter le site classiquement
+              </S.SecondaryButton>
             </S.ContentWrapper>
           </S.ModalContainer>
         </S.Overlay>

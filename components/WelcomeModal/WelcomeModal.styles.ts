@@ -99,16 +99,22 @@ export const Title = styled.h3`
   color: #111;
   margin: 0 0 12px;
   letter-spacing: -0.02em;
-  max-width: 400px;
+  max-width: 600px;
+  min-height: 36px;
 `;
 
 export const Description = styled.p`
   font-size: 16px;
   color: #666;
   margin: 0 0 32px;
-  max-width: 400px;
+  max-width: 600px;
   line-height: 1.5;
+  min-height: 48px;
 `;
+
+export const TypingText = styled.span``;
+
+export const TypingComplete = styled.span``;
 
 export const ButtonGroup = styled.div`
   display: flex;
@@ -158,5 +164,33 @@ export const SecondaryButton = styled(motion.button)`
   &:hover {
     background: #f0f0f0;
     border-color: #ddd;
+  }
+`;
+
+export const SuggestionsGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 24px;
+`;
+
+export const SuggestionButton = styled(motion.button)`
+  padding: 12px 18px;
+  background: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #6366F1;
+    border-color: #6366F1;
+    color: #fff;
   }
 `;
