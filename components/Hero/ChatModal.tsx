@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 import { profile } from '../../data/portfolio.data';
@@ -9,6 +9,7 @@ interface Message {
   content: string;
   role: 'user' | 'assistant';
   timestamp: Date;
+  isTyping?: boolean; // Pour l'animation de typing
 }
 
 interface ChatModalProps {
@@ -21,7 +22,8 @@ interface ChatModalProps {
 const parseMarkdown = (text: string): React.ReactNode => {
   const elements: React.ReactNode[] = [];
   let key = 0;
-  const markdownRegex = /(\*\*(.+?)\*\*|__(.+?)__|`([^`]+)`|\*(.+?)\*|_(.+?)_)/g;
+  // Regex pour: liens [text](url), gras **text**, code `text`, italique *text*
+  const markdownRegex = /(\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|__(.+?)__|`([^`]+)`|\*(.+?)\*|_([^_]+)_)/g;
   let lastIndex = 0;
   let match;
 
@@ -30,16 +32,30 @@ const parseMarkdown = (text: string): React.ReactNode => {
       elements.push(<span key={key++}>{text.slice(lastIndex, match.index)}</span>);
     }
     const fullMatch = match[0];
-    if (match[2]) {
-      elements.push(<strong key={key++}>{match[2]}</strong>);
-    } else if (match[3]) {
-      elements.push(<strong key={key++}>{match[3]}</strong>);
+    if (match[2] && match[3]) {
+      // Lien markdown [text](url)
+      const isExternal = match[3].startsWith('http');
+      elements.push(
+        <a
+          key={key++}
+          href={match[3]}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+          style={{ color: '#6366F1', textDecoration: 'underline' }}
+        >
+          {match[2]}
+        </a>
+      );
     } else if (match[4]) {
-      elements.push(<code key={key++} style={{ background: 'rgba(0,0,0,0.1)', padding: '2px 6px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.9em' }}>{match[4]}</code>);
+      elements.push(<strong key={key++}>{match[4]}</strong>);
     } else if (match[5]) {
-      elements.push(<em key={key++}>{match[5]}</em>);
+      elements.push(<strong key={key++}>{match[5]}</strong>);
     } else if (match[6]) {
-      elements.push(<em key={key++}>{match[6]}</em>);
+      elements.push(<code key={key++} style={{ background: 'rgba(0,0,0,0.1)', padding: '2px 6px', borderRadius: '4px', fontFamily: 'monospace', fontSize: '0.9em' }}>{match[6]}</code>);
+    } else if (match[7]) {
+      elements.push(<em key={key++}>{match[7]}</em>);
+    } else if (match[8]) {
+      elements.push(<em key={key++}>{match[8]}</em>);
     }
     lastIndex = match.index + fullMatch.length;
   }
@@ -47,6 +63,33 @@ const parseMarkdown = (text: string): React.ReactNode => {
     elements.push(<span key={key++}>{text.slice(lastIndex)}</span>);
   }
   return elements.length > 0 ? elements : text;
+};
+
+// Composant pour l'effet typing mot par mot
+const TypedMessage: React.FC<{
+  content: string;
+  onComplete: () => void;
+  scrollToBottom: () => void;
+}> = ({ content, onComplete, scrollToBottom }) => {
+  const [displayedWords, setDisplayedWords] = useState(0);
+  const words = content.split(' ');
+  const WORD_DELAY = 30; // ms entre chaque mot
+
+  useEffect(() => {
+    if (displayedWords < words.length) {
+      const timer = setTimeout(() => {
+        setDisplayedWords(prev => prev + 1);
+        scrollToBottom();
+      }, WORD_DELAY);
+      return () => clearTimeout(timer);
+    } else {
+      onComplete();
+    }
+  }, [displayedWords, words.length, onComplete, scrollToBottom]);
+
+  const displayedText = words.slice(0, displayedWords).join(' ');
+
+  return <>{parseMarkdown(displayedText)}</>;
 };
 
 // API is now on the same origin with Next.js
@@ -60,13 +103,13 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -105,6 +148,12 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
     }
   }, [isOpen]);
 
+  const markMessageComplete = useCallback((messageId: string) => {
+    setMessages(prev => prev.map(msg =>
+      msg.id === messageId ? { ...msg, isTyping: false } : msg
+    ));
+  }, []);
+
   const sendMessageInternal = async (messageText: string) => {
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -141,6 +190,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
         content: data.message,
         role: 'assistant',
         timestamp: new Date(),
+        isTyping: true, // Commence avec l'animation
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -151,6 +201,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
         content: "Une erreur s'est produite. Contactez-moi directement a yass_official@outlook.fr",
         role: 'assistant',
         timestamp: new Date(),
+        isTyping: true,
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -181,6 +232,9 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
     "Quelle est ta stack technique ?",
     "Qu'as-tu construit chez Weneeds ?",
   ];
+
+  // Verifier si un message est en train de s'afficher
+  const isAnyMessageTyping = messages.some(m => m.isTyping);
 
   return (
     <AnimatePresence>
@@ -233,7 +287,19 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                     </S.MessageAvatar>
                   )}
                   <S.MessageBubble $role={message.role}>
-                    {message.role === 'assistant' ? parseMarkdown(message.content) : message.content}
+                    {message.role === 'assistant' ? (
+                      message.isTyping ? (
+                        <TypedMessage
+                          content={message.content}
+                          onComplete={() => markMessageComplete(message.id)}
+                          scrollToBottom={scrollToBottom}
+                        />
+                      ) : (
+                        parseMarkdown(message.content)
+                      )
+                    ) : (
+                      message.content
+                    )}
                   </S.MessageBubble>
                 </S.MessageGroup>
               ))}
@@ -262,12 +328,12 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ecrivez votre message..."
-                disabled={isLoading}
+                disabled={isLoading || isAnyMessageTyping}
                 rows={1}
               />
               <S.SendButton
                 onClick={sendMessage}
-                disabled={!inputValue.trim() || isLoading}
+                disabled={!inputValue.trim() || isLoading || isAnyMessageTyping}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

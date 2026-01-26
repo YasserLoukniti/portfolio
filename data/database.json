@@ -29,7 +29,12 @@
         "paris": ["hybride", "full-remote", "on-site"],
         "france": ["full-remote"]
       },
-      "startDate": "2025-02"
+      "startDate": "2025-02",
+      "salary": {
+        "range": "50-55k€",
+        "flexible": true,
+        "note": "Selon l'opportunité et le package global"
+      }
     },
     "socialLinks": {
       "linkedin": "https://www.linkedin.com/in/yasser-loukniti-b121a218a/",

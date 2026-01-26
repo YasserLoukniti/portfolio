@@ -71,7 +71,8 @@ export async function PATCH(request: NextRequest) {
 
     // Actions globales (pas besoin de sessionIds)
     if (action === 'markAllViewed') {
-      await ChatSession.updateMany({ viewed: false }, { viewed: true });
+      // $ne: true inclut les sessions avec viewed: false ET celles sans le champ viewed
+      await ChatSession.updateMany({ viewed: { $ne: true } }, { viewed: true });
       return jsonResponse({ success: true, message: 'Toutes les sessions marquées comme vues' });
     }
 

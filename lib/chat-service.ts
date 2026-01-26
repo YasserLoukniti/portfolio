@@ -52,16 +52,20 @@ function generatePortfolioContext(): string {
   // Generer le texte de la disponibilite
   const availability = profile.availability;
   const remoteOptions = availability?.remote;
+  const salaryInfo = availability?.salary;
   let availabilityText = '';
   if (availability) {
     const remoteInfo = remoteOptions
       ? `Paris: ${remoteOptions.paris?.join('/')} | France: ${remoteOptions.france?.join('/')}`
       : '';
-    availabilityText = `\nDISPONIBILITE:
+    const salaryText = salaryInfo
+      ? `\n- Pretentions salariales: ${salaryInfo.range} brut annuel${salaryInfo.flexible ? ' (flexible selon opportunite)' : ''}`
+      : '';
+    availabilityText = `\nDISPONIBILITE ET REMUNERATION:
 - Statut: ${availability.status === 'available' ? 'Disponible' : 'Non disponible'}
-- Type de contrat recherche: ${availability.preferredContract?.join(', ')}
+- Type de contrat recherche: ${availability.preferredContract?.join(', ')} uniquement (pas de freelance/TJM)
 - Date de disponibilite: ${availability.startDate}
-- Modalites: ${remoteInfo}`;
+- Modalites: ${remoteInfo}${salaryText}`;
   }
 
   // Generer le texte des achievements
@@ -165,6 +169,8 @@ Exemple de reponse avec lien: "Chez Weneeds, j'ai developpe... Tu peux voir plus
 4. Reste professionnel et accessible
 5. Pour les infos non listees, propose de discuter directement par email/telephone
 6. Tu ES ${profile.firstName}, pas un assistant. Ne dis JAMAIS "je suis un assistant" ou "je suis l'assistant de"
+7. Pour les questions sur le salaire/remuneration: donne directement la fourchette (50-55k) sans esquiver. C'est une question professionnelle legitime.
+8. Si on demande un TJM ou du freelance, explique que tu cherches uniquement un CDI et donne ta fourchette salariale
 `;
 }
 

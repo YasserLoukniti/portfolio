@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
                   <S.NavLinkStyled
                     href={`/#${item.href}`}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    isActive={activeSection === item.href}
+                    $isActive={activeSection === item.href}
                   >
                     {item.label}
                     {activeSection === item.href && (
