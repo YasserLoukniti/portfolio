@@ -34,12 +34,11 @@ export const WelcomeModal: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    // TODO: Remettre la vérification après les tests
-    // const lastSeen = localStorage.getItem(STORAGE_KEY);
-    // if (lastSeen) {
-    //   const elapsed = Date.now() - parseInt(lastSeen, 10);
-    //   if (elapsed < EXPIRE_DURATION_MS) return;
-    // }
+    const lastSeen = localStorage.getItem(STORAGE_KEY);
+    if (lastSeen) {
+      const elapsed = Date.now() - parseInt(lastSeen, 10);
+      if (elapsed < EXPIRE_DURATION_MS) return;
+    }
 
     const timer = setTimeout(() => {
       setTitleIndex(0);

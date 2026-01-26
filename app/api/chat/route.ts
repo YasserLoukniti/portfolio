@@ -6,6 +6,7 @@ import { generateChatResponse } from '@/lib/chat-service';
 import { handleCors, jsonResponse, errorResponse } from '@/lib/cors';
 import { getTodayParis } from '@/lib/providers/quota';
 import { getGeoFromIP, parseUserAgent } from '@/lib/geo';
+import { sendChatNotification } from '@/lib/email';
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -49,6 +50,8 @@ export async function POST(request: NextRequest) {
 
     const userAgent = request.headers.get('user-agent') || undefined;
 
+    const isNewSession = !session;
+
     if (!session) {
       // Get geo info and parse user agent for new sessions
       const [geoInfo, uaInfo] = await Promise.all([
@@ -66,6 +69,18 @@ export async function POST(request: NextRequest) {
         device: uaInfo.device,
         browser: uaInfo.browser,
       });
+
+      // Envoyer notification email (fire and forget)
+      sendChatNotification({
+        sessionId: session._id.toString(),
+        message,
+        userAgent,
+        ip,
+        location: {
+          city: geoInfo?.city,
+          country: geoInfo?.country,
+        },
+      }).catch((err) => console.error('[Email] Notification error:', err));
     } else {
       session.lastActivity = new Date();
       await session.save();
