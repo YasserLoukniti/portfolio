@@ -9,8 +9,7 @@ import * as S from './Hero.styles';
 export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const [question, setQuestion] = useState('');
-  const [initialQuestion, setInitialQuestion] = useState('');
-  const { isOpen: isChatOpen, openChat, closeChat } = useChat();
+  const { isOpen: isChatOpen, initialQuestion, openChat, openChatWithQuestion, closeChat } = useChat();
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -34,8 +33,7 @@ export const Hero: React.FC = () => {
 
   const handleSubmitQuestion = () => {
     if (question.trim()) {
-      setInitialQuestion(question.trim());
-      openChat();
+      openChatWithQuestion(question.trim());
       setQuestion('');
     }
   };

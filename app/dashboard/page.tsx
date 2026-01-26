@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import * as S from './dashboard.styles';
 
+type TabType = 'overview' | 'providers' | 'errors' | 'visitors';
+
 interface Session {
   _id: string;
   ip: string;
@@ -16,6 +18,8 @@ interface Session {
   lastActivity: string;
   createdAt: string;
   messageCount: number;
+  viewed: boolean;
+  archived: boolean;
 }
 
 interface Message {
@@ -109,6 +113,9 @@ export default function DashboardPage() {
   const [errorStats, setErrorStats] = useState<ErrorStats[]>([]);
   const [enriching, setEnriching] = useState(false);
   const [enrichResult, setEnrichResult] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [newCount, setNewCount] = useState(0);
+  const [showArchived, setShowArchived] = useState(false);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('admin_token');
@@ -161,10 +168,12 @@ export default function DashboardPage() {
     }
   };
 
-  const loadSessions = async () => {
+  const loadSessions = async (includeArchived = showArchived) => {
     try {
-      const data = await fetchWithAuth('/api/admin/sessions');
-      setSessions(data);
+      const url = includeArchived ? '/api/admin/sessions?archived=true' : '/api/admin/sessions';
+      const data = await fetchWithAuth(url);
+      setSessions(data.sessions || []);
+      setNewCount(data.newCount || 0);
     } catch (err) {
       console.error('Error loading sessions:', err);
     }
@@ -224,7 +233,6 @@ export default function DashboardPage() {
         method: 'POST',
       });
       setEnrichResult(data.message);
-      // Reload sessions to show updated data
       await loadSessions();
     } catch (err) {
       console.error('Error enriching sessions:', err);
@@ -232,6 +240,42 @@ export default function DashboardPage() {
     } finally {
       setEnriching(false);
     }
+  };
+
+  const archiveSession = async (sessionId: string) => {
+    try {
+      await fetchWithAuth('/api/admin/sessions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionIds: [sessionId], action: 'archive' }),
+      });
+      await loadSessions();
+      setSelectedSession(null);
+    } catch (err) {
+      console.error('Error archiving session:', err);
+    }
+  };
+
+  const markAllAsViewed = async () => {
+    alert('Fonction appelée!');
+    try {
+      const result = await fetchWithAuth('/api/admin/sessions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'markAllViewed' }),
+      });
+      alert('Résultat: ' + JSON.stringify(result));
+      await loadSessions();
+    } catch (err: any) {
+      alert('Erreur: ' + err.message);
+      console.error('Error marking all as viewed:', err);
+    }
+  };
+
+  const toggleShowArchived = () => {
+    const newValue = !showArchived;
+    setShowArchived(newValue);
+    loadSessions(newValue);
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -271,6 +315,11 @@ export default function DashboardPage() {
     try {
       const data = await fetchWithAuth(`/api/admin/sessions/${sessionId}/messages`);
       setMessages(data);
+      // Update local state to mark as viewed
+      setSessions(prev => prev.map(s =>
+        s._id === sessionId ? { ...s, viewed: true } : s
+      ));
+      setNewCount(prev => Math.max(0, prev - 1));
     } catch (err) {
       console.error('Error loading messages:', err);
     } finally {
@@ -284,15 +333,6 @@ export default function DashboardPage() {
     return num.toString();
   };
 
-  // Convert country code to flag emoji
-  const countryCodeToFlag = (code: string): string => {
-    if (!code || code.length !== 2) return '🌍';
-    const codePoints = code
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    return String.fromCodePoint(...codePoints);
-  };
 
   // Get relative time (e.g., "il y a 5 min")
   const getTimeAgo = (dateStr: string): string => {
@@ -346,13 +386,21 @@ export default function DashboardPage() {
   const tokensOut = stats?.todayUsage?.tokensOut || 0;
   const activeProvider = providerConfig?.activeProvider || 'gemini';
 
+  const refreshAll = () => {
+    loadStats();
+    loadSessions();
+    loadProviderConfig();
+    loadProviderStats();
+    loadProviderErrors();
+  };
+
   return (
     <S.PageContainer>
       <S.Container>
         <S.Header>
           <S.Title>Portfolio Analytics</S.Title>
           <S.ButtonGroup>
-            <S.Button onClick={() => { loadStats(); loadSessions(); loadProviderConfig(); loadProviderStats(); loadProviderErrors(); }}>
+            <S.Button onClick={refreshAll}>
               Actualiser
             </S.Button>
             <S.Button $variant="danger" onClick={handleLogout}>
@@ -361,30 +409,48 @@ export default function DashboardPage() {
           </S.ButtonGroup>
         </S.Header>
 
+        {/* Desktop Tab Navigation */}
+        <S.TabNav>
+          <S.TabButton $active={activeTab === 'overview'} onClick={() => setActiveTab('overview')}>
+            Vue d&apos;ensemble
+          </S.TabButton>
+          <S.TabButton $active={activeTab === 'providers'} onClick={() => setActiveTab('providers')}>
+            Providers
+          </S.TabButton>
+          <S.TabButton $active={activeTab === 'errors'} onClick={() => setActiveTab('errors')}>
+            Erreurs {providerErrors.length > 0 && `(${providerErrors.length})`}
+          </S.TabButton>
+          <S.TabButton $active={activeTab === 'visitors'} onClick={() => setActiveTab('visitors')}>
+            Visiteurs ({sessions.length}) {newCount > 0 && <S.NewBadge>{newCount} new</S.NewBadge>}
+          </S.TabButton>
+        </S.TabNav>
+
+        {/* Stats Grid - Always visible */}
         <S.StatsGrid>
-          <S.StatCard $color="#10b981">
-            <S.StatLabel>Sessions totales</S.StatLabel>
-            <S.StatValue>{stats?.totalSessions?.toLocaleString() || '-'}</S.StatValue>
-            <S.StatSubtext>Visiteurs uniques</S.StatSubtext>
-          </S.StatCard>
-          <S.StatCard $color="#3b82f6">
-            <S.StatLabel>Messages totaux</S.StatLabel>
-            <S.StatValue>{stats?.totalMessages?.toLocaleString() || '-'}</S.StatValue>
-            <S.StatSubtext>Conversations</S.StatSubtext>
-          </S.StatCard>
-          <S.StatCard $color="#a855f7">
-            <S.StatLabel>Requetes aujourd&apos;hui</S.StatLabel>
-            <S.StatValue>{requests.toLocaleString()}</S.StatValue>
-            <S.StatSubtext>Appels API LLM</S.StatSubtext>
-          </S.StatCard>
-          <S.StatCard $color="#f97316">
-            <S.StatLabel>Tokens aujourd&apos;hui</S.StatLabel>
-            <S.StatValue>{formatNumber(tokensIn + tokensOut)}</S.StatValue>
-            <S.StatSubtext>In + Out</S.StatSubtext>
-          </S.StatCard>
-        </S.StatsGrid>
+            <S.StatCard $color="#10b981">
+              <S.StatLabel>Sessions</S.StatLabel>
+              <S.StatValue>{stats?.totalSessions?.toLocaleString() || '-'}</S.StatValue>
+              <S.StatSubtext>Visiteurs</S.StatSubtext>
+            </S.StatCard>
+            <S.StatCard $color="#3b82f6">
+              <S.StatLabel>Messages</S.StatLabel>
+              <S.StatValue>{stats?.totalMessages?.toLocaleString() || '-'}</S.StatValue>
+              <S.StatSubtext>Total</S.StatSubtext>
+            </S.StatCard>
+            <S.StatCard $color="#a855f7">
+              <S.StatLabel>Requetes</S.StatLabel>
+              <S.StatValue>{requests.toLocaleString()}</S.StatValue>
+              <S.StatSubtext>Aujourd&apos;hui</S.StatSubtext>
+            </S.StatCard>
+            <S.StatCard $color="#f97316">
+              <S.StatLabel>Tokens</S.StatLabel>
+              <S.StatValue>{formatNumber(tokensIn + tokensOut)}</S.StatValue>
+              <S.StatSubtext>Aujourd&apos;hui</S.StatSubtext>
+            </S.StatCard>
+          </S.StatsGrid>
 
         {/* Provider Selector Section */}
+        {(activeTab === 'overview' || activeTab === 'providers') && (
         <S.Section>
           <S.SectionTitle>Provider LLM Actif</S.SectionTitle>
           <S.ProviderGrid>
@@ -440,8 +506,10 @@ export default function DashboardPage() {
             ))}
           </S.ProviderGrid>
         </S.Section>
+        )}
 
         {/* Provider Stats Section */}
+        {activeTab === 'providers' && (
         <S.Section>
           <S.SectionTitle>Statistiques par Provider (7 jours)</S.SectionTitle>
           <S.ProviderStatsGrid>
@@ -463,8 +531,10 @@ export default function DashboardPage() {
             )}
           </S.ProviderStatsGrid>
         </S.Section>
+        )}
 
         {/* Provider Errors Section */}
+        {(activeTab === 'overview' || activeTab === 'errors') && (
         <S.Section>
           <S.SectionTitle>
             Erreurs Providers (24h)
@@ -513,30 +583,47 @@ export default function DashboardPage() {
               )}
             </S.ErrorList>
         </S.Section>
+        )}
 
+        {/* Visitors Section */}
+        {(activeTab === 'overview' || activeTab === 'visitors') && (
         <S.Section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <S.SectionTitle style={{ marginBottom: 0 }}>Visiteurs recents ({sessions.length})</S.SectionTitle>
+          <S.SectionHeader>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <S.SectionTitle style={{ marginBottom: 0 }}>
+                Visiteurs ({sessions.length})
+                {newCount > 0 && <S.NewBadge style={{ marginLeft: '8px' }}>{newCount} new</S.NewBadge>}
+              </S.SectionTitle>
+            </div>
+            <S.ActionButtons>
+              {newCount > 0 && (
+                <S.Button onClick={markAllAsViewed} $variant="secondary">
+                  Tout marquer lu
+                </S.Button>
+              )}
+              <S.ToggleButton $active={showArchived} onClick={toggleShowArchived}>
+                {showArchived ? 'Masquer archives' : 'Voir archives'}
+              </S.ToggleButton>
               {enrichResult && <span style={{ fontSize: '13px', color: '#10b981' }}>{enrichResult}</span>}
               {sessions.some(s => !s.country) && (
                 <S.Button onClick={enrichSessions} disabled={enriching} $variant="secondary">
-                  {enriching ? 'Enrichissement...' : 'Enrichir les donnees geo'}
+                  {enriching ? '...' : 'Geo'}
                 </S.Button>
               )}
-            </div>
-          </div>
+            </S.ActionButtons>
+          </S.SectionHeader>
           <S.SessionList>
             {sessions.length === 0 ? (
               <S.EmptyState>Aucun visiteur pour le moment</S.EmptyState>
             ) : (
               sessions.map((session) => (
-                <S.VisitorCard key={session._id} onClick={() => viewMessages(session._id, session.ip)}>
-                  <S.VisitorFlag>
-                    {session.countryCode ? countryCodeToFlag(session.countryCode) : '🌍'}
-                  </S.VisitorFlag>
+                <S.VisitorCard key={session._id} $isNew={!session.viewed} $isArchived={session.archived} onClick={() => viewMessages(session._id, session.ip)}>
+                  <S.CountryBadge $code={session.countryCode || ''}>
+                    {session.countryCode || '??'}
+                  </S.CountryBadge>
                   <S.VisitorInfo>
                     <S.VisitorLocation>
+                      {!session.viewed && <S.NewDot />}
                       {session.city || session.country || 'Inconnu'}
                       {session.country && session.city && `, ${session.country}`}
                       <S.VisitorIP>{session.ip}</S.VisitorIP>
@@ -544,6 +631,7 @@ export default function DashboardPage() {
                     <S.VisitorMeta>
                       {session.device && <S.DeviceBadge>{session.device}</S.DeviceBadge>}
                       {session.browser && <S.BrowserBadge>{session.browser}</S.BrowserBadge>}
+                      {session.archived && <S.ArchivedBadge>Archive</S.ArchivedBadge>}
                     </S.VisitorMeta>
                   </S.VisitorInfo>
                   <S.VisitorTime>
@@ -554,20 +642,48 @@ export default function DashboardPage() {
                     <S.MessageBadge $active={session.messageCount > 0}>
                       {session.messageCount} msg
                     </S.MessageBadge>
+                    <S.MobileTimeLabel>{getTimeAgo(session.lastActivity)}</S.MobileTimeLabel>
                   </S.VisitorStats>
                 </S.VisitorCard>
               ))
             )}
           </S.SessionList>
         </S.Section>
+        )}
       </S.Container>
+
+      {/* Mobile Bottom Navigation */}
+      <S.MobileNav>
+        <S.MobileNavButton $active={activeTab === 'overview'} onClick={() => setActiveTab('overview')}>
+          <S.MobileNavIcon>📊</S.MobileNavIcon>
+          <S.MobileNavLabel>Stats</S.MobileNavLabel>
+        </S.MobileNavButton>
+        <S.MobileNavButton $active={activeTab === 'providers'} onClick={() => setActiveTab('providers')}>
+          <S.MobileNavIcon>🤖</S.MobileNavIcon>
+          <S.MobileNavLabel>Providers</S.MobileNavLabel>
+        </S.MobileNavButton>
+        <S.MobileNavButton $active={activeTab === 'errors'} onClick={() => setActiveTab('errors')}>
+          <S.MobileNavIcon>⚠️</S.MobileNavIcon>
+          <S.MobileNavLabel>Erreurs</S.MobileNavLabel>
+        </S.MobileNavButton>
+        <S.MobileNavButton $active={activeTab === 'visitors'} onClick={() => setActiveTab('visitors')}>
+          {newCount > 0 && <S.MobileNavBadge>{newCount}</S.MobileNavBadge>}
+          <S.MobileNavIcon>👥</S.MobileNavIcon>
+          <S.MobileNavLabel>Visiteurs</S.MobileNavLabel>
+        </S.MobileNavButton>
+      </S.MobileNav>
 
       {selectedSession && (
         <S.ModalOverlay onClick={() => setSelectedSession(null)}>
           <S.ModalContent onClick={(e) => e.stopPropagation()}>
             <S.ModalHeader>
-              <S.ModalTitle>Conversation - {selectedSession.ip}</S.ModalTitle>
-              <S.CloseButton onClick={() => setSelectedSession(null)}>&times;</S.CloseButton>
+              <S.ModalTitle>Conversation</S.ModalTitle>
+              <S.ModalActions>
+                <S.ArchiveButton onClick={() => archiveSession(selectedSession.id)}>
+                  Archiver
+                </S.ArchiveButton>
+                <S.CloseButton onClick={() => setSelectedSession(null)}>&times;</S.CloseButton>
+              </S.ModalActions>
             </S.ModalHeader>
             <S.ModalBody>
               {messagesLoading ? (

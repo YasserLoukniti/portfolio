@@ -8,8 +8,10 @@ const getLevelDots = (proficiency: string): number => {
   const levels: { [key: string]: number } = {
     'native': 5,
     'natif': 5,
-    'fluent': 4,
-    'courant': 4,
+    'fluent': 5,
+    'courant': 5,
+    'professional': 4,
+    'professionnel': 4,
     'advanced': 4,
     'avance': 4,
     'intermediate': 3,

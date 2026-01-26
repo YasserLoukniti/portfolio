@@ -12,6 +12,8 @@ export interface IChatSession extends Document {
   device?: string;
   browser?: string;
   lastActivity: Date;
+  viewed: boolean;
+  archived: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +29,8 @@ const ChatSessionSchema = new Schema<IChatSession>(
     device: { type: String },
     browser: { type: String },
     lastActivity: { type: Date, default: Date.now },
+    viewed: { type: Boolean, default: false },
+    archived: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

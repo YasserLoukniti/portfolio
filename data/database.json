@@ -23,9 +23,18 @@
     },
     "availability": {
       "status": "available",
-      "type": "freelance",
-      "startDate": "2024-01-01",
-      "preferredContract": ["CDI", "Freelance", "Consulting"]
+      "type": "cdi",
+      "preferredContract": ["CDI"],
+      "remote": {
+        "paris": ["hybride", "full-remote", "on-site"],
+        "france": ["full-remote"]
+      },
+      "startDate": "2025-02",
+      "salary": {
+        "range": "50-55k€",
+        "flexible": true,
+        "note": "Selon l'opportunité et le package global"
+      }
     },
     "socialLinks": {
       "linkedin": "https://www.linkedin.com/in/yasser-loukniti-b121a218a/",
@@ -813,14 +822,14 @@
   "languages": [
     {
       "name": "Français",
-      "proficiency": "Native",
-      "level": "C2",
+      "proficiency": "Courant",
+      "level": "C1",
       "flag": "🇫🇷"
     },
     {
       "name": "Anglais",
-      "proficiency": "Professional",
-      "level": "C1",
+      "proficiency": "Professionnel",
+      "level": "B2",
       "flag": "🇬🇧"
     },
     {
@@ -840,46 +849,29 @@
     "UI/UX Design",
     "Entrepreneuriat"
   ],
+  "hobbies": {
+    "football": {
+      "team": "Raja Casablanca",
+      "role": "supporter"
+    },
+    "manga": {
+      "allTimeFavorite": "Naruto"
+    },
+    "chess": {
+      "level": "amateur"
+    },
+    "boardGames": true
+  },
   "achievements": [
     {
-      "title": "Speaker à React Paris Meetup",
-      "date": "2023-06",
-      "description": "Présentation sur l'optimisation des performances React"
-    },
-    {
-      "title": "Contribution Open Source",
-      "date": "2023-03",
-      "description": "Contributeur actif sur plusieurs projets React et NestJS"
-    },
-    {
-      "title": "Hackathon Winner",
-      "date": "2022-11",
-      "description": "1er prix au hackathon Capgemini Innovation"
+      "title": "Top 6% daily.dev",
+      "date": "2025",
+      "description": "Toujours curieux, toujours en veille. Top 6% sur daily.dev cette année, juste en ouvrant des onglets pendant ma veille tech quotidienne."
     }
   ],
-  "testimonials": [
-    {
-      "id": "test-1",
-      "name": "Marie Dupont",
-      "role": "CTO",
-      "company": "Weneeds",
-      "text": "Yasser est un développeur exceptionnel avec une capacité rare à comprendre rapidement les besoins métiers et à les traduire en solutions techniques élégantes.",
-      "avatar": "",
-      "date": "2024-01"
-    },
-    {
-      "id": "test-2",
-      "name": "Jean Martin",
-      "role": "Tech Lead",
-      "company": "Capgemini",
-      "text": "J'ai eu le plaisir de travailler avec Yasser sur plusieurs projets. Sa maîtrise technique et sa capacité à résoudre des problèmes complexes sont remarquables.",
-      "avatar": "",
-      "date": "2023-09"
-    }
-  ],
-  "metadata": {
-    "version": "1.0.0",
-    "lastUpdated": "2024-01-15",
+    "metadata": {
+    "version": "1.0.1",
+    "lastUpdated": "2026-01-24",
     "theme": {
       "primaryColor": "#10B981",
       "secondaryColor": "#00DC82",

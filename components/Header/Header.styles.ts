@@ -94,8 +94,8 @@ export const NavItem = styled.li`
   list-style: none;
 `;
 
-export const NavLinkStyled = styled.a<{ isActive?: boolean }>`
-  color: ${({ theme, isActive }) => isActive ? theme.colors.text : theme.colors.textSecondary};
+export const NavLinkStyled = styled.a<{ $isActive?: boolean }>`
+  color: ${({ theme, $isActive }) => $isActive ? theme.colors.text : theme.colors.textSecondary};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
