@@ -64,7 +64,7 @@ function generatePortfolioContext(): string {
     availabilityText = `\nDISPONIBILITE ET REMUNERATION:
 - Statut: ${availability.status === 'available' ? 'Disponible' : 'Non disponible'}
 - Type de contrat recherche: ${availability.preferredContract?.join(', ')} uniquement (pas de freelance/TJM)
-- Date de disponibilite: ${availability.startDate}
+- Preavis: ${availability.noticePeriod}
 - Modalites: ${remoteInfo}${salaryText}`;
   }
 

@@ -29,7 +29,7 @@
         "paris": ["hybride", "full-remote", "on-site"],
         "france": ["full-remote"]
       },
-      "startDate": "2025-02",
+      "noticePeriod": "2-3 mois",
       "salary": {
         "range": "50-55k€",
         "flexible": true,
