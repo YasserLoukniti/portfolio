@@ -34,7 +34,7 @@ export const HeroChat: React.FC = () => {
       setMessages([
         {
           id: 'welcome',
-          content: "Salut ! Je suis Yasser, Full Stack Developer. Posez-moi vos questions sur mon parcours, mes competences ou ma disponibilite !",
+          content: "Salut ! Je suis Yasser, Full Stack Developer. Posez-moi vos questions sur mon parcours ou mes competences !",
           role: 'assistant',
           timestamp: new Date(),
         },
@@ -107,8 +107,8 @@ export const HeroChat: React.FC = () => {
 
   const suggestedQuestions = [
     "Quelles sont tes competences ?",
-    "Tu es disponible ?",
-    "C'est quoi ton salaire ?",
+    "Parle-moi de ton parcours",
+    "Qu'as-tu construit chez Weneeds ?",
   ];
 
   const handleSuggestionClick = (question: string) => {

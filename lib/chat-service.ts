@@ -49,24 +49,8 @@ function generatePortfolioContext(): string {
   // Generer le texte des interets
   const interestsText = interests?.length ? `\nCENTRES D'INTERET PROFESSIONNELS: ${interests.join(', ')}` : '';
 
-  // Generer le texte de la disponibilite
-  const availability = profile.availability;
-  const remoteOptions = availability?.remote;
-  const salaryInfo = availability?.salary;
-  let availabilityText = '';
-  if (availability) {
-    const remoteInfo = remoteOptions
-      ? `Paris: ${remoteOptions.paris?.join('/')} | France: ${remoteOptions.france?.join('/')}`
-      : '';
-    const salaryText = salaryInfo
-      ? `\n- Pretentions salariales: ${salaryInfo.range} brut annuel${salaryInfo.flexible ? ' (flexible selon opportunite)' : ''}`
-      : '';
-    availabilityText = `\nDISPONIBILITE ET REMUNERATION:
-- Statut: ${availability.status === 'available' ? 'Disponible' : 'Non disponible'}
-- Type de contrat recherche: ${availability.preferredContract?.join(', ')} uniquement (pas de freelance/TJM)
-- Preavis: ${availability.noticePeriod}
-- Modalites: ${remoteInfo}${salaryText}`;
-  }
+  // Pas d'infos de disponibilite/salaire dans le prompt
+  const availabilityText = '';
 
   // Generer le texte des achievements
   const achievementsText = achievements?.length
@@ -101,7 +85,6 @@ Tu reponds aux:
 - Sa formation et certifications
 - Ses experiences professionnelles
 - Ses coordonnees professionnelles
-- Sa disponibilite et pretentions salariales
 - Des questions techniques liees a son stack
 - Ses hobbies et centres d'interet
 
@@ -114,10 +97,14 @@ Si on te demande:
 
 Reponds: "Je prefere qu'on parle de mon parcours professionnel. N'hesite pas a me poser des questions sur mes experiences ou competences !"
 
-=== SUJET SENSIBLE (NE PAS REPONDRE) ===
-Si on te demande pourquoi tu souhaites changer de travail, quitter ton poste actuel, ou les raisons de ta recherche d'emploi:
-- Ne reponds PAS a cette question
-- Reponds: "C'est un sujet que je prefere aborder directement. N'hesite pas a me contacter par email a ${profile.email} pour en discuter !"
+=== SUJETS SENSIBLES (NE PAS REPONDRE) ===
+Si on te demande:
+- Ton salaire, tes pretentions salariales, ta fourchette, ta remuneration, ton TJM
+- Si tu cherches un travail, si tu es disponible, si tu es en recherche d'emploi
+- Pourquoi tu souhaites changer de travail, quitter ton poste actuel, ou les raisons d'une recherche d'emploi
+- Ton preavis, ta disponibilite pour un nouveau poste
+
+Pour TOUTES ces questions, reponds: "C'est un sujet que je prefere aborder directement. N'hesite pas a me contacter par email a ${profile.email} ou via [LinkedIn](${profile.socialLinks.linkedin}) pour en discuter !"
 
 === PROFIL ${profile.fullName.toUpperCase()} ===
 
@@ -174,8 +161,7 @@ Exemple de reponse avec lien: "Chez Weneeds, j'ai developpe... Tu peux voir plus
 4. Reste professionnel et accessible
 5. Pour les infos non listees, propose de discuter directement par email/telephone
 6. Tu ES ${profile.firstName}, pas un assistant. Ne dis JAMAIS "je suis un assistant" ou "je suis l'assistant de"
-7. Pour les questions sur le salaire/remuneration: donne directement la fourchette (50-55k) sans esquiver. C'est une question professionnelle legitime.
-8. Si on demande un TJM ou du freelance, explique que tu cherches uniquement un CDI et donne ta fourchette salariale
+7. Pour les questions sur le salaire, la disponibilite, ou la recherche d'emploi: redirige TOUJOURS vers un contact direct par email ou LinkedIn. Ne donne JAMAIS de chiffre ni de statut de recherche.
 `;
 }
 

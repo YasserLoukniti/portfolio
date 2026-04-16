@@ -25,8 +25,6 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { database } from '@/data/portfolio.data';
-import { WeneedsArchitecture } from '@/components/Experience/WeneedsArchitecture';
-
 // Company colors
 const companyColors: { [key: string]: string } = {
   'Weneeds': '#6366F1',
@@ -504,13 +502,6 @@ const TechCount = styled.div<{ $color: string }>`
   }
 `;
 
-// Architecture Tab
-const ArchitectureContainer = styled.div`
-  width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
-`;
-
 // Team Tab
 const TeamSection = styled.div`
   max-width: 800px;
@@ -757,7 +748,7 @@ const parseResponsibility = (resp: string): { category: string | null; text: str
   return { category: null, text: resp };
 };
 
-type TabType = 'resume' | 'technos' | 'architecture' | 'equipe';
+type TabType = 'resume' | 'technos' | 'equipe';
 
 export default function ExperienceDetailPage() {
   const params = useParams();
@@ -769,7 +760,6 @@ export default function ExperienceDetailPage() {
   const prevExperience = currentIndex > 0 ? database.experiences[currentIndex - 1] : null;
   const nextExperience = currentIndex < database.experiences.length - 1 ? database.experiences[currentIndex + 1] : null;
 
-  const isWeneeds = id === 'weneeds';
   const color = experience ? getCompanyColor(experience.company) : '#6366F1';
 
   useEffect(() => {
@@ -830,7 +820,6 @@ export default function ExperienceDetailPage() {
   const tabs: { id: TabType; label: string; icon: React.ReactNode; badge?: string }[] = [
     { id: 'resume', label: 'Resume', icon: <FileText size={18} /> },
     { id: 'technos', label: 'Technos', icon: <Code size={18} /> },
-    ...(isWeneeds ? [{ id: 'architecture' as TabType, label: 'Architecture', icon: <Network size={18} />, badge: 'NEW' }] : []),
     { id: 'equipe', label: 'Equipe', icon: <Users size={18} /> }
   ];
 
@@ -1102,21 +1091,6 @@ export default function ExperienceDetailPage() {
                     </TechBadge>
                   ))}
                 </AllTechsGrid>
-              </TabContent>
-            )}
-
-            {/* Architecture Tab (Weneeds only) */}
-            {activeTab === 'architecture' && isWeneeds && (
-              <TabContent
-                key="architecture"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ArchitectureContainer>
-                  <WeneedsArchitecture />
-                </ArchitectureContainer>
               </TabContent>
             )}
 

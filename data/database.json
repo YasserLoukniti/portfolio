@@ -22,18 +22,20 @@
       "philosophy": "Stack : TypeScript, NestJS, Next.js, React, PostgreSQL, Redis, Elasticsearch, Kafka, Docker, AWS"
     },
     "availability": {
-      "status": "available",
+      "status": "not-available",
       "type": "cdi",
-      "preferredContract": ["CDI"],
+      "preferredContract": [
+        "CDI"
+      ],
       "remote": {
-        "paris": ["hybride", "full-remote", "on-site"],
-        "france": ["full-remote"]
-      },
-      "noticePeriod": "2-3 mois",
-      "salary": {
-        "range": "50-55k€",
-        "flexible": true,
-        "note": "Selon l'opportunité et le package global"
+        "paris": [
+          "hybride",
+          "full-remote",
+          "on-site"
+        ],
+        "france": [
+          "full-remote"
+        ]
       }
     },
     "socialLinks": {
@@ -63,7 +65,7 @@
       "company": "Weneeds",
       "companyUrl": "https://weneeds.com",
       "companyLogo": "/images/companies/weneeds.jpg",
-      "coverImage": "/projects/saas/weneeds-ai.jpg",
+      "coverImage": "/projects/saas/weneeds.jpg",
       "title": "Full Stack Developer",
       "type": "full-time",
       "startDate": "2024-03",
@@ -75,79 +77,88 @@
         "country": "France",
         "remote": "onsite"
       },
-      "description": "Full Stack Developer sur une plateforme de recrutement augmentée par l'IA. Architecture microservices complète avec NestJS (40+ modules), Next.js 14, FastAPI/LangChain pour l'IA, déployée sur AWS EKS via Terraform et ArgoCD. Communication event-driven avec Apache Kafka, multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch, Weaviate).",
+      "description": "Full Stack Developer sur une plateforme de recrutement augmentée par l'IA. Conception et développement d'une architecture microservices avec NestJS et Next.js. Intégration de services d'intelligence artificielle pour le matching et le scoring. Déploiement cloud avec CI/CD automatisé.",
       "responsibilities": [
-        "BACKEND: Conception de 40+ modules NestJS avec architecture modulaire multi-database (TypeORM/PostgreSQL master-slave, Mongoose/MongoDB, Redis cache/pub-sub)",
-        "BACKEND: Système d'authentification complet (JWT, OAuth, Guards, RBAC multi-niveau User Roles + Company Roles)",
-        "BACKEND: Event-driven architecture avec Apache Kafka (payment.processed, mail.send, notification.send, video.generate)",
-        "BACKEND: Microservices dédiés : Payment Service (Stripe, budget management), Mail Service (AWS SES, templates), Notification Service (Firebase FCM), FFmpeg Service (transcoding vidéo)",
-        "BACKEND: Payment Audit System avec Write-Ahead Log MongoDB, retry automatique via Cron, circuit breaker pattern",
-        "BACKEND: Strategy Pattern pour intégrations calendrier multi-providers (Google, Microsoft, Calendly) avec refresh automatique OAuth",
-        "BACKEND: WebSocket Gateway production-ready avec Redis adapter pour scaling horizontal, heartbeat tracking",
-        "BACKEND: Optimisation Query TypeORM avec Query Builder avancé, élimination N+1, projection sélective",
-        "FRONTEND: Développement complet web app Next.js 14 et Admin Dashboard React (40+ pages)",
-        "FRONTEND: State management Redux Toolkit + Persist avec SSR-safe storage, middleware custom pour purge logout",
-        "FRONTEND: React Query avec cache optimisé (5min stale, 30min cache), optimistic updates avec rollback",
-        "FRONTEND: Custom hooks avancés : useJobBudget, usePageLoadTime (Performance Monitoring), useVideoUpload (Tus Protocol résumable)",
-        "FRONTEND: Middleware Auth Next.js avec JWT server-side (jose), maintenance mode, session Safari-safe",
-        "FRONTEND: API Layer auto-générée depuis OpenAPI schema backend",
-        "INFRA: AWS EKS Multi-Pod (Kubernetes v1.29) avec Terraform Infrastructure-as-Code, IRSA, Multi-AZ",
-        "INFRA: CI/CD GitHub Actions (~2000 lignes) avec détection changements par service, build conditionnel, OIDC Authentication",
-        "INFRA: GitOps avec ArgoCD (auto-sync, prune, self-heal), ALB Ingress Controller",
-        "AI/ML: Intégration 10+ services FastAPI avec LangChain/LangGraph",
-        "AI/ML: Multi-Agent Orchestration avec LangGraph (Supervisor-Router pattern, 6+ agents spécialisés)",
-        "AI/ML: Vector Search hybride Weaviate (75% sémantique + 25% BM25), scoring multi-dimensionnel (10 dimensions)",
-        "AI/ML: WebSocket streaming real-time pour réponses LLM token par token"
+        "Conception et développement d'APIs backend avec NestJS suivant une architecture modulaire et multi-database",
+        "Mise en place d'un système d'authentification complet (JWT, OAuth, RBAC multi-niveau)",
+        "Architecture event-driven pour la communication asynchrone entre microservices",
+        "Développement de microservices dédiés : paiement, emailing, notifications push, traitement vidéo",
+        "Implémentation de design patterns avancés (Strategy, Circuit Breaker) pour la résilience des services",
+        "Développement de WebSocket pour le temps réel avec scaling horizontal",
+        "Optimisation des requêtes ORM et élimination des problèmes N+1",
+        "Développement frontend complet avec Next.js et React (app web + dashboard admin)",
+        "State management avancé avec Redux Toolkit et React Query (cache optimisé, optimistic updates)",
+        "Développement de hooks React personnalisés pour la logique métier réutilisable",
+        "Mise en place de middleware d'authentification server-side avec Next.js",
+        "Génération automatique de la couche API frontend depuis les spécifications OpenAPI du backend",
+        "Infrastructure cloud Kubernetes avec Infrastructure-as-Code et CI/CD GitOps",
+        "Intégration de services IA avec orchestration multi-agents pour le matching et le scoring",
+        "Mise en place de recherche hybride (sémantique + lexicale) avec scoring multi-dimensionnel",
+        "Streaming temps réel des réponses LLM via WebSocket"
       ],
       "achievements": [
-        "Architecture microservices scalable supportant 10k+ utilisateurs avec communication event-driven",
-        "Système de paiement robuste avec audit trail complet et retry automatique",
-        "Dashboard admin complet : Payment Management, Email Templates, Video Moderation AI, Feature Audit (40+ types), Analytics",
-        "Réduction de 80% des requêtes DB via Query Builder optimisé et React Query cache"
+        "Architecture microservices scalable avec communication event-driven",
+        "Système de paiement robuste avec audit trail et retry automatique",
+        "Dashboard admin complet avec analytics et gestion de contenu",
+        "Optimisation significative des performances via cache et requêtes optimisées"
       ],
-      "technologies": ["TypeScript", "NestJS", "Next.js 14", "React", "Redux Toolkit", "React Query", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch", "Weaviate", "Apache Kafka", "Stripe", "Socket.IO", "AWS EKS", "Terraform", "ArgoCD", "Docker", "Kubernetes", "FastAPI", "LangChain", "LangGraph", "OpenAI", "Jest", "Cypress", "GitHub Actions"],
-      "architectureDiagrams": [
-        {
-          "title": "Architecture Globale",
-          "description": "Vue d'ensemble de l'architecture microservices avec communication event-driven",
-          "diagram": "┌─────────────────────────────────────────────────────────────────────────────────┐\n│                              FRONTEND TIER                                       │\n│  ┌─────────────────────────────┐     ┌─────────────────────────────┐            │\n│  │   Web App (Next.js)         │     │   Admin Dashboard (React)   │            │\n│  │   Port: 4200                │     │   Port: 4201                │            │\n│  │   • Redux + Persist         │     │   • 40+ pages admin         │            │\n│  │   • React Query             │     │   • Analytics/Monitoring    │            │\n│  │   • Socket.IO Client        │     │   • Payment Management      │            │\n│  └──────────────┬──────────────┘     └──────────────┬──────────────┘            │\n└─────────────────┼────────────────────────────────────┼──────────────────────────┘\n                  │ HTTP REST (OpenAPI generated)      │\n                  └────────────────┬───────────────────┘\n                                   ▼\n┌─────────────────────────────────────────────────────────────────────────────────┐\n│                         NESTJS API GATEWAY (Port 3011)                          │\n│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │\n│  │ Auth Module │ │ Jobs Module │ │ Admin Module│ │ LLM Service │               │\n│  │ • JWT/OAuth │ │ • Matching  │ │ • RBAC      │ │ • AI Proxy  │──────────┐    │\n│  │ • Guards    │ │ • Search    │ │ • Audit     │ │ • Scoring   │          │    │\n│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘          │    │\n│                                                                            │    │\n│  Kafka Producer ──────────────────────────────────────────┐               │    │\n│  • offer.created • action.performed • mail.send           │               │    │\n│  • notification.send • video.generate                     │               │    │\n└───────────────────────────────────────────────────────────┼───────────────┼────┘\n                                                            │               │\n        ┌───────────────────────────────────────────────────┘               │\n        │ KAFKA EVENT BUS                                                   │\n        ▼                                                                   ▼\n┌───────────────────────────────────────────────────┐   ┌───────────────────────────────┐\n│              MICROSERVICES TIER                    │   │    FASTAPI AI SERVICES        │\n│                                                    │   │    (HTTP Direct from NestJS)  │\n│  ┌─────────────────┐  ┌─────────────────┐        │   │                               │\n│  │ Payment Service │  │ Mail Service    │        │   │  ┌─────────────────────────┐  │\n│  │ Port: 3010      │  │ Port: 3002      │        │   │  │ AI Agent (LangGraph)    │  │\n│  │ • Stripe        │  │ • AWS SES       │        │   │  │ • Multi-agent routing   │  │\n│  │ • Budget Mgmt   │  │ • Templates     │        │   │  │ • 6+ specialized agents │  │\n│  │ • Audit Logs    │  │ • Dual Control  │        │   │  └─────────────────────────┘  │\n│  └─────────────────┘  └─────────────────┘        │   │  ┌─────────────────────────┐  │\n│                                                    │   │  │ Matching Services       │  │\n│  ┌─────────────────┐  ┌─────────────────┐        │   │  │ • Candidates matching   │  │\n│  │ Notification    │  │ FFmpeg Service  │        │   │  │ • Jobs matching         │  │\n│  │ Service         │  │ Port: 3001      │        │   │  │ • Prospects matching    │  │\n│  │ Port: 3000      │  │ • Transcoding   │        │   │  └─────────────────────────┘  │\n│  │ • Firebase FCM  │  │ • S3 Storage    │        │   │  ┌─────────────────────────┐  │\n│  │ • Push Notifs   │  │ • Moderation    │        │   │  │ CV Parsing / Scoring    │  │\n│  └─────────────────┘  └─────────────────┘        │   │  │ Interview Gen/Analysis  │  │\n│                                                    │   │  └─────────────────────────┘  │\n└───────────────────────────────────────────────────┘   └───────────────────────────────┘\n                          │                                           │\n                          ▼                                           ▼\n┌─────────────────────────────────────────────────────────────────────────────────┐\n│                            DATA TIER                                             │\n│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌───────────┐ │\n│  │ PostgreSQL  │ │  MongoDB    │ │   Redis     │ │  Weaviate   │ │Elasticsearch│\n│  │ (TypeORM)   │ │ (Mongoose)  │ │  (Cache)    │ │ (Vectors)   │ │ (Search)  │ │\n│  │ • Users     │ │ • Audit Logs│ │ • Sessions  │ │ • Embeddings│ │ • Jobs    │ │\n│  │ • Jobs      │ │ • Settings  │ │ • Socket.IO │ │ • Hybrid    │ │ • Profiles│ │\n│  │ • Payments  │ │ • Templates │ │ • Bull Queue│ │   Search    │ │           │ │\n│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └───────────┘ │\n└─────────────────────────────────────────────────────────────────────────────────┘"
-        },
-        {
-          "title": "AWS EKS Infrastructure",
-          "description": "Cluster Kubernetes deploye sur AWS EKS avec Terraform",
-          "diagram": "┌─────────────────────────────────────────────────────────────────────┐\n│                    AWS EKS CLUSTER (eu-west-3)                       │\n│                    Kubernetes v1.29                                  │\n├─────────────────────────────────────────────────────────────────────┤\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                   NAMESPACE: weenyd-develop                  │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │    │\n│  │  │   Pod:       │ │   Pod:       │ │   Pod:       │        │    │\n│  │  │   Backend    │ │   Frontend   │ │   Django     │        │    │\n│  │  │   (NestJS)   │ │   (Next.js)  │ │   (FastAPI)  │        │    │\n│  │  │   :3011      │ │   :4200      │ │   :8000      │        │    │\n│  │  └──────────────┘ └──────────────┘ └──────────────┘        │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐        │    │\n│  │  │   Pod:       │ │   Pod:       │ │   Pod:       │        │    │\n│  │  │   Payment    │ │   Mail       │ │   Notif      │        │    │\n│  │  │   Service    │ │   Service    │ │   Service    │        │    │\n│  │  │   :3010      │ │   :3002      │ │   :3000      │        │    │\n│  │  └──────────────┘ └──────────────┘ └──────────────┘        │    │\n│  │                                                              │    │\n│  │  ┌──────────────┐ ┌──────────────┐                          │    │\n│  │  │   Pod:       │ │   Pod:       │   + 10 FastAPI           │    │\n│  │  │   Admin      │ │   FFmpeg     │     AI Services          │    │\n│  │  │   Dashboard  │ │   Service    │                          │    │\n│  │  │   :4201      │ │   :3001      │                          │    │\n│  │  └──────────────┘ └──────────────┘                          │    │\n│  │                                                              │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                    NODE GROUP (Auto-scaling)                 │    │\n│  │    Instance: t3.medium | Min: 2 | Max: 3 | Desired: 3       │    │\n│  │    Multi-AZ: eu-west-3a, eu-west-3b, eu-west-3c             │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n│  ┌─────────────────────────────────────────────────────────────┐    │\n│  │                AWS ALB INGRESS CONTROLLER                    │    │\n│  │    • /       → frontend-service:4200                        │    │\n│  │    • /api    → backend-service:3011                         │    │\n│  │    • /admin  → admin-dashboard:4201                         │    │\n│  └─────────────────────────────────────────────────────────────┘    │\n│                                                                      │\n└─────────────────────────────────────────────────────────────────────┘"
-        },
-        {
-          "title": "Communication Inter-Services",
-          "description": "Protocoles de communication entre les differents services",
-          "table": [
-            { "source": "Frontend", "destination": "NestJS API", "protocol": "HTTP REST", "usage": "Toutes les requetes" },
-            { "source": "NestJS", "destination": "FastAPI Services", "protocol": "HTTP Direct", "usage": "Appels AI/ML synchrones" },
-            { "source": "NestJS", "destination": "Payment Service", "protocol": "Kafka", "usage": "Events asynchrones" },
-            { "source": "NestJS", "destination": "Mail Service", "protocol": "Kafka", "usage": "Envoi emails" },
-            { "source": "NestJS", "destination": "Notification Service", "protocol": "Kafka", "usage": "Push notifications" },
-            { "source": "NestJS", "destination": "FFmpeg Service", "protocol": "Kafka", "usage": "Traitement video" }
-          ]
-        }
+      "technologies": [
+        "TypeScript",
+        "NestJS",
+        "Next.js 14",
+        "React",
+        "Redux Toolkit",
+        "React Query",
+        "PostgreSQL",
+        "MongoDB",
+        "Redis",
+        "Elasticsearch",
+        "Weaviate",
+        "Apache Kafka",
+        "Stripe",
+        "Socket.IO",
+        "AWS EKS",
+        "Terraform",
+        "ArgoCD",
+        "Docker",
+        "Kubernetes",
+        "FastAPI",
+        "LangChain",
+        "LangGraph",
+        "OpenAI",
+        "Jest",
+        "Cypress",
+        "GitHub Actions"
       ],
-      "stackDetails": {
-        "Frontend": ["Next.js 14", "React", "Redux Toolkit", "styled-components", "React Query"],
-        "Backend API": ["NestJS", "TypeORM", "PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
-        "Microservices": ["Payment Service", "Mail Service", "Notification Service", "FFmpeg Service"],
-        "AI/ML": ["FastAPI (10+ services)", "LangChain", "LangGraph", "Weaviate", "OpenAI/Anthropic"],
-        "Infrastructure": ["AWS EKS (Multi-Pod)", "Terraform", "ArgoCD", "GitHub Actions CI/CD"],
-        "Messaging": ["Apache Kafka (event-driven)", "Redis Pub/Sub (real-time)"]
-      },
+      "architectureDiagrams": [],
       "team": {
         "size": 8,
         "methodology": "Scrum",
         "members": [
-          { "role": "CTO / Tech Lead", "count": 1 },
-          { "role": "Full Stack Developer", "count": 2 },
-          { "role": "AI/ML Engineer", "count": 2 },
-          { "role": "Product Owner", "count": 1 },
-          { "role": "UX/UI Designer", "count": 1 },
-          { "role": "DevOps Engineer", "count": 1 }
+          {
+            "role": "CTO / Tech Lead",
+            "count": 1
+          },
+          {
+            "role": "Full Stack Developer",
+            "count": 2
+          },
+          {
+            "role": "AI/ML Engineer",
+            "count": 2
+          },
+          {
+            "role": "Product Owner",
+            "count": 1
+          },
+          {
+            "role": "UX/UI Designer",
+            "count": 1
+          },
+          {
+            "role": "DevOps Engineer",
+            "count": 1
+          }
         ]
       }
     },
@@ -180,15 +191,39 @@
         "Déploiements sur AWS",
         "Choix de librairies, définition des normes de code"
       ],
-      "technologies": ["TypeScript", "NestJS", "Node.js", "React.js", "PostgreSQL", "Jest", "AWS", "NX", "Git", "SASS", "Material UI"],
+      "technologies": [
+        "TypeScript",
+        "NestJS",
+        "Node.js",
+        "React.js",
+        "PostgreSQL",
+        "Jest",
+        "AWS",
+        "NX",
+        "Git",
+        "SASS",
+        "Material UI"
+      ],
       "team": {
         "size": 6,
         "methodology": "Scrum",
         "members": [
-          { "role": "Tech Lead", "count": 1 },
-          { "role": "Full Stack Developer", "count": 3 },
-          { "role": "Scrum Master", "count": 1 },
-          { "role": "Product Owner", "count": 1 }
+          {
+            "role": "Tech Lead",
+            "count": 1
+          },
+          {
+            "role": "Full Stack Developer",
+            "count": 3
+          },
+          {
+            "role": "Scrum Master",
+            "count": 1
+          },
+          {
+            "role": "Product Owner",
+            "count": 1
+          }
         ]
       }
     },
@@ -219,14 +254,32 @@
         "Livraison du projet dans les délais",
         "Amélioration du SEO"
       ],
-      "technologies": ["Next.js", "React.js", "TypeScript", "Python", "Material UI", "AWS", "Jenkins", "GitLab"],
+      "technologies": [
+        "Next.js",
+        "React.js",
+        "TypeScript",
+        "Python",
+        "Material UI",
+        "AWS",
+        "Jenkins",
+        "GitLab"
+      ],
       "team": {
         "size": 4,
         "methodology": "Agile",
         "members": [
-          { "role": "Tech Lead", "count": 1 },
-          { "role": "Full Stack Developer", "count": 2 },
-          { "role": "Product Manager", "count": 1 }
+          {
+            "role": "Tech Lead",
+            "count": 1
+          },
+          {
+            "role": "Full Stack Developer",
+            "count": 2
+          },
+          {
+            "role": "Product Manager",
+            "count": 1
+          }
         ]
       }
     },
@@ -258,13 +311,26 @@
         "Livraison d'une application complète",
         "Documentation complète du projet"
       ],
-      "technologies": ["PHP", "Symfony 4.4", "MySQL", "REST API", "Adobe XD", "Git"],
+      "technologies": [
+        "PHP",
+        "Symfony 4.4",
+        "MySQL",
+        "REST API",
+        "Adobe XD",
+        "Git"
+      ],
       "team": {
         "size": 3,
         "methodology": "Agile",
         "members": [
-          { "role": "Project Manager", "count": 1 },
-          { "role": "Développeur Web", "count": 2 }
+          {
+            "role": "Project Manager",
+            "count": 1
+          },
+          {
+            "role": "Développeur Web",
+            "count": 2
+          }
         ]
       }
     },
@@ -294,12 +360,24 @@
       "achievements": [
         "Livraison d'un intranet complet fonctionnel"
       ],
-      "technologies": ["PHP", "Symfony 4.4", "MySQL", "HTML", "CSS", "JavaScript", "Bootstrap", "Git"],
+      "technologies": [
+        "PHP",
+        "Symfony 4.4",
+        "MySQL",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Bootstrap",
+        "Git"
+      ],
       "team": {
         "size": 1,
         "methodology": null,
         "members": [
-          { "role": "Développeur Freelance", "count": 1 }
+          {
+            "role": "Développeur Freelance",
+            "count": 1
+          }
         ]
       }
     },
@@ -330,12 +408,22 @@
       "achievements": [
         "Plateforme complète de gestion des candidatures PME"
       ],
-      "technologies": ["PHP 7", "MySQL", "HTML", "CSS", "JavaScript", "Git"],
+      "technologies": [
+        "PHP 7",
+        "MySQL",
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Git"
+      ],
       "team": {
         "size": 1,
         "methodology": null,
         "members": [
-          { "role": "Développeur Freelance", "count": 1 }
+          {
+            "role": "Développeur Freelance",
+            "count": 1
+          }
         ]
       }
     },
@@ -364,12 +452,21 @@
       "achievements": [
         "Portail électronique complet pour la région Fès-Meknès"
       ],
-      "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
+      "technologies": [
+        "PHP",
+        "MySQL",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "team": {
         "size": 1,
         "methodology": null,
         "members": [
-          { "role": "Développeur Freelance", "count": 1 }
+          {
+            "role": "Développeur Freelance",
+            "count": 1
+          }
         ]
       }
     },
@@ -398,12 +495,21 @@
       "achievements": [
         "Plateforme d'examens fonctionnelle avec système anti-triche"
       ],
-      "technologies": ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
+      "technologies": [
+        "PHP",
+        "MySQL",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "team": {
         "size": 1,
         "methodology": null,
         "members": [
-          { "role": "Développeur Freelance", "count": 1 }
+          {
+            "role": "Développeur Freelance",
+            "count": 1
+          }
         ]
       }
     },
@@ -432,13 +538,23 @@
       "achievements": [
         "Première expérience professionnelle en développement web"
       ],
-      "technologies": ["WordPress", "PHP", "MySQL"],
+      "technologies": [
+        "WordPress",
+        "PHP",
+        "MySQL"
+      ],
       "team": {
         "size": 2,
         "methodology": null,
         "members": [
-          { "role": "Tuteur de stage", "count": 1 },
-          { "role": "Stagiaire développeur", "count": 1 }
+          {
+            "role": "Tuteur de stage",
+            "count": 1
+          },
+          {
+            "role": "Stagiaire développeur",
+            "count": 1
+          }
         ]
       }
     }
@@ -454,19 +570,37 @@
       "startDate": "2024-03",
       "endDate": null,
       "description": "Plateforme de recrutement boostée avec l'IA pour optimiser le matching entre candidats et offres d'emploi.",
-      "longDescription": "Solution SaaS révolutionnaire qui utilise l'intelligence artificielle pour transformer le processus de recrutement. Architecture microservices avec NX monorepo pour une scalabilité optimale. La plateforme analyse automatiquement les CVs via TypeORM et Elasticsearch, utilise des endpoints IA Django pour le matching sémantique et le scoring intelligent. Intégration Kafka pour la communication inter-services, AWS SES pour les emails, et FCM pour les notifications push.",
+      "longDescription": "Solution SaaS de recrutement augmenté par l'intelligence artificielle. Architecture microservices pour une scalabilité optimale. Matching sémantique candidats/offres, scoring intelligent, et communication event-driven entre les services. Frontend moderne avec design system atomique.",
       "features": [
-        "Architecture microservices avec NX monorepo",
-        "API NestJS avec TypeORM, PostgreSQL, Redis, Elasticsearch",
-        "Frontend Next.js avec React, styled-components, Redux Toolkit",
-        "Système de widgets personnalisables avec drag-and-drop et uploads S3",
-        "Endpoints IA Django pour matching sémantique",
-        "Communication Kafka inter-services (AWS SES, FCM)",
-        "CI/CD GitHub Actions multi-environnements",
-        "Tests Jest, Cypress, Supertest avec couverture robuste"
+        "Architecture microservices modulaire",
+        "API backend NestJS avec multi-database",
+        "Frontend Next.js avec React et design system",
+        "Système de widgets personnalisables",
+        "Services IA pour matching sémantique",
+        "Communication event-driven entre services",
+        "CI/CD multi-environnements",
+        "Tests unitaires et d'intégration"
       ],
-      "technologies": ["NestJS", "React", "Next.js", "Django", "NX", "TypeORM", "PostgreSQL", "Redis", "Elasticsearch", "Kafka", "AWS EKS", "Terraform", "Docker", "Kubernetes", "OpenAI API", "Jest", "Cypress"],
-      "image": "/projects/saas/weneeds-ai.jpg",
+      "technologies": [
+        "NestJS",
+        "React",
+        "Next.js",
+        "Django",
+        "NX",
+        "TypeORM",
+        "PostgreSQL",
+        "Redis",
+        "Elasticsearch",
+        "Kafka",
+        "AWS EKS",
+        "Terraform",
+        "Docker",
+        "Kubernetes",
+        "OpenAI API",
+        "Jest",
+        "Cypress"
+      ],
+      "image": "/projects/saas/weneeds.jpg",
       "screenshots": [],
       "links": {
         "github": "",
@@ -496,7 +630,18 @@
         "Interface Material UI moderne",
         "Déploiement AWS avec Jenkins"
       ],
-      "technologies": ["Next.js", "React", "TypeScript", "Python", "Material UI", "GitLab", "GitKraken", "AWS", "Jenkins", "PostgreSQL"],
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Python",
+        "Material UI",
+        "GitLab",
+        "GitKraken",
+        "AWS",
+        "Jenkins",
+        "PostgreSQL"
+      ],
       "image": "/projects/corporate/42c-consulting.jpg",
       "screenshots": [],
       "links": {
@@ -527,7 +672,14 @@
         "Authentification et contrôle d'accès",
         "Éditeur WYSIWYG intégré"
       ],
-      "technologies": ["PHP7", "MySQL", "JavaScript", "Bootstrap", "WYSIWYG", "HTML/CSS"],
+      "technologies": [
+        "PHP7",
+        "MySQL",
+        "JavaScript",
+        "Bootstrap",
+        "WYSIWYG",
+        "HTML/CSS"
+      ],
       "image": "/projects/freelance/souk-attanmia.jpg",
       "screenshots": [],
       "links": {
@@ -559,7 +711,16 @@
         "Import/Export données Excel",
         "Système de recherche avancé"
       ],
-      "technologies": ["Symfony 4.4", "PHP", "MySQL", "API REST", "Adobe XD", "Bootstrap", "jQuery", "Excel"],
+      "technologies": [
+        "Symfony 4.4",
+        "PHP",
+        "MySQL",
+        "API REST",
+        "Adobe XD",
+        "Bootstrap",
+        "jQuery",
+        "Excel"
+      ],
       "image": "/projects/freelance/crm-system.jpg",
       "screenshots": [],
       "links": {
@@ -590,7 +751,14 @@
         "Interface responsive",
         "Optimisation SEO"
       ],
-      "technologies": ["PHP", "MySQL", "JavaScript", "HTML/CSS", "Bootstrap", "jQuery"],
+      "technologies": [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML/CSS",
+        "Bootstrap",
+        "jQuery"
+      ],
       "image": "/projects/freelance/fes-meknes.jpg",
       "screenshots": [],
       "links": {
@@ -621,7 +789,13 @@
         "Gestion des sessions d'examens",
         "Résultats en temps réel"
       ],
-      "technologies": ["C#", "JavaScript", "Java", "HTML/CSS", "Bootstrap"],
+      "technologies": [
+        "C#",
+        "JavaScript",
+        "Java",
+        "HTML/CSS",
+        "Bootstrap"
+      ],
       "image": "/projects/freelance/youcode-exams.jpg",
       "screenshots": [],
       "links": {
@@ -652,7 +826,15 @@
         "Front-office responsive",
         "Hébergement serveurs OTIS"
       ],
-      "technologies": ["Symfony 4.4", "PHP", "MySQL", "HTML/CSS", "JavaScript", "Bootstrap", "jQuery"],
+      "technologies": [
+        "Symfony 4.4",
+        "PHP",
+        "MySQL",
+        "HTML/CSS",
+        "JavaScript",
+        "Bootstrap",
+        "jQuery"
+      ],
       "image": "/projects/freelance/otis-intranet.jpg",
       "screenshots": [],
       "links": {
@@ -726,70 +908,266 @@
       {
         "category": "Frontend",
         "items": [
-          { "name": "React.js", "level": 95, "yearsOfExperience": 6, "icon": "react" },
-          { "name": "Next.js", "level": 90, "yearsOfExperience": 4, "icon": "nextdotjs" },
-          { "name": "TypeScript", "level": 95, "yearsOfExperience": 5, "icon": "typescript" },
-          { "name": "JavaScript", "level": 95, "yearsOfExperience": 8, "icon": "javascript" },
-          { "name": "HTML5", "level": 100, "yearsOfExperience": 10, "icon": "html5" },
-          { "name": "CSS3", "level": 95, "yearsOfExperience": 10, "icon": "css3" },
-          { "name": "SASS/SCSS", "level": 90, "yearsOfExperience": 6, "icon": "sass" },
-          { "name": "Styled Components", "level": 85, "yearsOfExperience": 4, "icon": "styledcomponents" },
-          { "name": "Material UI", "level": 85, "yearsOfExperience": 4, "icon": "mui" },
-          { "name": "Bootstrap", "level": 90, "yearsOfExperience": 7, "icon": "bootstrap" },
-          { "name": "jQuery", "level": 80, "yearsOfExperience": 6, "icon": "jquery" }
+          {
+            "name": "React.js",
+            "level": 95,
+            "yearsOfExperience": 6,
+            "icon": "react"
+          },
+          {
+            "name": "Next.js",
+            "level": 90,
+            "yearsOfExperience": 4,
+            "icon": "nextdotjs"
+          },
+          {
+            "name": "TypeScript",
+            "level": 95,
+            "yearsOfExperience": 5,
+            "icon": "typescript"
+          },
+          {
+            "name": "JavaScript",
+            "level": 95,
+            "yearsOfExperience": 8,
+            "icon": "javascript"
+          },
+          {
+            "name": "HTML5",
+            "level": 100,
+            "yearsOfExperience": 10,
+            "icon": "html5"
+          },
+          {
+            "name": "CSS3",
+            "level": 95,
+            "yearsOfExperience": 10,
+            "icon": "css3"
+          },
+          {
+            "name": "SASS/SCSS",
+            "level": 90,
+            "yearsOfExperience": 6,
+            "icon": "sass"
+          },
+          {
+            "name": "Styled Components",
+            "level": 85,
+            "yearsOfExperience": 4,
+            "icon": "styledcomponents"
+          },
+          {
+            "name": "Material UI",
+            "level": 85,
+            "yearsOfExperience": 4,
+            "icon": "mui"
+          },
+          {
+            "name": "Bootstrap",
+            "level": 90,
+            "yearsOfExperience": 7,
+            "icon": "bootstrap"
+          },
+          {
+            "name": "jQuery",
+            "level": 80,
+            "yearsOfExperience": 6,
+            "icon": "jquery"
+          }
         ]
       },
       {
         "category": "Backend",
         "items": [
-          { "name": "Node.js", "level": 95, "yearsOfExperience": 6, "icon": "nodedotjs" },
-          { "name": "NestJS", "level": 90, "yearsOfExperience": 3, "icon": "nestjs" },
-          { "name": "Express.js", "level": 85, "yearsOfExperience": 5, "icon": "express" },
-          { "name": "PHP", "level": 75, "yearsOfExperience": 4, "icon": "php" },
-          { "name": "Symfony", "level": 70, "yearsOfExperience": 2, "icon": "symfony" },
-          { "name": "Django", "level": 65, "yearsOfExperience": 2, "icon": "django" },
-          { "name": "Python", "level": 70, "yearsOfExperience": 3, "icon": "python" },
-          { "name": "API REST", "level": 95, "yearsOfExperience": 6, "icon": "fastapi" },
-          { "name": "GraphQL", "level": 75, "yearsOfExperience": 2, "icon": "graphql" }
+          {
+            "name": "Node.js",
+            "level": 95,
+            "yearsOfExperience": 6,
+            "icon": "nodedotjs"
+          },
+          {
+            "name": "NestJS",
+            "level": 90,
+            "yearsOfExperience": 3,
+            "icon": "nestjs"
+          },
+          {
+            "name": "Express.js",
+            "level": 85,
+            "yearsOfExperience": 5,
+            "icon": "express"
+          },
+          {
+            "name": "PHP",
+            "level": 75,
+            "yearsOfExperience": 4,
+            "icon": "php"
+          },
+          {
+            "name": "Symfony",
+            "level": 70,
+            "yearsOfExperience": 2,
+            "icon": "symfony"
+          },
+          {
+            "name": "Django",
+            "level": 65,
+            "yearsOfExperience": 2,
+            "icon": "django"
+          },
+          {
+            "name": "Python",
+            "level": 70,
+            "yearsOfExperience": 3,
+            "icon": "python"
+          },
+          {
+            "name": "API REST",
+            "level": 95,
+            "yearsOfExperience": 6,
+            "icon": "fastapi"
+          },
+          {
+            "name": "GraphQL",
+            "level": 75,
+            "yearsOfExperience": 2,
+            "icon": "graphql"
+          }
         ]
       },
       {
         "category": "Database",
         "items": [
-          { "name": "PostgreSQL", "level": 90, "yearsOfExperience": 5 },
-          { "name": "MySQL", "level": 85, "yearsOfExperience": 6 },
-          { "name": "MongoDB", "level": 80, "yearsOfExperience": 4 },
-          { "name": "Redis", "level": 85, "yearsOfExperience": 4 },
-          { "name": "Elasticsearch", "level": 70, "yearsOfExperience": 2 },
-          { "name": "TypeORM", "level": 85, "yearsOfExperience": 3 },
-          { "name": "Prisma", "level": 75, "yearsOfExperience": 2 }
+          {
+            "name": "PostgreSQL",
+            "level": 90,
+            "yearsOfExperience": 5
+          },
+          {
+            "name": "MySQL",
+            "level": 85,
+            "yearsOfExperience": 6
+          },
+          {
+            "name": "MongoDB",
+            "level": 80,
+            "yearsOfExperience": 4
+          },
+          {
+            "name": "Redis",
+            "level": 85,
+            "yearsOfExperience": 4
+          },
+          {
+            "name": "Elasticsearch",
+            "level": 70,
+            "yearsOfExperience": 2
+          },
+          {
+            "name": "TypeORM",
+            "level": 85,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "Prisma",
+            "level": 75,
+            "yearsOfExperience": 2
+          }
         ]
       },
       {
         "category": "DevOps & Cloud",
         "items": [
-          { "name": "AWS", "level": 85, "yearsOfExperience": 4 },
-          { "name": "Docker", "level": 90, "yearsOfExperience": 5 },
-          { "name": "Kubernetes", "level": 75, "yearsOfExperience": 3 },
-          { "name": "Jenkins", "level": 70, "yearsOfExperience": 3 },
-          { "name": "CI/CD", "level": 85, "yearsOfExperience": 4 },
-          { "name": "GitHub Actions", "level": 85, "yearsOfExperience": 3 },
-          { "name": "Terraform", "level": 65, "yearsOfExperience": 2 },
-          { "name": "Nginx", "level": 75, "yearsOfExperience": 4 }
+          {
+            "name": "AWS",
+            "level": 85,
+            "yearsOfExperience": 4
+          },
+          {
+            "name": "Docker",
+            "level": 90,
+            "yearsOfExperience": 5
+          },
+          {
+            "name": "Kubernetes",
+            "level": 75,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "Jenkins",
+            "level": 70,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "CI/CD",
+            "level": 85,
+            "yearsOfExperience": 4
+          },
+          {
+            "name": "GitHub Actions",
+            "level": 85,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "Terraform",
+            "level": 65,
+            "yearsOfExperience": 2
+          },
+          {
+            "name": "Nginx",
+            "level": 75,
+            "yearsOfExperience": 4
+          }
         ]
       },
       {
         "category": "Tools & Others",
         "items": [
-          { "name": "Git", "level": 95, "yearsOfExperience": 8 },
-          { "name": "Nx Monorepo", "level": 80, "yearsOfExperience": 2 },
-          { "name": "Jest", "level": 85, "yearsOfExperience": 4 },
-          { "name": "Cypress", "level": 75, "yearsOfExperience": 3 },
-          { "name": "Webpack", "level": 80, "yearsOfExperience": 5 },
-          { "name": "Vite", "level": 75, "yearsOfExperience": 2 },
-          { "name": "Figma", "level": 70, "yearsOfExperience": 3 },
-          { "name": "Adobe XD", "level": 65, "yearsOfExperience": 2 },
-          { "name": "Photoshop", "level": 60, "yearsOfExperience": 4 }
+          {
+            "name": "Git",
+            "level": 95,
+            "yearsOfExperience": 8
+          },
+          {
+            "name": "Nx Monorepo",
+            "level": 80,
+            "yearsOfExperience": 2
+          },
+          {
+            "name": "Jest",
+            "level": 85,
+            "yearsOfExperience": 4
+          },
+          {
+            "name": "Cypress",
+            "level": 75,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "Webpack",
+            "level": 80,
+            "yearsOfExperience": 5
+          },
+          {
+            "name": "Vite",
+            "level": 75,
+            "yearsOfExperience": 2
+          },
+          {
+            "name": "Figma",
+            "level": 70,
+            "yearsOfExperience": 3
+          },
+          {
+            "name": "Adobe XD",
+            "level": 65,
+            "yearsOfExperience": 2
+          },
+          {
+            "name": "Photoshop",
+            "level": 60,
+            "yearsOfExperience": 4
+          }
         ]
       }
     ],
@@ -816,7 +1194,14 @@
       "issued": "2023-09",
       "expires": "2026-09",
       "url": "https://www.credly.com/badges/9877ab09-4edc-4735-977f-d32961ff7256/linked_in_profile",
-      "skills": ["AWS", "Cloud Computing", "EC2", "S3", "Lambda", "CloudFormation"]
+      "skills": [
+        "AWS",
+        "Cloud Computing",
+        "EC2",
+        "S3",
+        "Lambda",
+        "CloudFormation"
+      ]
     }
   ],
   "languages": [
@@ -869,7 +1254,7 @@
       "description": "Toujours curieux, toujours en veille. Top 6% sur daily.dev cette année, juste en ouvrant des onglets pendant ma veille tech quotidienne."
     }
   ],
-    "metadata": {
+  "metadata": {
     "version": "1.0.1",
     "lastUpdated": "2026-01-24",
     "theme": {
