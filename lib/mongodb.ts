@@ -32,6 +32,12 @@ export async function connectDB() {
     });
   }
 
-  cached.conn = await cached.promise;
+  try {
+    cached.conn = await cached.promise;
+  } catch (error) {
+    // Don't keep a rejected promise around, or every later request fails instantly
+    cached.promise = null;
+    throw error;
+  }
   return cached.conn;
 }

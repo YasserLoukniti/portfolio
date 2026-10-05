@@ -5,7 +5,7 @@
     "lastName": "Loukniti",
     "fullName": "Yasser Loukniti",
     "title": "Full Stack Engineer",
-    "headline": "AI-Powered Products | TypeScript • NestJS • Next.js | AWS Certified",
+    "headline": "AI-Powered Products | TypeScript • NestJS • Next.js | AWS Certified | En recherche active",
     "email": "yass_official@outlook.fr",
     "phone": "+33 7 49 55 33 92",
     "location": {
@@ -17,13 +17,14 @@
     "profileImage": "/profile.jpg",
     "coverImage": "",
     "about": {
-      "short": "Full Stack Developer avec un parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds). Spécialisé en TypeScript/Node.js : architectures microservices, communication event-driven (Kafka), gestion multi-databases.",
-      "long": "Full Stack Developer avec un parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds). Spécialisé en TypeScript/Node.js : conception d'architectures microservices, communication event-driven (Kafka), gestion multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch). Développement frontend avec Next.js/React, design system atomique et state management avancé (Redux Toolkit, React Query). Expérience en intégration de services AI (LangChain, matching intelligent, parsing CV) et en bonnes pratiques : TypeScript strict, tests (Jest, Cypress), CI/CD, code reviews, conventional commits. Certifié AWS Cloud Practitioner.",
+      "short": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds), et co-fondateur de WaysToSucceed. Créateur de Job Hunter et AlienMcp. Spécialisé en TypeScript/Node.js : architectures microservices, communication event-driven (Kafka), intégration IA.",
+      "long": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds, 2024-2026). Co-fondateur de WaysToSucceed, plateforme de tutorat entre enfants sur Zoom avec tuteur IA. Créateur de Job Hunter (application desktop qui automatise la recherche d'emploi) et d'AlienMcp (extension Chrome publiée sur le Chrome Web Store qui connecte les agents IA au navigateur via MCP). Spécialisé en TypeScript/Node.js : conception d'architectures microservices, communication event-driven (Kafka), gestion multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch). Développement frontend avec Next.js/React, design system atomique et state management avancé (Redux Toolkit, React Query). Expérience en intégration de services AI (LangChain, LangGraph, MCP, matching intelligent, parsing CV) et en bonnes pratiques : TypeScript strict, tests (Jest, Cypress), CI/CD, code reviews, conventional commits. Certifié AWS Cloud Practitioner.",
       "philosophy": "Stack : TypeScript, NestJS, Next.js, React, PostgreSQL, Redis, Elasticsearch, Kafka, Docker, AWS"
     },
     "availability": {
-      "status": "not-available",
+      "status": "open-to-work",
       "type": "cdi",
+      "note": "En recherche active depuis mon départ de Weneeds en juillet 2026, disponible immédiatement",
       "preferredContract": [
         "CDI"
       ],
@@ -61,6 +62,41 @@
   },
   "experiences": [
     {
+      "id": "waystosucceed",
+      "company": "WaysToSucceed",
+      "companyUrl": "https://waystosucceed.com",
+      "companyLogo": "/images/companies/waystosucceed.png",
+      "title": "Co-fondateur",
+      "type": "founder",
+      "startDate": "2026-08",
+      "endDate": null,
+      "isCurrent": true,
+      "location": {
+        "city": "Paris",
+        "region": "Île-de-France",
+        "country": "France",
+        "remote": "remote"
+      },
+      "description": "Co-fondateur de WaysToSucceed (waystosucceed.com), plateforme éducative de tutorat entre pairs : des enfants de 6 à 13 ans enseignent à d'autres enfants en petits groupes sur Zoom, sous la supervision d'un agent pédagogique adulte. Entre les séances, un tuteur IA accompagne les révisions. Matières : langues (arabe, français, anglais), mathématiques, programmation/IA, cybersécurité, éducation financière et entrepreneuriat. Présente au Canada, en France et au Maroc.",
+      "responsibilities": [
+        "Co-fondation et développement du produit",
+        "Conception de la plateforme web et du tuteur IA pour la révision entre les séances",
+        "Organisation des cours en petits groupes sur Zoom avec supervision adulte"
+      ],
+      "achievements": [
+        "Lancement de la plateforme sur 3 pays : Canada, France, Maroc",
+        "Offre de 6 matières : langues, mathématiques, programmation/IA, cybersécurité, éducation financière, entrepreneuriat"
+      ],
+      "technologies": ["Next.js", "React", "TypeScript", "IA / LLM", "Zoom"],
+      "team": {
+        "size": 2,
+        "methodology": null,
+        "members": [
+          { "role": "Co-fondateur", "count": 2 }
+        ]
+      }
+    },
+    {
       "id": "weneeds",
       "company": "Weneeds",
       "companyUrl": "https://weneeds.com",
@@ -69,8 +105,8 @@
       "title": "Full Stack Developer",
       "type": "full-time",
       "startDate": "2024-03",
-      "endDate": null,
-      "isCurrent": true,
+      "endDate": "2026-07",
+      "isCurrent": false,
       "location": {
         "city": "Paris",
         "region": "Île-de-France",
@@ -561,6 +597,100 @@
   ],
   "projects": [
     {
+      "id": "proj-jobhunter",
+      "title": "Job Hunter - Recherche d'emploi automatisée",
+      "slug": "job-hunter",
+      "category": "Produit perso",
+      "featured": true,
+      "status": "production",
+      "startDate": "2026-08",
+      "endDate": null,
+      "description": "Application desktop gratuite qui lit les offres de Welcome to the Jungle, HelloWork et Indeed, les note sur ton profil par IA et prépare les candidatures pendant que tu fais autre chose.",
+      "longDescription": "Job Hunter (jobhunterapp.fr) : « lance la recherche, va faire autre chose ». L'application réunit les offres de Welcome to the Jungle, HelloWork et Indeed, les filtre et les note selon le profil du candidat grâce à l'IA, puis prépare les candidatures. À son retour, l'utilisateur relit et envoie : rien ne part sans son accord. Tout s'exécute en local sur l'ordinateur, sans envoi automatique de données. Disponible gratuitement sur Windows, macOS et Linux.",
+      "features": [
+        "Recherche multi-plateformes : Welcome to the Jungle, HelloWork, Indeed",
+        "Filtrage et scoring des offres par IA selon le profil",
+        "Rédaction assistée des candidatures",
+        "Validation humaine avant tout envoi",
+        "Exécution 100% locale, aucune donnée envoyée automatiquement",
+        "Application desktop Windows, macOS et Linux"
+      ],
+      "technologies": ["Electron", "Node.js", "IA / LLM", "Web Scraping", "Automatisation"],
+      "image": "/projects/personal/jobhunter.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "",
+        "live": "https://jobhunterapp.fr",
+        "demo": ""
+      },
+      "role": "Créateur",
+      "teamSize": 1,
+      "client": "Projet personnel"
+    },
+    {
+      "id": "proj-alienmcp",
+      "title": "AlienMcp - Automatisation navigateur pour agents IA",
+      "slug": "alienmcp",
+      "category": "Open Source",
+      "featured": true,
+      "status": "production",
+      "startDate": "2026-04",
+      "endDate": null,
+      "description": "Extension Chrome publiée sur le Chrome Web Store + serveur MCP : 20 outils pour que Claude Code, Cursor ou tout client MCP pilote ton vrai Chrome, avec tes sessions et cookies.",
+      "longDescription": "AlienMcp (alien-mcp.com) connecte les agents IA (Claude Code, Cursor, VS Code et tout client MCP stdio) au vrai navigateur Chrome de l'utilisateur via le Model Context Protocol. Contrairement à l'automatisation headless, il pilote les onglets réels avec les sessions, cookies et extensions intacts. Les clics et saisies passent par des événements de confiance (CDP), acceptés par React, Vue et Angular. Tout tourne en local sur localhost. Extension publiée sur le Chrome Web Store, code open source sous licence MIT.",
+      "features": [
+        "Extension publiée sur le Chrome Web Store",
+        "20 outils MCP : lecture, navigation, clics, saisie, formulaires, scroll, captures, PDF",
+        "Inspection : console, réseau, cookies, storage, exécution JavaScript, émulation",
+        "Événements d'entrée de confiance via Chrome DevTools Protocol",
+        "Tab Groups pour limiter l'agent aux onglets choisis",
+        "Compatible Claude Code, Cursor, VS Code et tout client MCP",
+        "100% local, open source (MIT)"
+      ],
+      "technologies": ["TypeScript", "MCP", "Chrome Extension", "Chrome DevTools Protocol", "Node.js"],
+      "image": "/projects/personal/alienmcp.jpg",
+      "screenshots": [],
+      "links": {
+        "github": "https://github.com/YasserLoukniti/AlienMcp",
+        "live": "https://www.alien-mcp.com",
+        "demo": "https://chromewebstore.google.com/detail/alienmcp-browser-automati/dpjgfdpcgfifhjecpjcolbmadfkmmbeo"
+      },
+      "role": "Créateur",
+      "teamSize": 1,
+      "client": "Open Source"
+    },
+    {
+      "id": "proj-indeed-downloader",
+      "title": "Indeed Bulk Resumes Downloader",
+      "slug": "indeed-bulk-resumes-downloader",
+      "category": "Open Source",
+      "featured": true,
+      "status": "open-source",
+      "startDate": "2025-11",
+      "endDate": null,
+      "description": "Outil open source (17 ⭐ sur GitHub) pour télécharger en masse les CV des candidats depuis le tableau de bord Indeed Employer.",
+      "longDescription": "Outil Python open source qui télécharge en masse les CV des candidats depuis Indeed Employer. Deux modes (API rapide ou Selenium stable), sélection d'une ou plusieurs offres, filtrage par statut, détection des doublons et reprise automatique après interruption. Les CV sont rangés par dossier et un rapport de téléchargement est généré. Distribué aussi en exécutable .exe autonome, sans Python requis. Le projet compte 17 stars sur GitHub.",
+      "features": [
+        "17 stars sur GitHub",
+        "Deux modes de téléchargement : API (rapide) ou Selenium (stable)",
+        "Sélection simple ou multiple des offres, filtrage par statut",
+        "Détection des doublons et reprise après interruption",
+        "Session Chrome conservée (connexion unique)",
+        "Exécutable .exe autonome, données 100% locales"
+      ],
+      "technologies": ["Python", "Selenium", "Web Scraping", "PyInstaller"],
+      "image": "",
+      "screenshots": [],
+      "links": {
+        "github": "https://github.com/YasserLoukniti/indeedBulkResumesDownloader",
+        "live": "",
+        "demo": ""
+      },
+      "role": "Créateur",
+      "teamSize": 1,
+      "client": "Open Source"
+    },
+    {
       "id": "proj-1",
       "title": "Weneeds.com - Plateforme de Recrutement IA",
       "slug": "weneeds-recruitment-platform",
@@ -568,7 +698,7 @@
       "featured": true,
       "status": "production",
       "startDate": "2024-03",
-      "endDate": null,
+      "endDate": "2026-07",
       "description": "Plateforme de recrutement boostée avec l'IA pour optimiser le matching entre candidats et offres d'emploi.",
       "longDescription": "Solution SaaS de recrutement augmenté par l'intelligence artificielle. Architecture microservices pour une scalabilité optimale. Matching sémantique candidats/offres, scoring intelligent, et communication event-driven entre les services. Frontend moderne avec design system atomique.",
       "features": [
@@ -1255,8 +1385,8 @@
     }
   ],
   "metadata": {
-    "version": "1.0.1",
-    "lastUpdated": "2026-01-24",
+    "version": "1.0.2",
+    "lastUpdated": "2026-10-05",
     "theme": {
       "primaryColor": "#10B981",
       "secondaryColor": "#00DC82",

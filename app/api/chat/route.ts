@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { isValidObjectId } from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import { ChatSession, ChatMessage, TokenUsage, ProviderError, getSettings } from '@/lib/models';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -30,7 +31,10 @@ export async function POST(request: NextRequest) {
       }, 429);
     }
 
-    const body = await request.json();
+    const body = await request.json().catch(() => null);
+    if (!body) {
+      return errorResponse('Invalid JSON body');
+    }
     const { message, sessionId } = body;
 
     if (!message || typeof message !== 'string') {
@@ -44,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     // Get or create session
     let session;
-    if (sessionId) {
+    if (sessionId && isValidObjectId(sessionId)) {
       session = await ChatSession.findById(sessionId);
     }
 

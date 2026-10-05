@@ -1,5 +1,6 @@
 import { HumanMessage, SystemMessage, AIMessage, BaseMessage } from '@langchain/core/messages';
 import { getProvider, ProviderName, PROVIDER_CONFIGS, isProviderAvailable, getAvailableProviders } from './providers';
+import { DEFAULT_FALLBACK_ORDER, isKnownProvider } from './providers/config';
 import { checkDailyQuota, checkMinuteLimit, recordMinuteUsage } from './providers/quota';
 import { database } from '@/data/portfolio.data';
 
@@ -17,7 +18,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number, providerName: string): 
 
 // Genere le contexte dynamiquement depuis database.json
 function generatePortfolioContext(): string {
-  const { profile, experiences, skills, education, certifications, languages, interests, hobbies, achievements } = database;
+  const { profile, experiences, projects, skills, education, certifications, languages, interests, hobbies, achievements } = database;
 
   // Generer le texte des experiences
   const experiencesText = experiences
@@ -29,6 +30,15 @@ function generatePortfolioContext(): string {
       return `${prefix} - ${exp.company} (${exp.startDate} - ${exp.endDate || 'Present'}):\n${exp.title} - ${exp.description}\n${highlights}`;
     })
     .join('\n\n');
+
+  // Generer le texte des projets mis en avant (produits perso et open source)
+  const projectsText = projects
+    .filter((p) => p.featured && p.client !== 'Weneeds' && !p.client.includes('Consulting'))
+    .map((p) => {
+      const links = [p.links.live, p.links.github, p.links.demo].filter(Boolean).join(' | ');
+      return `- ${p.title} (${p.role}): ${p.longDescription}${links ? `\n  Liens: ${links}` : ''}`;
+    })
+    .join('\n');
 
   // Generer le texte des competences
   const skillsText = skills.technical
@@ -123,6 +133,9 @@ ${profile.about.long}
 
 ${experiencesText}
 
+PROJETS PERSONNELS ET OPEN SOURCE (cree par moi):
+${projectsText}
+
 COMPETENCES TECHNIQUES:
 ${skillsText}
 
@@ -141,6 +154,7 @@ ${achievementsText}
 Quand tu parles d'une experience ou d'une ressource, inclus le lien correspondant pour permettre a l'utilisateur d'en savoir plus:
 
 EXPERIENCES (pages du portfolio):
+- WaysToSucceed: /experience/waystosucceed
 - Weneeds: /experience/weneeds
 - Capgemini: /experience/capgemini
 - 42 Consulting: /experience/42c
@@ -148,6 +162,7 @@ EXPERIENCES (pages du portfolio):
 LIENS EXTERNES:
 - Site Weneeds: https://weneeds.com
 - Site Capgemini: https://www.capgemini.com
+- Site WaysToSucceed: https://waystosucceed.com
 - LinkedIn: ${profile.socialLinks.linkedin}
 - GitHub: ${profile.socialLinks.github}
 - CV PDF: ${profile.resume.url}
@@ -202,10 +217,12 @@ export async function generateChatResponse(
     new HumanMessage(message),
   ];
 
-  // Build provider order: active first, then fallback order
-  const providerOrder: ProviderName[] = [activeProvider];
-  for (const provider of fallbackOrder) {
-    if (!providerOrder.includes(provider)) {
+  // Build provider order: active first, then the saved fallback order, then any provider
+  // missing from it (settings saved before a provider was added). Names of removed
+  // providers that are still stored in the DB are dropped.
+  const providerOrder: ProviderName[] = [];
+  for (const provider of [activeProvider, ...fallbackOrder, ...DEFAULT_FALLBACK_ORDER]) {
+    if (isKnownProvider(provider) && !providerOrder.includes(provider)) {
       providerOrder.push(provider);
     }
   }
@@ -239,6 +256,10 @@ export async function generateChatResponse(
 
       const model = getProvider(providerName);
       const response = await withTimeout(model.invoke(messages), PROVIDER_TIMEOUT_MS, providerName);
+      if (!String(response.content).trim()) {
+        // Some free gateways answer 200 with an error body, and reasoning models can run out of tokens
+        throw new Error(`Empty response from ${providerName}`);
+      }
 
       // Estimate tokens (rough estimation)
       const tokensIn = Math.ceil(messages.reduce((acc, m) => acc + String(m.content).length / 4, 0));

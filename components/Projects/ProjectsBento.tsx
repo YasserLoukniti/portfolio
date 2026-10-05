@@ -499,7 +499,7 @@ export const ProjectsBento: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Une sélection de projets SaaS, e-commerce et applications d'entreprise.
+              Produits perso, open source, SaaS et applications d'entreprise.
             </SectionDescription>
           </SectionHeader>
 

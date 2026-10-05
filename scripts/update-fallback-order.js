@@ -4,7 +4,7 @@
 require('dotenv').config({ path: '.env.local' });
 const mongoose = require('mongoose');
 
-const NEW_ORDER = ['gemini', 'mistral', 'groq-70b', 'cerebras', 'groq-8b', 'openrouter'];
+const NEW_ORDER = ['groq-70b', 'nvidia', 'groq-8b', 'gemini', 'openrouter', 'kilo', 'ovh'];
 
 async function updateFallbackOrder() {
   try {

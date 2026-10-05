@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { ProviderName, DEFAULT_FALLBACK_ORDER } from './providers/config';
+import { ProviderName, DEFAULT_FALLBACK_ORDER, PROVIDER_NAMES, isKnownProvider } from './providers/config';
 
 // Chat Session
 export interface IChatSession extends Document {
@@ -113,7 +113,7 @@ const SettingsSchema = new Schema<ISettings>(
       type: String,
       required: true,
       default: 'gemini',
-      enum: ['gemini', 'groq-70b', 'groq-8b', 'cerebras', 'mistral', 'openrouter'],
+      enum: PROVIDER_NAMES,
     },
     fallbackOrder: {
       type: [String],
@@ -132,6 +132,14 @@ export async function getSettings(): Promise<ISettings> {
       activeProvider: 'gemini',
       fallbackOrder: DEFAULT_FALLBACK_ORDER,
     });
+  }
+
+  // Drop providers that no longer exist (e.g. mistral, cerebras) so later saves pass the enum check
+  const knownOrder = settings.fallbackOrder.filter((p: string) => isKnownProvider(p));
+  if (!isKnownProvider(settings.activeProvider) || knownOrder.length !== settings.fallbackOrder.length) {
+    if (!isKnownProvider(settings.activeProvider)) settings.activeProvider = 'gemini';
+    settings.fallbackOrder = knownOrder;
+    await settings.save();
   }
   return settings;
 }

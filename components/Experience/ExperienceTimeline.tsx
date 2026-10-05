@@ -8,6 +8,7 @@ import { portfolioData } from '../../data/portfolio.data';
 
 // Couleurs des entreprises basees sur leurs logos
 const companyColors: { [key: string]: string } = {
+  'WaysToSucceed': '#F59E0B',
   'Weneeds': '#6366F1',
   'Capgemini': '#0070AD',
   '42C': '#FF6B00',

@@ -1,4 +1,6 @@
-export type ProviderName = 'gemini' | 'groq-70b' | 'groq-8b' | 'cerebras' | 'mistral' | 'openrouter';
+export type ProviderName = 'gemini' | 'groq-70b' | 'groq-8b' | 'nvidia' | 'kilo' | 'openrouter' | 'ovh';
+
+export const PROVIDER_NAMES: ProviderName[] = ['gemini', 'groq-70b', 'groq-8b', 'nvidia', 'kilo', 'openrouter', 'ovh'];
 
 export interface ProviderLimits {
   rpm: number;      // Requests per minute
@@ -11,7 +13,7 @@ export interface ProviderConfig {
   name: ProviderName;
   displayName: string;
   model: string;
-  envKey: string;
+  envKey: string | null; // null = free anonymous endpoint, no API key needed
   limits: ProviderLimits;
   description: string;
 }
@@ -20,72 +22,46 @@ export const PROVIDER_CONFIGS: Record<ProviderName, ProviderConfig> = {
   'gemini': {
     name: 'gemini',
     displayName: 'Google Gemini',
-    model: 'gemini-2.0-flash',
+    model: 'gemini-3.6-flash',
     envKey: 'GOOGLE_API_KEY',
     limits: {
-      rpm: 10,
+      rpm: 15,
       tpm: 250000,
-      rpd: 20,  // Free tier limit
+      rpd: 1500,  // Free tier limit
       tpd: 0,
     },
-    description: 'Gemini 2.0 Flash - 20 req/jour (free tier)',
+    description: 'Gemini 3.6 Flash - 15 req/min, 1.5K req/jour (free tier)',
   },
   'groq-70b': {
     name: 'groq-70b',
-    displayName: 'Groq Llama 70B',
-    model: 'llama-3.3-70b-versatile',
+    displayName: 'Groq GPT-OSS 120B',
+    model: 'openai/gpt-oss-120b',
     envKey: 'GROQ_API_KEY',
     limits: {
       rpm: 30,
-      tpm: 12000,
+      tpm: 8000,
       rpd: 1000,
-      tpd: 100000,
+      tpd: 200000,
     },
-    description: 'Llama 3.3 70B - 1K req/jour, 100K tokens/jour',
+    description: 'GPT-OSS 120B - 1K req/jour, 200K tokens/jour',
   },
   'groq-8b': {
     name: 'groq-8b',
-    displayName: 'Groq Llama 8B',
-    model: 'llama-3.1-8b-instant',
+    displayName: 'Groq GPT-OSS 20B',
+    model: 'openai/gpt-oss-20b',
     envKey: 'GROQ_API_KEY',
     limits: {
       rpm: 30,
-      tpm: 6000,
-      rpd: 14400,
-      tpd: 500000,
+      tpm: 8000,
+      rpd: 1000,
+      tpd: 200000,
     },
-    description: 'Llama 3.1 8B - 14K req/jour, 500K tokens/jour',
-  },
-  'cerebras': {
-    name: 'cerebras',
-    displayName: 'Cerebras',
-    model: 'llama-3.3-70b',
-    envKey: 'CEREBRAS_API_KEY',
-    limits: {
-      rpm: 30,
-      tpm: 60000,
-      rpd: 14400,
-      tpd: 1000000,
-    },
-    description: 'Llama 3.3 70B - 14K req/jour, 1M tokens/jour',
-  },
-  'mistral': {
-    name: 'mistral',
-    displayName: 'Mistral AI',
-    model: 'mistral-small-latest',
-    envKey: 'MISTRAL_API_KEY',
-    limits: {
-      rpm: 60,
-      tpm: 500000,
-      rpd: 100000,
-      tpd: 0, // ~1B/month = effectively unlimited daily
-    },
-    description: 'Mistral Small - ~1B tokens/mois',
+    description: 'GPT-OSS 20B - 1K req/jour, 200K tokens/jour',
   },
   'openrouter': {
     name: 'openrouter',
     displayName: 'OpenRouter',
-    model: 'meta-llama/llama-3.1-8b-instruct:free',
+    model: 'openrouter/free',
     envKey: 'OPENROUTER_API_KEY',
     limits: {
       rpm: 20,
@@ -93,25 +69,69 @@ export const PROVIDER_CONFIGS: Record<ProviderName, ProviderConfig> = {
       rpd: 50,
       tpd: 0,
     },
-    description: 'Llama 3.1 8B Free - 50 req/jour',
+    description: 'Routeur gratuit OpenRouter - 50 req/jour',
+  },
+  'nvidia': {
+    name: 'nvidia',
+    displayName: 'NVIDIA NIM',
+    model: 'nvidia/nemotron-3-super-120b-a12b',
+    envKey: 'NVIDIA_API_KEY',
+    limits: {
+      rpm: 40,
+      tpm: 0,
+      rpd: 10000,
+      tpd: 0,
+    },
+    description: 'Nemotron 3 Super 120B - 40 req/min, 10K req/jour',
+  },
+  'kilo': {
+    name: 'kilo',
+    displayName: 'Kilo Gateway',
+    model: 'stepfun/step-3.7-flash:free',
+    envKey: null,
+    limits: {
+      rpm: 20,
+      tpm: 0,
+      rpd: 2000, // 200 req/hour per IP, no API key
+      tpd: 0,
+    },
+    description: 'Step 3.7 Flash Free - 200 req/heure, sans cle',
+  },
+  'ovh': {
+    name: 'ovh',
+    displayName: 'OVHcloud AI Endpoints',
+    model: 'Meta-Llama-3_3-70B-Instruct',
+    envKey: null,
+    limits: {
+      rpm: 2, // anonymous tier: 2 RPM per IP per model
+      tpm: 0,
+      rpd: 2880,
+      tpd: 0,
+    },
+    description: 'Llama 3.3 70B (UE) - 2 req/min, sans cle',
   },
 };
 
 export const DEFAULT_FALLBACK_ORDER: ProviderName[] = [
-  'gemini',
-  'mistral',
   'groq-70b',
-  'cerebras',
+  'nvidia',
   'groq-8b',
+  'gemini',
   'openrouter',
+  'kilo',
+  'ovh',
 ];
 
-export function getAvailableProviders(): ProviderName[] {
-  return (Object.keys(PROVIDER_CONFIGS) as ProviderName[]).filter(
-    (name) => !!process.env[PROVIDER_CONFIGS[name].envKey]
-  );
+export function isKnownProvider(name: string): name is ProviderName {
+  return Object.prototype.hasOwnProperty.call(PROVIDER_CONFIGS, name);
 }
 
 export function isProviderAvailable(name: ProviderName): boolean {
-  return !!process.env[PROVIDER_CONFIGS[name].envKey];
+  const config = PROVIDER_CONFIGS[name];
+  if (!config) return false;
+  return config.envKey === null || !!process.env[config.envKey];
+}
+
+export function getAvailableProviders(): ProviderName[] {
+  return PROVIDER_NAMES.filter(isProviderAvailable);
 }

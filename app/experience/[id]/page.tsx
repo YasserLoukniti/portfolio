@@ -27,6 +27,7 @@ import {
 import { database } from '@/data/portfolio.data';
 // Company colors
 const companyColors: { [key: string]: string } = {
+  'WaysToSucceed': '#F59E0B',
   'Weneeds': '#6366F1',
   'Capgemini': '#0070AD',
   '42c': '#FF6B00',
@@ -1147,10 +1148,11 @@ export default function ExperienceDetailPage() {
                       <TeamDetail $color={color}>
                         <h4>Secteur</h4>
                         <p>
+                          {experience.company === 'WaysToSucceed' && 'Éducation / EdTech'}
                           {experience.company === 'Weneeds' && 'Recrutement / IA'}
                           {experience.company === 'Capgemini' && 'Conseil / IT Services'}
                           {experience.company === '42c' && 'Conseil / Recrutement Tech'}
-                          {!['Weneeds', 'Capgemini', '42c'].includes(experience.company) && 'Tech'}
+                          {!['WaysToSucceed', 'Weneeds', 'Capgemini', '42c'].includes(experience.company) && 'Tech'}
                         </p>
                       </TeamDetail>
                       <TeamDetail $color={color}>
