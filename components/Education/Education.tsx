@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
 import { GraduationCap, Calendar } from 'lucide-react';
 import { portfolioData } from '../../data/portfolio.data';
@@ -47,14 +50,14 @@ export const Education: React.FC = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Parcours academique
+            Parcours académique
           </S.SectionTitle>
           <S.SectionDescription
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Formation en informatique et developpement logiciel.
+            Formation en informatique et développement logiciel.
           </S.SectionDescription>
         </S.SectionHeader>
 
@@ -68,7 +71,7 @@ export const Education: React.FC = () => {
               <S.CardHeader>
                 <S.SchoolLogo>
                   {education.logo ? (
-                    <img src={education.logo} alt={education.school} />
+                    <Image src={education.logo} alt={education.school} width={112} height={112} />
                   ) : (
                     <GraduationCap size={24} style={{ color: 'rgba(255,255,255,0.4)' }} />
                   )}

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { Send } from 'lucide-react';
@@ -97,7 +99,8 @@ export const Hero: React.FC = () => {
                 <S.ChatInputCard>
                   <S.ChatInput
                     type="text"
-                    placeholder="Mon IA vous repond a ma place - Posez vos questions !"
+                    placeholder="Mon IA vous répond à ma place - Posez vos questions !"
+                    maxLength={1000}
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     onKeyDown={handleKeyDown}

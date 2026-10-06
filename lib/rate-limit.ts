@@ -1,18 +1,12 @@
-interface RateLimitEntry {
-  count: number;
-  resetTime: number;
-}
-
-interface DailyLimitEntry {
-  count: number;
-  resetDate: string;
-}
-
-const minuteLimits = new Map<string, RateLimitEntry>();
-const dailyLimits = new Map<string, DailyLimitEntry>();
+import { NextRequest } from 'next/server';
+import { connectDB } from './mongodb';
+import { RateLimit } from './models';
 
 const MAX_PER_MINUTE = 10;
 const MAX_PER_DAY = 50;
+
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -22,56 +16,84 @@ export interface RateLimitResult {
   remainingDay: number;
 }
 
-export function checkRateLimit(ip: string): RateLimitResult {
-  const now = Date.now();
-  const today = new Date().toISOString().split('T')[0];
+/**
+ * IP du client. Sur Vercel, `request.ip` et `x-real-ip` sont fixés par le proxy
+ * et ne peuvent pas être forgés par le client.
+ */
+export function getClientIp(request: NextRequest): string {
+  return (
+    request.ip ||
+    request.headers.get('x-real-ip') ||
+    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    'unknown'
+  );
+}
 
-  // Check minute limit
-  let minuteEntry = minuteLimits.get(ip);
-  if (!minuteEntry || now > minuteEntry.resetTime) {
-    minuteEntry = { count: 0, resetTime: now + 60000 };
-    minuteLimits.set(ip, minuteEntry);
+/**
+ * Incrémente le compteur d'une fenêtre fixe et renvoie sa nouvelle valeur.
+ * Stocké en base pour être partagé entre toutes les instances serverless.
+ */
+async function hit(key: string, windowMs: number): Promise<{ count: number; resetTime: number }> {
+  const windowStart = Math.floor(Date.now() / windowMs) * windowMs;
+  const resetTime = windowStart + windowMs;
+  const update = {
+    $inc: { count: 1 },
+    $setOnInsert: { expiresAt: new Date(resetTime) },
+  };
+  const options = { upsert: true, new: true };
+  const bucketKey = `${key}:${windowStart}`;
+
+  try {
+    const entry = await RateLimit.findOneAndUpdate({ key: bucketKey }, update, options);
+    return { count: entry.count, resetTime };
+  } catch (error: any) {
+    // Deux upserts simultanés sur une nouvelle clé : le second échoue, on réessaie une fois
+    if (error?.code !== 11000) throw error;
+    const entry = await RateLimit.findOneAndUpdate({ key: bucketKey }, update, options);
+    return { count: entry.count, resetTime };
   }
+}
 
-  // Check daily limit
-  let dailyEntry = dailyLimits.get(ip);
-  if (!dailyEntry || dailyEntry.resetDate !== today) {
-    dailyEntry = { count: 0, resetDate: today };
-    dailyLimits.set(ip, dailyEntry);
-  }
+export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
+  await connectDB();
 
-  const remainingMinute = Math.max(0, MAX_PER_MINUTE - minuteEntry.count);
-  const remainingDay = Math.max(0, MAX_PER_DAY - dailyEntry.count);
+  const [minute, day] = await Promise.all([
+    hit(`chat:m:${ip}`, 60 * 1000),
+    hit(`chat:d:${ip}`, 24 * 60 * 60 * 1000),
+  ]);
 
-  // Check daily limit first
-  if (dailyEntry.count >= MAX_PER_DAY) {
+  const remainingMinute = Math.max(0, MAX_PER_MINUTE - minute.count);
+  const remainingDay = Math.max(0, MAX_PER_DAY - day.count);
+
+  if (day.count > MAX_PER_DAY) {
     return {
       allowed: false,
-      reason: 'Limite journaliere atteinte. Revenez demain !',
+      reason: 'Limite journalière atteinte. Revenez demain !',
       remainingMinute,
       remainingDay: 0,
     };
   }
 
-  // Check minute limit
-  if (minuteEntry.count >= MAX_PER_MINUTE) {
-    const retryAfterSeconds = Math.ceil((minuteEntry.resetTime - now) / 1000);
+  if (minute.count > MAX_PER_MINUTE) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((minute.resetTime - Date.now()) / 1000));
     return {
       allowed: false,
-      reason: `Trop de requetes. Reessayez dans ${retryAfterSeconds} secondes.`,
+      reason: `Trop de requêtes. Réessayez dans ${retryAfterSeconds} secondes.`,
       retryAfterSeconds,
       remainingMinute: 0,
       remainingDay,
     };
   }
 
-  // Increment counters
-  minuteEntry.count++;
-  dailyEntry.count++;
+  return { allowed: true, remainingMinute, remainingDay };
+}
 
-  return {
-    allowed: true,
-    remainingMinute: MAX_PER_MINUTE - minuteEntry.count,
-    remainingDay: MAX_PER_DAY - dailyEntry.count,
-  };
+export async function checkLoginRateLimit(ip: string): Promise<{ allowed: boolean; retryAfterSeconds?: number }> {
+  await connectDB();
+
+  const { count, resetTime } = await hit(`login:${ip}`, LOGIN_WINDOW_MS);
+  if (count > LOGIN_MAX_ATTEMPTS) {
+    return { allowed: false, retryAfterSeconds: Math.ceil((resetTime - Date.now()) / 1000) };
+  }
+  return { allowed: true };
 }

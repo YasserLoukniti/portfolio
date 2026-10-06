@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 import { profile } from '../../data/portfolio.data';
@@ -198,7 +199,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
       console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Une erreur s'est produite. Contactez-moi directement a yass_official@outlook.fr",
+        content: "Une erreur s'est produite. Contactez-moi directement à yass_official@outlook.fr",
         role: 'assistant',
         timestamp: new Date(),
         isTyping: true,
@@ -262,7 +263,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                 <S.EmptyState>
                   <S.EmptyTitle>Je suis le clone IA de Yasser</S.EmptyTitle>
                   <S.EmptyText>
-                    Posez-moi vos questions sur mon parcours, mes experiences ou mes competences techniques !
+                    Posez-moi vos questions sur mon parcours, mes expériences ou mes compétences techniques !
                   </S.EmptyText>
                   <S.SuggestionsGrid>
                     {suggestions.map((suggestion, index) => (
@@ -283,7 +284,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                 <S.MessageGroup key={message.id} $role={message.role}>
                   {message.role === 'assistant' && (
                     <S.MessageAvatar>
-                      <img src={profile.profileImage} alt={profile.fullName} />
+                      <Image src={profile.profileImage} alt={profile.fullName} width={80} height={80} />
                     </S.MessageAvatar>
                   )}
                   <S.MessageBubble $role={message.role}>
@@ -307,7 +308,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
               {isLoading && (
                 <S.MessageGroup $role="assistant">
                   <S.MessageAvatar>
-                    <img src={profile.profileImage} alt={profile.fullName} />
+                    <Image src={profile.profileImage} alt={profile.fullName} width={80} height={80} />
                   </S.MessageAvatar>
                   <S.MessageBubble $role="assistant">
                     <S.TypingIndicator>
@@ -327,7 +328,8 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ecrivez votre message..."
+                placeholder="Écrivez votre message..."
+                maxLength={1000}
                 disabled={isLoading || isAnyMessageTyping}
                 rows={1}
               />

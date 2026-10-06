@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -87,15 +90,9 @@ const BentoGrid = styled(motion.div)`
   }
 `;
 
-const ProjectCard = styled(motion.article)<{ $bgImage?: string }>`
+const ProjectCard = styled(motion.article)`
   position: relative;
-  background: ${({ $bgImage }) =>
-    $bgImage
-      ? `linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.85) 60%, rgba(10, 10, 10, 0.98) 100%), url(${$bgImage})`
-      : 'rgba(255, 255, 255, 0.02)'
-  };
-  background-size: cover;
-  background-position: center top;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   overflow: hidden;
@@ -109,6 +106,20 @@ const ProjectCard = styled(motion.article)<{ $bgImage?: string }>`
     border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-4px);
   }
+`;
+
+// Image optimisée par next/image (WebP/AVIF, lazy loading, taille adaptée)
+const ProjectImage = styled(Image)`
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+`;
+
+const ProjectImageOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.85) 60%, rgba(10, 10, 10, 0.98) 100%);
 `;
 
 const ProjectContent = styled.div`
@@ -511,11 +522,21 @@ export const ProjectsBento: React.FC = () => {
             {displayProjects.map((project) => (
               <ProjectCard
                 key={project.id}
-                $bgImage={project.image}
                 variants={itemVariants}
                 onClick={() => setSelectedProject(project)}
                 whileHover={{ scale: 1.01 }}
               >
+                {project.image && (
+                  <>
+                    <ProjectImage
+                      src={project.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 800px"
+                    />
+                    <ProjectImageOverlay />
+                  </>
+                )}
                 <ProjectContent>
                   <ProjectHeader>
                     <ProjectCategory>

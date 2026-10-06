@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { validateAdmin, signToken } from '@/lib/auth';
 import { handleCors, jsonResponse, errorResponse } from '@/lib/cors';
+import { checkLoginRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -11,10 +12,19 @@ export async function POST(request: NextRequest) {
   if (corsResponse) return corsResponse;
 
   try {
-    const body = await request.json();
-    const { username, password } = body;
+    // Protection contre le brute force : 5 tentatives par 15 minutes et par IP
+    const rateLimit = await checkLoginRateLimit(getClientIp(request));
+    if (!rateLimit.allowed) {
+      return jsonResponse({
+        error: 'Trop de tentatives. Réessayez plus tard.',
+        retryAfterSeconds: rateLimit.retryAfterSeconds,
+      }, 429);
+    }
 
-    if (!username || !password) {
+    const body = await request.json().catch(() => null);
+    const { username, password } = body || {};
+
+    if (typeof username !== 'string' || typeof password !== 'string' || !username || !password) {
       return errorResponse('Username and password are required');
     }
 

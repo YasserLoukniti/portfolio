@@ -404,7 +404,7 @@ export default function DashboardPage() {
               Actualiser
             </S.Button>
             <S.Button $variant="danger" onClick={handleLogout}>
-              Deconnexion
+              Déconnexion
             </S.Button>
           </S.ButtonGroup>
         </S.Header>
@@ -438,7 +438,7 @@ export default function DashboardPage() {
               <S.StatSubtext>Total</S.StatSubtext>
             </S.StatCard>
             <S.StatCard $color="#a855f7">
-              <S.StatLabel>Requetes</S.StatLabel>
+              <S.StatLabel>Requêtes</S.StatLabel>
               <S.StatValue>{requests.toLocaleString()}</S.StatValue>
               <S.StatSubtext>Aujourd&apos;hui</S.StatSubtext>
             </S.StatCard>
@@ -480,7 +480,7 @@ export default function DashboardPage() {
                   <S.QuotaSection>
                     {provider.limits.rpd > 0 && (
                       <S.QuotaRow>
-                        <S.QuotaLabel>Requetes</S.QuotaLabel>
+                        <S.QuotaLabel>Requêtes</S.QuotaLabel>
                         <S.QuotaValue>{provider.quota.requestsUsed} / {formatNumber(provider.limits.rpd)}</S.QuotaValue>
                         <S.QuotaBar>
                           <S.QuotaFill $percent={provider.quota.percentRequests} />
@@ -567,7 +567,7 @@ export default function DashboardPage() {
                     <S.ErrorProvider>
                       {error.provider}
                       <S.ErrorArrow>→</S.ErrorArrow>
-                      <span style={{ color: '#10b981' }}>{error.fallbackUsed || 'echec'}</span>
+                      <span style={{ color: '#10b981' }}>{error.fallbackUsed || 'échec'}</span>
                     </S.ErrorProvider>
                     <S.ErrorTime>{new Date(error.createdAt).toLocaleString('fr-FR')}</S.ErrorTime>
                   </S.ErrorDetails>

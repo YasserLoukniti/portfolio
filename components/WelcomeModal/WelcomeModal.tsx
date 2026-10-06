@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 import { useChat } from '@/context/ChatContext';
@@ -14,12 +15,12 @@ const EXPIRE_DURATION_MS = 60 * 60 * 1000; // 1 heure
 const TITLE_TEXT = "Pourquoi lire quand vous pouvez me demander ?";
 const TYPING_SPEED = 20;
 
-const GREETING_MESSAGE = "Bonjour ! Posez-moi vos questions sur mon parcours, mes experiences ou mes competences techniques !";
+const GREETING_MESSAGE = "Bonjour ! Posez-moi vos questions sur mon parcours, mes expériences ou mes compétences techniques !";
 
 const suggestions = [
   "Parle-moi de ton parcours",
   "Quelle est ta stack technique ?",
-  "Je prefere voir le site",
+  "Je préfère voir le site",
 ];
 
 export const WelcomeModal: React.FC = () => {
@@ -91,7 +92,7 @@ export const WelcomeModal: React.FC = () => {
   }, []);
 
   const handleSendMessage = useCallback((message: string) => {
-    if (message === "Je prefere voir le site") {
+    if (message === "Je préfère voir le site") {
       handleClose();
       return;
     }
@@ -181,7 +182,7 @@ export const WelcomeModal: React.FC = () => {
                   >
                     <S.MessageGroup>
                       <S.MessageAvatar>
-                        <img src={profile.profileImage} alt={profile.fullName} />
+                        <Image src={profile.profileImage} alt={profile.fullName} width={80} height={80} />
                       </S.MessageAvatar>
                       <S.MessageBubble>
                         {GREETING_MESSAGE}
@@ -235,7 +236,8 @@ export const WelcomeModal: React.FC = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ecrivez votre message..."
+                    placeholder="Écrivez votre message..."
+                    maxLength={1000}
                     rows={1}
                   />
                   <S.SendButton

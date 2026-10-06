@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -36,10 +38,10 @@ export const Header: React.FC = () => {
   }, []);
 
   const navItems = [
-    { href: 'about', label: 'A propos' },
-    { href: 'experience', label: 'Experiences' },
+    { href: 'about', label: 'À propos' },
+    { href: 'experience', label: 'Expériences' },
     { href: 'projects', label: 'Projets' },
-    { href: 'skills', label: 'Competences' },
+    { href: 'skills', label: 'Compétences' },
   ];
 
   const handleNavClick = (e: React.MouseEvent, sectionId: string) => {

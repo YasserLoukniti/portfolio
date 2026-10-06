@@ -95,7 +95,7 @@ export const PROVIDER_CONFIGS: Record<ProviderName, ProviderConfig> = {
       rpd: 2000, // 200 req/hour per IP, no API key
       tpd: 0,
     },
-    description: 'Step 3.7 Flash Free - 200 req/heure, sans cle',
+    description: 'Step 3.7 Flash Free - 200 req/heure, sans clé',
   },
   'ovh': {
     name: 'ovh',
@@ -108,7 +108,7 @@ export const PROVIDER_CONFIGS: Record<ProviderName, ProviderConfig> = {
       rpd: 2880,
       tpd: 0,
     },
-    description: 'Llama 3.3 70B (UE) - 2 req/min, sans cle',
+    description: 'Llama 3.3 70B (UE) - 2 req/min, sans clé',
   },
 };
 

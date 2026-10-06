@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight, Download, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { portfolioData, profile } from '../../data/portfolio.data';
@@ -23,7 +26,7 @@ export const About: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <S.ProfileImage>
-              <img src={profile.profileImage} alt={profile.fullName} />
+              <Image src={profile.profileImage} alt={profile.fullName} width={240} height={240} priority />
             </S.ProfileImage>
 
             <S.SidebarName>{profile.fullName}</S.SidebarName>
@@ -69,7 +72,7 @@ export const About: React.FC = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Download />
-              Telecharger CV
+              Télécharger CV
             </S.DownloadButton>
           </S.Sidebar>
 
@@ -79,10 +82,10 @@ export const About: React.FC = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <S.Label>A propos</S.Label>
+            <S.Label>À propos</S.Label>
 
             <S.Title>
-              Full Stack TypeScript, de l'idee au produit
+              Full Stack TypeScript, de l'idée au produit
             </S.Title>
 
             <S.Description>

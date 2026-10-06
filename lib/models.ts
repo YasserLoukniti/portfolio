@@ -100,6 +100,22 @@ const ProviderErrorSchema = new Schema<IProviderError>(
 // Auto-delete errors older than 7 days
 ProviderErrorSchema.index({ createdAt: 1 }, { expireAfterSeconds: 7 * 24 * 60 * 60 });
 
+// Rate limit (compteurs partagés entre instances serverless)
+export interface IRateLimit extends Document {
+  key: string;
+  count: number;
+  expiresAt: Date;
+}
+
+const RateLimitSchema = new Schema<IRateLimit>({
+  key: { type: String, required: true, unique: true },
+  count: { type: Number, default: 0 },
+  expiresAt: { type: Date, required: true },
+});
+
+// Suppression automatique des fenêtres expirées
+RateLimitSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
 // Settings (singleton for app configuration)
 export interface ISettings extends Document {
   activeProvider: ProviderName;
@@ -149,3 +165,4 @@ export const ChatMessage = mongoose.models.ChatMessage || mongoose.model<IChatMe
 export const TokenUsage = mongoose.models.TokenUsage || mongoose.model<ITokenUsage>('TokenUsage', TokenUsageSchema);
 export const Settings = mongoose.models.Settings || mongoose.model<ISettings>('Settings', SettingsSchema);
 export const ProviderError = mongoose.models.ProviderError || mongoose.model<IProviderError>('ProviderError', ProviderErrorSchema);
+export const RateLimit = mongoose.models.RateLimit || mongoose.model<IRateLimit>('RateLimit', RateLimitSchema);

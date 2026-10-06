@@ -116,3 +116,15 @@ export const theme = {
 };
 
 export type Theme = typeof theme;
+
+// Couleurs des entreprises (basées sur leurs logos), clés en minuscules
+export const companyColors: Record<string, string> = {
+  waystosucceed: '#F59E0B',
+  weneeds: '#6366F1',
+  capgemini: '#0070AD',
+  '42c': '#FF6B00',
+  freelance: '#10B981',
+};
+
+export const getCompanyColor = (company: string): string =>
+  companyColors[company.toLowerCase()] || theme.colors.secondary;

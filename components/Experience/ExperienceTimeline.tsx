@@ -1,24 +1,14 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { MapPin, ArrowRight, Briefcase } from 'lucide-react';
 import { portfolioData } from '../../data/portfolio.data';
-
-// Couleurs des entreprises basees sur leurs logos
-const companyColors: { [key: string]: string } = {
-  'WaysToSucceed': '#F59E0B',
-  'Weneeds': '#6366F1',
-  'Capgemini': '#0070AD',
-  '42C': '#FF6B00',
-  'Freelance': '#10B981',
-  'default': '#6366F1'
-};
-
-const getCompanyColor = (company: string) => {
-  return companyColors[company] || companyColors['default'];
-};
+import { getCompanyColor } from '@/styles/theme';
 
 const ExperienceSection = styled.section`
   padding: 100px 0;
@@ -326,8 +316,9 @@ const ViewLink = styled.span<{ $color: string }>`
   }
 `;
 
-const ViewAllButtonStyled = styled(motion.div)`
+const ViewAllButtonStyled = styled(motion.button)`
   display: inline-flex;
+  font-family: inherit;
   align-items: center;
   gap: 10px;
   margin-top: 32px;
@@ -373,13 +364,15 @@ export const ExperienceTimeline: React.FC = () => {
   });
 
   // Afficher seulement 3 experiences
-  const displayedExperiences = portfolioData.experiences.slice(0, 3);
+  const [showAll, setShowAll] = useState(false);
+  const hiddenCount = portfolioData.experiences.length - 3;
+  const displayedExperiences = showAll ? portfolioData.experiences : portfolioData.experiences.slice(0, 3);
 
   const parseDateRange = (dateRange: string) => {
     const parts = dateRange.split(' - ');
     return {
       start: parts[0] || '',
-      end: parts[1] || 'Present'
+      end: parts[1] || 'Présent'
     };
   };
 
@@ -399,7 +392,7 @@ export const ExperienceTimeline: React.FC = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Experiences professionnelles
+            Expériences professionnelles
           </SectionTitle>
           <SectionDescription
             initial={{ opacity: 0, y: 20 }}
@@ -420,7 +413,7 @@ export const ExperienceTimeline: React.FC = () => {
                 key={exp.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
+                transition={{ duration: 0.5, delay: index < 3 ? 0.2 + index * 0.15 : (index - 3) * 0.08 }}
               >
                 <DateColumn>
                   <DateEnd $color={color}>{dates.end}</DateEnd>
@@ -436,7 +429,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <CardTop>
                         <CompanyLogo $color={color}>
                           {exp.companyLogo ? (
-                            <img src={exp.companyLogo} alt={exp.company} />
+                            <Image src={exp.companyLogo} alt={exp.company} width={88} height={88} />
                           ) : (
                             <Briefcase size={20} style={{ color }} />
                           )}
@@ -479,19 +472,20 @@ export const ExperienceTimeline: React.FC = () => {
           })}
         </TimelineContainer>
 
-        {portfolioData.experiences.length > 3 && (
-          <Link href="/experiences" style={{ textDecoration: 'none' }}>
-            <ViewAllButtonStyled
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Voir les {portfolioData.experiences.length - 3} autres experiences
-              <ArrowRight />
-            </ViewAllButtonStyled>
-          </Link>
+        {hiddenCount > 0 && (
+          <ViewAllButtonStyled
+            type="button"
+            onClick={() => setShowAll((value) => !value)}
+            aria-expanded={showAll}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {showAll ? 'Voir moins' : `Voir les ${hiddenCount} autres expériences`}
+            <ArrowRight style={{ transform: showAll ? 'rotate(-90deg)' : 'rotate(90deg)' }} />
+          </ViewAllButtonStyled>
         )}
       </Container>
     </ExperienceSection>

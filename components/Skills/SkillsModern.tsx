@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -252,7 +254,11 @@ const skillIcons: { [key: string]: string } = {
   'API REST': 'fastapi',
   'CI/CD': 'githubactions',
   'Nx Monorepo': 'nx',
-  'Adobe XD': 'adobexd',
+  // Logos retirés de simpleicons (Amazon, Adobe) : servis depuis public/icons
+  'Adobe XD': '/icons/adobexd.svg',
+  'Photoshop': '/icons/photoshop.svg',
+  'AWS': '/icons/aws.svg',
+  'CSS3': 'css',
   'SASS/SCSS': 'sass',
   'Styled Components': 'styledcomponents',
 };
@@ -379,7 +385,9 @@ export const SkillsModern: React.FC = () => {
               >
                 <SkillIcon>
                   <img
-                    src={`https://cdn.simpleicons.org/${skill.icon}`}
+                    src={skill.icon?.startsWith('/') ? skill.icon : `https://cdn.simpleicons.org/${skill.icon}`}
+                    loading="lazy"
+                    decoding="async"
                     alt={skill.name}
                     onError={(e) => {
                       e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';

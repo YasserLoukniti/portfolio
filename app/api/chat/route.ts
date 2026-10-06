@@ -2,12 +2,15 @@ import { NextRequest } from 'next/server';
 import { isValidObjectId } from 'mongoose';
 import { connectDB } from '@/lib/mongodb';
 import { ChatSession, ChatMessage, TokenUsage, ProviderError, getSettings } from '@/lib/models';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import { generateChatResponse } from '@/lib/chat-service';
 import { handleCors, jsonResponse, errorResponse } from '@/lib/cors';
 import { getTodayParis } from '@/lib/providers/quota';
 import { getGeoFromIP, parseUserAgent } from '@/lib/geo';
 import { sendChatNotification } from '@/lib/email';
+
+const MAX_MESSAGE_LENGTH = 1000;
+const HISTORY_SIZE = 6;
 
 export async function OPTIONS(request: NextRequest) {
   return handleCors(request) || jsonResponse({});
@@ -18,12 +21,10 @@ export async function POST(request: NextRequest) {
   if (corsResponse) return corsResponse;
 
   try {
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
-               request.headers.get('x-real-ip') ||
-               'unknown';
+    const ip = getClientIp(request);
 
     // Check rate limit
-    const rateLimitResult = checkRateLimit(ip);
+    const rateLimitResult = await checkRateLimit(ip);
     if (!rateLimitResult.allowed) {
       return jsonResponse({
         error: rateLimitResult.reason,
@@ -37,8 +38,12 @@ export async function POST(request: NextRequest) {
     }
     const { message, sessionId } = body;
 
-    if (!message || typeof message !== 'string') {
+    if (!message || typeof message !== 'string' || !message.trim()) {
       return errorResponse('Message is required');
+    }
+
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return errorResponse(`Message trop long (${MAX_MESSAGE_LENGTH} caractères maximum)`);
     }
 
     await connectDB();
@@ -90,10 +95,12 @@ export async function POST(request: NextRequest) {
       await session.save();
     }
 
-    // Get conversation history (reduced to 6 messages for better performance)
-    const previousMessages = await ChatMessage.find({ sessionId: session._id.toString() })
-      .sort({ createdAt: 1 })
-      .limit(6);
+    // Historique : les 6 derniers messages, remis dans l'ordre chronologique
+    const previousMessages = (
+      await ChatMessage.find({ sessionId: session._id.toString() })
+        .sort({ createdAt: -1 })
+        .limit(HISTORY_SIZE)
+    ).reverse();
 
     const conversationHistory = previousMessages.map((msg) => ({
       role: msg.role as 'user' | 'assistant',
