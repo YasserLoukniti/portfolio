@@ -16,9 +16,15 @@ interface ChatNotificationData {
   };
 }
 
+// IP locale, y compris la forme IPv6 mappée (::ffff:127.0.0.1) renvoyée par Node
+function isLocalIp(ip?: string): boolean {
+  if (!ip || ip === 'unknown' || ip === 'localhost' || ip === '::1') return true;
+  return ip.replace(/^::ffff:/, '').startsWith('127.');
+}
+
 export async function sendChatNotification(data: ChatNotificationData): Promise<boolean> {
   // Ne pas envoyer si c'est localhost
-  if (data.ip === '127.0.0.1' || data.ip === '::1' || data.ip === 'localhost' || data.ip === 'unknown') {
+  if (isLocalIp(data.ip)) {
     console.log('[Email] Skipped for localhost visitor');
     return true;
   }

@@ -9,8 +9,9 @@ import { profile } from '@/data/portfolio.data';
 import * as S from './WelcomeModal.styles';
 
 const STORAGE_KEY = 'portfolio_welcome_modal_seen';
-const DISPLAY_DELAY_MS = 1500;
-const EXPIRE_DURATION_MS = 60 * 60 * 1000; // 1 heure
+// Laisse le visiteur découvrir le site avant de proposer le chat
+const DISPLAY_DELAY_MS = 20 * 1000;
+const EXPIRE_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 1 semaine
 
 const TITLE_TEXT = "Pourquoi lire quand vous pouvez me demander ?";
 const TYPING_SPEED = 20;
@@ -31,14 +32,27 @@ export const WelcomeModal: React.FC = () => {
   const [titleComplete, setTitleComplete] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const { openChatWithQuestion } = useChat();
+  const { isOpen: isChatOpen, openChatWithQuestion } = useChat();
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Le visiteur a déjà trouvé le chat : inutile de le lui proposer
   useEffect(() => {
-    const lastSeen = localStorage.getItem(STORAGE_KEY);
-    if (lastSeen) {
-      const elapsed = Date.now() - parseInt(lastSeen, 10);
-      if (elapsed < EXPIRE_DURATION_MS) return;
+    if (isChatOpen) {
+      try {
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+      } catch {
+        // localStorage indisponible (navigation privée...)
+      }
+    }
+  }, [isChatOpen]);
+
+  useEffect(() => {
+    if (isChatOpen) return;
+    try {
+      const lastSeen = localStorage.getItem(STORAGE_KEY);
+      if (lastSeen && Date.now() - parseInt(lastSeen, 10) < EXPIRE_DURATION_MS) return;
+    } catch {
+      return;
     }
 
     const timer = setTimeout(() => {
@@ -50,7 +64,7 @@ export const WelcomeModal: React.FC = () => {
     }, DISPLAY_DELAY_MS);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isChatOpen]);
 
   // Animation typing pour le titre
   useEffect(() => {

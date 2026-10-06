@@ -4,7 +4,7 @@ import { connectDB } from '@/lib/mongodb';
 import { ChatSession, ChatMessage, TokenUsage, ProviderError, getSettings } from '@/lib/models';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 import { generateChatResponse } from '@/lib/chat-service';
-import { handleCors, jsonResponse, errorResponse } from '@/lib/cors';
+import { handleCors, jsonResponse, errorResponse, corsHeaders } from '@/lib/cors';
 import { getTodayParis } from '@/lib/providers/quota';
 import { getGeoFromIP, parseUserAgent } from '@/lib/geo';
 import { sendChatNotification } from '@/lib/email';
@@ -107,61 +107,92 @@ export async function POST(request: NextRequest) {
       content: msg.content,
     }));
 
-    // Generate response with provider and fallback
-    const { response, tokensIn, tokensOut, provider, errors } = await generateChatResponse(
-      message,
-      conversationHistory,
-      settings.activeProvider,
-      settings.fallbackOrder
-    );
+    const sessionIdStr = session._id.toString();
+    const encoder = new TextEncoder();
 
-    // Log provider errors if any fallback happened
-    if (errors.length > 0) {
-      await Promise.all(
-        errors.map((err) =>
-          ProviderError.create({
-            provider: err.provider,
-            errorType: err.errorType,
-            errorMessage: err.error,
-            fallbackUsed: provider,
-          })
-        )
-      );
-    }
+    // Réponse en streaming (NDJSON) : un événement JSON par ligne
+    //   { type: 'token', content }  morceau de texte
+    //   { type: 'done', sessionId, provider }
+    //   { type: 'error', error }
+    const stream = new ReadableStream({
+      async start(controller) {
+        // Si le visiteur ferme le chat, on continue la génération pour l'enregistrer
+        const send = (event: Record<string, unknown>) => {
+          try {
+            controller.enqueue(encoder.encode(JSON.stringify(event) + '\n'));
+          } catch {
+            // Flux déjà fermé (visiteur parti)
+          }
+        };
 
-    // Save messages
-    await ChatMessage.create({
-      sessionId: session._id.toString(),
-      role: 'user',
-      content: message,
-      tokensIn: 0,
-      tokensOut: 0,
-    });
+        try {
+          const { response, tokensIn, tokensOut, provider, errors } = await generateChatResponse(
+            message,
+            conversationHistory,
+            settings.activeProvider,
+            settings.fallbackOrder,
+            (token) => send({ type: 'token', content: token })
+          );
 
-    await ChatMessage.create({
-      sessionId: session._id.toString(),
-      role: 'assistant',
-      content: response,
-      tokensIn,
-      tokensOut,
-      provider,
-    });
+          send({ type: 'done', sessionId: sessionIdStr, provider });
 
-    // Update token usage for today with provider tracking (Paris timezone)
-    const today = getTodayParis();
+          // Log provider errors if any fallback happened
+          if (errors.length > 0) {
+            await Promise.all(
+              errors.map((err) =>
+                ProviderError.create({
+                  provider: err.provider,
+                  errorType: err.errorType,
+                  errorMessage: err.error,
+                  fallbackUsed: provider,
+                })
+              )
+            );
+          }
 
-    await TokenUsage.findOneAndUpdate(
-      { date: today, provider },
-      {
-        $inc: { tokensIn, tokensOut, requests: 1 },
+          // Save messages
+          await ChatMessage.create({
+            sessionId: sessionIdStr,
+            role: 'user',
+            content: message,
+            tokensIn: 0,
+            tokensOut: 0,
+          });
+
+          await ChatMessage.create({
+            sessionId: sessionIdStr,
+            role: 'assistant',
+            content: response,
+            tokensIn,
+            tokensOut,
+            provider,
+          });
+
+          // Update token usage for today with provider tracking (Paris timezone)
+          await TokenUsage.findOneAndUpdate(
+            { date: getTodayParis(), provider },
+            { $inc: { tokensIn, tokensOut, requests: 1 } },
+            { upsert: true }
+          );
+        } catch (error) {
+          console.error('Chat stream error:', error);
+          send({ type: 'error', error: 'Une erreur est survenue' });
+        } finally {
+          try {
+            controller.close();
+          } catch {
+            // Flux déjà fermé
+          }
+        }
       },
-      { upsert: true }
-    );
+    });
 
-    return jsonResponse({
-      message: response,
-      sessionId: session._id.toString(),
-      provider,
+    return new Response(stream, {
+      headers: {
+        ...corsHeaders(),
+        'Content-Type': 'application/x-ndjson; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+      },
     });
   } catch (error) {
     console.error('Chat error:', error);

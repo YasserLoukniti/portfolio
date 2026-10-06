@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { Send } from 'lucide-react';
+import { Download, Github, Linkedin, Send } from 'lucide-react';
 import { portfolioData } from '../../data/portfolio.data';
 import { ChatModal } from './ChatModal';
 import { useChat } from '../../context/ChatContext';
@@ -117,14 +117,46 @@ export const Hero: React.FC = () => {
               </S.ChatInputWrapper>
             </S.ChatInputSection>
 
+            <S.CtaRow variants={itemVariants}>
+              <S.CtaPrimary
+                href={portfolioData.resumeUrl}
+                download
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Download />
+                Télécharger mon CV
+              </S.CtaPrimary>
+              <S.CtaIconLink
+                href={portfolioData.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Linkedin />
+              </S.CtaIconLink>
+              <S.CtaIconLink
+                href={portfolioData.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Github />
+              </S.CtaIconLink>
+            </S.CtaRow>
+
             <S.StatsRow variants={itemVariants}>
               <S.Stat>
                 <S.StatNumber>5+</S.StatNumber>
-                <S.StatLabel>Years Exp.</S.StatLabel>
+                <S.StatLabel>Ans d&apos;expérience</S.StatLabel>
               </S.Stat>
               <S.Stat>
                 <S.StatNumber>15+</S.StatNumber>
-                <S.StatLabel>Projects</S.StatLabel>
+                <S.StatLabel>Projets</S.StatLabel>
               </S.Stat>
               <S.Stat>
                 <S.StatNumber>20+</S.StatNumber>
@@ -141,7 +173,7 @@ export const Hero: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
       >
-        Scroll
+        Défiler
         <S.ScrollLine
           animate={{ scaleY: [0, 1, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

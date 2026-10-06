@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
@@ -10,7 +10,6 @@ interface Message {
   content: string;
   role: 'user' | 'assistant';
   timestamp: Date;
-  isTyping?: boolean; // Pour l'animation de typing
 }
 
 interface ChatModalProps {
@@ -66,51 +65,55 @@ const parseMarkdown = (text: string): React.ReactNode => {
   return elements.length > 0 ? elements : text;
 };
 
-// Composant pour l'effet typing mot par mot
-const TypedMessage: React.FC<{
-  content: string;
-  onComplete: () => void;
-  scrollToBottom: () => void;
-}> = ({ content, onComplete, scrollToBottom }) => {
-  const [displayedWords, setDisplayedWords] = useState(0);
-  const words = content.split(' ');
-  const WORD_DELAY = 30; // ms entre chaque mot
+const ERROR_MESSAGE = `Une erreur s'est produite. Contactez-moi directement à ${profile.email}`;
 
-  useEffect(() => {
-    if (displayedWords < words.length) {
-      const timer = setTimeout(() => {
-        setDisplayedWords(prev => prev + 1);
-        scrollToBottom();
-      }, WORD_DELAY);
-      return () => clearTimeout(timer);
-    } else {
-      onComplete();
-    }
-  }, [displayedWords, words.length, onComplete, scrollToBottom]);
+/**
+ * Lit la réponse NDJSON de /api/chat et appelle onToken pour chaque morceau de texte.
+ * Renvoie le sessionId reçu à la fin du flux.
+ */
+async function readChatStream(response: Response, onToken: (token: string) => void): Promise<string | null> {
+  if (!response.body) throw new Error('Empty response body');
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let sessionId: string | null = null;
 
-  const displayedText = words.slice(0, displayedWords).join(' ');
+  const handleLine = (line: string) => {
+    if (!line.trim()) return;
+    const event = JSON.parse(line);
+    if (event.type === 'token') onToken(event.content);
+    else if (event.type === 'done') sessionId = event.sessionId;
+    else if (event.type === 'error') throw new Error(event.error);
+  };
 
-  return <>{parseMarkdown(displayedText)}</>;
-};
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop() ?? '';
+    lines.forEach(handleLine);
+  }
+  handleLine(buffer);
+  return sessionId;
+}
 
 // API is now on the same origin with Next.js
 
 export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQuestion }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // en attente du premier morceau
+  const [isStreaming, setIsStreaming] = useState(false); // réponse en cours d'affichage
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
+  // Scroll instantané pendant le streaming (un scroll fluide par morceau saccade)
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
+    messagesEndRef.current?.scrollIntoView({ behavior: isStreaming ? 'auto' : 'smooth' });
+  }, [messages, isStreaming]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -149,12 +152,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
     }
   }, [isOpen]);
 
-  const markMessageComplete = useCallback((messageId: string) => {
-    setMessages(prev => prev.map(msg =>
-      msg.id === messageId ? { ...msg, isTyping: false } : msg
-    ));
-  }, []);
-
   const sendMessageInternal = async (messageText: string) => {
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -165,6 +162,23 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
 
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+    setIsStreaming(true);
+
+    const assistantId = (Date.now() + 1).toString();
+    let started = false;
+
+    // Ajoute le morceau reçu au message de l'assistant (créé au premier morceau)
+    const appendToken = (token: string) => {
+      if (!started) {
+        started = true;
+        setIsLoading(false);
+        setMessages((prev) => [...prev, { id: assistantId, content: token, role: 'assistant', timestamp: new Date() }]);
+        return;
+      }
+      setMessages((prev) => prev.map((msg) =>
+        msg.id === assistantId ? { ...msg, content: msg.content + token } : msg
+      ));
+    };
 
     try {
       const response = await fetch('/api/chat', {
@@ -177,41 +191,28 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        // Rate limit, message trop long... : on affiche la raison donnée par l'API
+        const data = await response.json().catch(() => null);
+        appendToken(response.status === 429 && data?.error ? data.error : ERROR_MESSAGE);
+        return;
       }
 
-      const data = await response.json();
-
-      if (data.sessionId) {
-        setSessionId(data.sessionId);
+      const newSessionId = await readChatStream(response, appendToken);
+      if (newSessionId) {
+        setSessionId(newSessionId);
       }
-
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: data.message,
-        role: 'assistant',
-        timestamp: new Date(),
-        isTyping: true, // Commence avec l'animation
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
+      if (!started) appendToken(ERROR_MESSAGE);
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "Une erreur s'est produite. Contactez-moi directement à yass_official@outlook.fr",
-        role: 'assistant',
-        timestamp: new Date(),
-        isTyping: true,
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      appendToken(started ? `\n\n${ERROR_MESSAGE}` : ERROR_MESSAGE);
     } finally {
       setIsLoading(false);
+      setIsStreaming(false);
     }
   };
 
   const sendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+    if (!inputValue.trim() || isStreaming) return;
     const message = inputValue.trim();
     setInputValue('');
     await sendMessageInternal(message);
@@ -234,8 +235,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
     "Qu'as-tu construit chez Weneeds ?",
   ];
 
-  // Verifier si un message est en train de s'afficher
-  const isAnyMessageTyping = messages.some(m => m.isTyping);
 
   return (
     <AnimatePresence>
@@ -288,19 +287,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                     </S.MessageAvatar>
                   )}
                   <S.MessageBubble $role={message.role}>
-                    {message.role === 'assistant' ? (
-                      message.isTyping ? (
-                        <TypedMessage
-                          content={message.content}
-                          onComplete={() => markMessageComplete(message.id)}
-                          scrollToBottom={scrollToBottom}
-                        />
-                      ) : (
-                        parseMarkdown(message.content)
-                      )
-                    ) : (
-                      message.content
-                    )}
+                    {message.role === 'assistant' ? parseMarkdown(message.content) : message.content}
                   </S.MessageBubble>
                 </S.MessageGroup>
               ))}
@@ -330,12 +317,12 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, initialQu
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message..."
                 maxLength={1000}
-                disabled={isLoading || isAnyMessageTyping}
+                disabled={isStreaming}
                 rows={1}
               />
               <S.SendButton
                 onClick={sendMessage}
-                disabled={!inputValue.trim() || isLoading || isAnyMessageTyping}
+                disabled={!inputValue.trim() || isStreaming}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

@@ -131,6 +131,57 @@ export const StatLabel = styled.span`
   letter-spacing: 0.1em;
 `;
 
+// Boutons d'action sous le chat : CV, LinkedIn, GitHub
+export const CtaRow = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  flex-wrap: wrap;
+`;
+
+export const CtaPrimary = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: 12px 22px;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.background};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  text-decoration: none;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+export const CtaIconLink = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.borderLight};
+  background: rgba(255, 255, 255, 0.03);
+  color: ${({ theme }) => theme.colors.textSecondary};
+  transition: color ${({ theme }) => theme.transitions.fast}, border-color ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
 export const ChatInputSection = styled(motion.div)`
   max-width: 560px;
   margin: 0 auto ${({ theme }) => theme.spacing.xl};
@@ -216,6 +267,11 @@ export const ScrollIndicator = styled(motion.div)`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   text-transform: uppercase;
   letter-spacing: 0.2em;
+
+  /* Sur les écrans peu hauts, l'indicateur chevaucherait les stats */
+  @media (max-height: 820px) {
+    display: none;
+  }
 `;
 
 export const ScrollLine = styled(motion.div)`

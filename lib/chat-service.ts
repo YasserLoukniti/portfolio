@@ -1,4 +1,5 @@
-import { HumanMessage, SystemMessage, AIMessage, BaseMessage } from '@langchain/core/messages';
+import { HumanMessage, SystemMessage, AIMessage, BaseMessage, MessageContent } from '@langchain/core/messages';
+import type { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { getProvider, ProviderName, PROVIDER_CONFIGS, isProviderAvailable, getAvailableProviders } from './providers';
 import { DEFAULT_FALLBACK_ORDER, isKnownProvider } from './providers/config';
 import { checkDailyQuota, checkMinuteLimit, recordMinuteUsage } from './providers/quota';
@@ -8,12 +9,70 @@ const PROVIDER_TIMEOUT_MS = 15000; // 15 seconds timeout
 
 // Helper function to add timeout to a promise
 function withTimeout<T>(promise: Promise<T>, ms: number, providerName: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
   return Promise.race([
     promise,
-    new Promise<T>((_, reject) =>
-      setTimeout(() => reject(new Error(`Timeout: ${providerName} did not respond within ${ms / 1000}s`)), ms)
-    ),
-  ]);
+    new Promise<T>((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`Timeout: ${providerName} did not respond within ${ms / 1000}s`)), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
+}
+
+// Extrait le texte d'un morceau de réponse (string, ou tableau de parts selon le provider)
+function contentToText(content: MessageContent): string {
+  if (typeof content === 'string') return content;
+  return content
+    .map((part) => (typeof part === 'string' ? part : 'text' in part && typeof part.text === 'string' ? part.text : ''))
+    .join('');
+}
+
+/**
+ * Lit la réponse du modèle en streaming et transmet le texte au fur et à mesure.
+ * Une erreur avant le premier texte est relancée (le provider suivant prend le relais) ;
+ * une erreur en cours de route conserve la réponse partielle, déjà affichée au visiteur.
+ */
+async function streamFromModel(
+  model: BaseChatModel,
+  messages: BaseMessage[],
+  providerName: ProviderName,
+  onToken?: (token: string) => void
+): Promise<string> {
+  const deadline = Date.now() + PROVIDER_TIMEOUT_MS;
+  const stream = await withTimeout(model.stream(messages), PROVIDER_TIMEOUT_MS, providerName);
+  const iterator = stream[Symbol.asyncIterator]();
+  let text = '';
+  let emitted = 0;
+
+  try {
+    while (true) {
+      // Avant le premier texte : délai global ; ensuite : délai entre deux morceaux
+      const timeout = emitted > 0 ? PROVIDER_TIMEOUT_MS : Math.max(deadline - Date.now(), 1);
+      let result: IteratorResult<{ content: MessageContent }>;
+      try {
+        result = await withTimeout(iterator.next(), timeout, providerName);
+      } catch (error) {
+        if (emitted === 0) throw error;
+        console.error(`[Chat] ${providerName} stream interrupted, keeping partial response:`, (error as Error).message);
+        break;
+      }
+      if (result.done) break;
+
+      text += contentToText(result.value.content);
+      // On n'envoie rien tant que le texte est vide, pour pouvoir basculer proprement sur un autre provider
+      if (onToken && text.trim() && text.length > emitted) {
+        onToken(text.slice(emitted));
+        emitted = text.length;
+      }
+    }
+  } finally {
+    iterator.return?.().catch(() => {});
+  }
+
+  if (!text.trim()) {
+    // Some free gateways answer 200 with an error body, and reasoning models can run out of tokens
+    throw new Error(`Empty response from ${providerName}`);
+  }
+  return text;
 }
 
 // Genere le contexte dynamiquement depuis database.json
@@ -206,7 +265,8 @@ export async function generateChatResponse(
   message: string,
   conversationHistory: ConversationMessage[],
   activeProvider: ProviderName,
-  fallbackOrder: ProviderName[]
+  fallbackOrder: ProviderName[],
+  onToken?: (token: string) => void
 ): Promise<ChatResponse & { errors: ProviderError[] }> {
   const errors: ProviderError[] = [];
   const messages: BaseMessage[] = [
@@ -255,22 +315,18 @@ export async function generateChatResponse(
       console.log(`[Chat] Trying provider: ${providerName} (${quotaStatus.percentRequests.toFixed(1)}% quota used)`);
 
       const model = getProvider(providerName);
-      const response = await withTimeout(model.invoke(messages), PROVIDER_TIMEOUT_MS, providerName);
-      if (!String(response.content).trim()) {
-        // Some free gateways answer 200 with an error body, and reasoning models can run out of tokens
-        throw new Error(`Empty response from ${providerName}`);
-      }
+      const responseText = await streamFromModel(model, messages, providerName, onToken);
 
       // Estimate tokens (rough estimation)
       const tokensIn = Math.ceil(messages.reduce((acc, m) => acc + String(m.content).length / 4, 0));
-      const tokensOut = Math.ceil(String(response.content).length / 4);
+      const tokensOut = Math.ceil(responseText.length / 4);
 
       // Record minute usage for rate limiting
       recordMinuteUsage(providerName, tokensIn + tokensOut);
 
       console.log(`[Chat] Success with provider: ${providerName}`);
       return {
-        response: String(response.content),
+        response: responseText,
         tokensIn,
         tokensOut,
         provider: providerName,
