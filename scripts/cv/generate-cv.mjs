@@ -174,7 +174,7 @@ const renderHtml = (v) => `<!doctype html>
           <div class="title">${esc(v.profile.title)}</div>
           <div class="summary">${icon('sparkles')}<div>${v.profile.summary}</div></div>
         </div>
-        <img class="photo" src="${asset('profile.jpg')}" alt="">
+        <img class="photo" src="${asset('profile-2026.jpg')}" alt="">
       </div>
       <div class="contacts">
         ${v.profile.contacts.map((c) => (c.href
