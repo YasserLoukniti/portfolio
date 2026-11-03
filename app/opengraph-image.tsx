@@ -8,7 +8,7 @@ export const alt = `${profile.fullName} | ${profile.title}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const STACK = ['TypeScript', 'NestJS', 'Next.js', 'AWS'];
+const STACK = ['TypeScript', 'Python', 'NestJS', 'FastAPI', 'AWS'];
 
 export default function OpengraphImage() {
   return new ImageResponse(

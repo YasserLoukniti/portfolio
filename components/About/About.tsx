@@ -13,7 +13,7 @@ export const About: React.FC = () => {
     threshold: 0.1,
   });
 
-  const technologies = ['TypeScript', 'NestJS', 'Next.js', 'React', 'PostgreSQL', 'Redis', 'Kafka', 'MongoDB'];
+  const technologies = ['TypeScript', 'Python', 'NestJS', 'FastAPI', 'Next.js', 'React', 'LangChain', 'PostgreSQL', 'Redis', 'Kafka'];
 
   return (
     <S.AboutSection id="about" ref={ref}>
@@ -85,7 +85,7 @@ export const About: React.FC = () => {
             <S.Label>À propos</S.Label>
 
             <S.Title>
-              Full Stack TypeScript, de l'idée au produit
+              Full Stack TypeScript & Python, de l'idée au produit
             </S.Title>
 
             <S.Description>

@@ -6,7 +6,7 @@ import "./globals.css";
 const SITE_URL = profile.socialLinks.portfolio || "https://yasserloukniti.com";
 const TITLE = `${profile.fullName} | ${profile.title}`;
 const DESCRIPTION =
-  "Portfolio de Yasser Loukniti, Full Stack Engineer spécialisé en TypeScript, NestJS, Next.js et AWS. Expériences, projets, compétences et assistant IA pour répondre à vos questions.";
+  "Portfolio de Yasser Loukniti, Full Stack Engineer spécialisé en TypeScript et Python (NestJS, FastAPI, Next.js, LangChain, AWS). Expériences, projets, compétences et assistant IA pour répondre à vos questions.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -20,7 +20,9 @@ export const metadata: Metadata = {
     "Full Stack Engineer",
     "Développeur Full Stack",
     "TypeScript",
+    "Python",
     "NestJS",
+    "FastAPI",
     "Next.js",
     "React",
     "AWS",
@@ -70,7 +72,7 @@ const personJsonLd = {
     addressCountry: profile.location.countryCode,
   },
   sameAs: [profile.socialLinks.linkedin, profile.socialLinks.github].filter(Boolean),
-  knowsAbout: ["TypeScript", "NestJS", "Next.js", "React", "Node.js", "AWS"],
+  knowsAbout: ["TypeScript", "Python", "NestJS", "FastAPI", "Next.js", "React", "Node.js", "LangChain", "AWS"],
 };
 
 export default function RootLayout({

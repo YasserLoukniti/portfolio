@@ -5,7 +5,7 @@
     "lastName": "Loukniti",
     "fullName": "Yasser Loukniti",
     "title": "Full Stack Engineer",
-    "headline": "AI-Powered Products | TypeScript • NestJS • Next.js | AWS Certified | En recherche active",
+    "headline": "AI-Powered Products | TypeScript • Python • NestJS • FastAPI • Next.js | AWS Certified | En recherche active",
     "email": "yass_official@outlook.fr",
     "phone": "+33 7 49 55 33 92",
     "location": {
@@ -17,9 +17,9 @@
     "profileImage": "/profile.jpg",
     "coverImage": "",
     "about": {
-      "short": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds), et co-fondateur de WaysToSucceed. Créateur de Job Hunter et AlienMcp. Spécialisé en TypeScript/Node.js : architectures microservices, communication event-driven (Kafka), intégration IA.",
-      "long": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds, 2024-2026). Co-fondateur de WaysToSucceed, plateforme de tutorat entre enfants sur Zoom avec tuteur IA. Créateur de Job Hunter (application desktop qui automatise la recherche d'emploi) et d'AlienMcp (extension Chrome publiée sur le Chrome Web Store qui connecte les agents IA au navigateur via MCP). Spécialisé en TypeScript/Node.js : conception d'architectures microservices, communication event-driven (Kafka), gestion multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch). Développement frontend avec Next.js/React, design system atomique et state management avancé (Redux Toolkit, React Query). Expérience en intégration de services AI (LangChain, LangGraph, MCP, matching intelligent, parsing CV) et en bonnes pratiques : TypeScript strict, tests (Jest, Cypress), CI/CD, code reviews, conventional commits. Certifié AWS Cloud Practitioner.",
-      "philosophy": "Stack : TypeScript, NestJS, Next.js, React, PostgreSQL, Redis, Elasticsearch, Kafka, Docker, AWS"
+      "short": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds), et co-fondateur de WaysToSucceed. Créateur de Job Hunter et AlienMcp. Double compétence TypeScript/Node.js et Python : architectures microservices, communication event-driven (Kafka), services IA (FastAPI, LangChain, LangGraph).",
+      "long": "Full Stack Developer. Parcours du freelance au grand groupe (Capgemini) puis startup AI (Weneeds, 2024-2026). Co-fondateur de WaysToSucceed, plateforme de tutorat entre enfants sur Zoom avec tuteur IA. Créateur de Job Hunter (application desktop qui automatise la recherche d'emploi) et d'AlienMcp (extension Chrome publiée sur le Chrome Web Store qui connecte les agents IA au navigateur via MCP). Double compétence TypeScript/Node.js et Python. Côté TypeScript : conception d'architectures microservices, communication event-driven (Kafka), gestion multi-databases (PostgreSQL, MongoDB, Redis, Elasticsearch). Développement frontend avec Next.js/React, design system atomique et state management avancé (Redux Toolkit, React Query). Côté Python : services IA avec FastAPI, LangChain et LangGraph, back-end Django, algorithmes de matching CV/offres et outils d'automatisation (Selenium, PyInstaller). Expérience en intégration de services AI (LangChain, LangGraph, MCP, matching intelligent, parsing CV) et en bonnes pratiques : TypeScript strict, tests (Jest, Cypress), CI/CD, code reviews, conventional commits. Certifié AWS Cloud Practitioner.",
+      "philosophy": "Stack : TypeScript, Python, NestJS, FastAPI, Next.js, React, PostgreSQL, Redis, Elasticsearch, Kafka, Docker, AWS"
     },
     "availability": {
       "status": "open-to-work",
@@ -48,7 +48,7 @@
     },
     "resume": {
       "url": "/yasserLoukniti.pdf",
-      "lastUpdated": "2025-09-14"
+      "lastUpdated": "2026-11-03"
     }
   },
   "statistics": {
@@ -113,7 +113,7 @@
         "country": "France",
         "remote": "onsite"
       },
-      "description": "Full Stack Developer sur une plateforme de recrutement augmentée par l'IA. Conception et développement d'une architecture microservices avec NestJS et Next.js. Intégration de services d'intelligence artificielle pour le matching et le scoring. Déploiement cloud avec CI/CD automatisé.",
+      "description": "Full Stack Developer sur une plateforme de recrutement augmentée par l'IA. Conception et développement d'une architecture microservices avec NestJS et Next.js. Développement de services IA en Python avec FastAPI, LangChain et LangGraph, avec un pipeline RAG sur la base vectorielle Weaviate pour le matching et le scoring. Déploiement cloud avec CI/CD automatisé.",
       "responsibilities": [
         "Conception et développement d'APIs backend avec NestJS suivant une architecture modulaire et multi-database",
         "Mise en place d'un système d'authentification complet (JWT, OAuth, RBAC multi-niveau)",
@@ -129,7 +129,9 @@
         "Génération automatique de la couche API frontend depuis les spécifications OpenAPI du backend",
         "Infrastructure cloud Kubernetes avec Infrastructure-as-Code et CI/CD GitOps",
         "Intégration de services IA avec orchestration multi-agents pour le matching et le scoring",
-        "Mise en place de recherche hybride (sémantique + lexicale) avec scoring multi-dimensionnel",
+        "Développement de microservices IA en Python avec FastAPI (LangChain, LangGraph)",
+        "Mise en place d'un pipeline RAG : génération d'embeddings, indexation vectorielle dans Weaviate et récupération de contexte pour les LLM",
+        "Mise en place de recherche hybride (sémantique avec Weaviate + lexicale avec Elasticsearch) avec scoring multi-dimensionnel",
         "Streaming temps réel des réponses LLM via WebSocket"
       ],
       "achievements": [
@@ -158,7 +160,9 @@
         "ArgoCD",
         "Docker",
         "Kubernetes",
+        "Python",
         "FastAPI",
+        "RAG",
         "LangChain",
         "LangGraph",
         "OpenAI",
@@ -706,7 +710,8 @@
         "API backend NestJS avec multi-database",
         "Frontend Next.js avec React et design system",
         "Système de widgets personnalisables",
-        "Services IA pour matching sémantique",
+        "Services IA en Python (FastAPI) pour le matching sémantique",
+        "Pipeline RAG avec recherche vectorielle Weaviate",
         "Communication event-driven entre services",
         "CI/CD multi-environnements",
         "Tests unitaires et d'intégration"
@@ -716,6 +721,10 @@
         "React",
         "Next.js",
         "Django",
+        "Python",
+        "FastAPI",
+        "Weaviate",
+        "LangChain",
         "NX",
         "TypeORM",
         "PostgreSQL",
@@ -1150,6 +1159,12 @@
             "level": 70,
             "yearsOfExperience": 3,
             "icon": "python"
+          },
+          {
+            "name": "FastAPI",
+            "level": 70,
+            "yearsOfExperience": 2,
+            "icon": "fastapi"
           },
           {
             "name": "API REST",
